@@ -9,6 +9,12 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  - text: QIIME2
+    href: QIIME2.html
+  - text: Phyloseq
+    href: phyloseq.html
+  - text: Microbiome viz
+    href: microbiome-viz.html
 output:
   workflowr::wflow_html:
     toc: yes
