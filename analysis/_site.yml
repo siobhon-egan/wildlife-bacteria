@@ -1,7 +1,7 @@
-name: "wildlife-bacteria"
+name: wildlife-bacteria
 output_dir: ../docs
 navbar:
-  title: "wildlife-bacteria"
+  title: wildlife-bacteria
   left:
   - text: Home
     href: index.html
@@ -15,6 +15,10 @@ navbar:
     href: phyloseq.html
   - text: Microbiome viz
     href: microbiome-viz.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/siobhon-egan/wildlife-bacteria
 output:
   workflowr::wflow_html:
     toc: yes
