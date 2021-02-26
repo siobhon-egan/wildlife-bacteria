@@ -8,4 +8,48 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+Bacterial profiling of wildlife samples.
+
+In the spirit of reproducibility this project website is created that outlines analysis done for the following publication:
+
+Egan et al. XXXX
+
+## Data availbility
+
+SRA project XXXXX
+
+Nucleotide sequence data available on Genbank
+
+Anaplasmataceae (long 16S rRNA) 
+`MW633160-MW633167`
+
+Borrelia 16S rRNA
+`MW633074`
+
+Bartonella ITS
+`MW633076-MW633082`
+
+## Directory information
+
+
+
+
+
+## Links for analysis
+
+- [microbiomeutilitie](https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities)
+- [Open and reproducible microbiome data analysis by Sudarshan A. Shetty, Leo Lahti, Gerben DA. Hermes](https://mibwurrepo.github.io/Microbial-bioinformatics-introductory-course-Material-2018/introduction.html)
+- [microbiome](https://microbiome.github.io/tutorials/)
+https://web.stanford.edu/class/bios221/labs/phyloseq/lab_phyloseq
+https://www.nicholas-ollberding.com/post/introduction-to-the-statistical-analysis-of-microbiome-data-in-r/
+https://madsalbertsen.github.io/ampvis2/
+https://chiliubio.github.io/microeco/
+https://micca.readthedocs.io/en/latest/phyloseq.html
+http://evomics.org/wp-content/uploads/2016/01/phyloseq-Lab-01-Answers.html#mds-pcoa
+https://bioconductor.org/help/course-materials/2017/BioC2017/Day1/Workshops/Microbiome/MicrobiomeWorkflowII.html#graph-based_analyses
+https://help.galaxyproject.org/t/error-with-deseq2-every-gene-contains-at-least-one-zero/564
+https://ucdavis-bioinformatics-training.github.io/2017-September-Microbial-Community-Analysis-Workshop/friday/MCA_Workshop_R/phyloseq.html
+https://4va.github.io/biodatasci/r-ggtree.html#basic_trees
+https://rstudio-pubs-static.s3.amazonaws.com/345955_fba1ccbdcd8f424aa5505c15bfd75bf7.html
+http://zachcp.github.io/phylogeo/mapping_functions.html
+https://mibwurrepo.github.io/Microbial-bioinformatics-introductory-course-Material-2018/core-microbiota.html
