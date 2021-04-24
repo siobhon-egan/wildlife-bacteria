@@ -260,6 +260,9 @@ $(document).ready(function () {
   <a href="license.html">License</a>
 </li>
 <li>
+  <a href="site-map.html">Sites</a>
+</li>
+<li>
   <a href="QIIME2.html">QIIME2</a>
 </li>
 <li>
@@ -293,7 +296,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -302,7 +305,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -311,10 +314,10 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-26
+<strong>Last updated:</strong> 2021-04-24
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>wildlife-bacteria/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -330,28 +333,28 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has staged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreed50218801edf9252662a796b3d67ec7f99be454ftargetblankd502188a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/d50218801edf9252662a796b3d67ec7f99be454f" target="_blank">d502188</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreea0173d49bf2a7ffe8bebaf994dedf7048daaa07ctargetblanka0173d4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c" target="_blank">a0173d4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreed50218801edf9252662a796b3d67ec7f99be454ftargetblankd502188a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreea0173d49bf2a7ffe8bebaf994dedf7048daaa07ctargetblanka0173d4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/d50218801edf9252662a796b3d67ec7f99be454f" target="_blank">d502188</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c" target="_blank">a0173d4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -369,21 +372,39 @@ Untracked files:
     Untracked:  NCBI_data/
     Untracked:  analysis/microbiome-viz-extra.Rmd
     Untracked:  analysis/phylogeny.Rmd
-    Untracked:  analysis/site-map.Rmd
     Untracked:  analysis/tois.Rmd
-    Untracked:  code/taxa_summary.R
     Untracked:  data/dada2/
     Untracked:  data/dada2_tois/
-    Untracked:  data/ps_bact_samp.RData
-    Untracked:  data/ps_dec_bact.RData
-    Untracked:  data/ps_raw_bact.RData
-    Untracked:  data/rickettsia.fasta
-    Untracked:  data/site_map.xlsx
-    Untracked:  data/taxa_of_interest.RData
     Untracked:  data/taxa_trees/
     Untracked:  data/tmp/
+    Untracked:  output/beta-div-statistics.txt
     Untracked:  output/plots/
+    Untracked:  output/supp_table_pos.xlsx
     Untracked:  tmp/
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/microbiome-viz.Rmd
+    Deleted:    data/ps_bact_samp.RData
+    Deleted:    data/ps_dec_bact.RData
+
+Staged changes:
+    New:        RData/amp_dec_bact.RData
+    New:        RData/amp_raw_bact.RData
+    New:        RData/ps_Ecol.RData
+    New:        RData/ps_dec_bact.RData
+    New:        RData/ps_raw_bact.RData
+    New:        RData/taxa_of_interest.RData
+    Modified:   analysis/QIIME2.Rmd
+    Modified:   analysis/_site.yml
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/microbiome-viz.Rmd
+    Modified:   analysis/phyloseq.Rmd
+    New:        analysis/site-map.Rmd
+    New:        code/taxa_summary.R
+    New:        data/ps_bact_samp.RData
+    New:        data/ps_dec_bact.RData
+    New:        data/site_map.xlsx
 
 </code></pre>
 <p>
@@ -422,6 +443,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/siobhon-egan/wildlife-bacteria/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c/docs/index.html" target="_blank">a0173d4</a>
+</td>
+<td>
+siobhon-egan
+</td>
+<td>
+2021-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -500,30 +538,39 @@ Start workflowr project.
 <p>Bacterial profiling of wildlife samples.</p>
 <p>In the spirit of reproducibility this project website is created that outlines analysis done for the following publication:</p>
 <p>Egan et al. Uncovering sylvatic cylces of bacteria in Australian wildlife.</p>
-<p>PhD Thesis 2021 (Chapter three)</p>
+<p>PhD Thesis 2021 (Chapter four)</p>
 <div id="data-availbility" class="section level2">
 <h2>Data availbility</h2>
 <p>Raw Illumina MiSeq data is available at NCBI SRA project XXXXX</p>
 <p>Nucleotide sequence data available on Genbank</p>
-<p>Anaplasmataceae (long 16S rRNA) <code>MW633160-MW633167</code></p>
-<p>Borrelia 16S rRNA <code>MW633074</code></p>
-<p>Bartonella ITS <code>MW633076-MW633082</code></p>
-<p>ASVs for taxa of interest <code>XXXXXX-XXXXXX</code></p>
+<p>Anaplasmataceae (long 16S rRNA)<br />
+<code>MW633160--MW633167</code></p>
+<p>Borrelia 16S rRNA<br />
+<code>MW633074</code></p>
+<p>Bartonella ITS<br />
+<code>MW633076--MW633082</code></p>
+<p>ASVs for taxa of interest<br />
+<code>XXXXXX-XXXXXX</code></p>
 </div>
 <div id="supporting-data" class="section level2">
 <h2>Supporting data</h2>
 <p>Data used but not directly produced for this manuscript.</p>
-<p>Nucleotide data for identification of ticks MW665133-MW665150</p>
+<p>Nucleotide data for identification of ticks<br />
+MW665133–MW665150</p>
 </div>
 <div id="directory-information" class="section level2">
 <h2>Directory information</h2>
 </div>
 <div id="worlflowr-commands" class="section level1">
 <h1>Worlflowr commands</h1>
-<p>To build/view webiste locally <code>wflow_build()</code> and <code>wflow_view()</code></p>
-<p>Status of workflow <code>wflow_status()</code></p>
-<p>Publish website pages <code>wflow_publish(c("analysis/index.Rmd", "analysis/first-analysis.Rmd"), "Add my first analysis")</code></p>
-<p>Push website to github <code>wflow_git_push()</code></p>
+<p>To build/view webiste locally<br />
+<code>wflow_build()</code> and <code>wflow_view()</code></p>
+<p>Status of workflow<br />
+<code>wflow_status()</code></p>
+<p>Publish website pages<br />
+<code>wflow_publish(c("analysis/index.Rmd", "analysis/first-analysis.Rmd"), "Add my first analysis")</code></p>
+<p>Push website to github<br />
+<code>wflow_git_push()</code></p>
 </div>
 
 

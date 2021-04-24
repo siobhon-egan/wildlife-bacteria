@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Phylogeny visualization</title>
+
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">wildlife-bacteria</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+<li>
+  <a href="QIIME2.html">QIIME2</a>
+</li>
+<li>
+  <a href="phyloseq.html">Phyloseq</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Phylogeny visualization</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-02-26
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>wildlife-bacteria/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210129code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210129)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210129code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210129)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong681fc13"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 681fc13 </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong681fc13" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version 681fc13. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  NCBI_data/
+    Untracked:  analysis/QIIME2.Rmd
+    Untracked:  analysis/microbiome-viz-extra.Rmd
+    Untracked:  analysis/microbiome-viz.Rmd
+    Untracked:  analysis/phylogeny.Rmd
+    Untracked:  analysis/phyloseq.Rmd
+    Untracked:  analysis/site-map.Rmd
+    Untracked:  analysis/tois.Rmd
+    Untracked:  code/taxa_summary.R
+    Untracked:  data/dada2/
+    Untracked:  data/dada2_tois/
+    Untracked:  data/ps_bact_samp.RData
+    Untracked:  data/ps_dec_bact.RData
+    Untracked:  data/ps_raw_bact.RData
+    Untracked:  data/rickettsia.fasta
+    Untracked:  data/site_map.xlsx
+    Untracked:  data/taxa_of_interest.RData
+    Untracked:  data/taxa_trees/
+    Untracked:  data/tmp/
+    Untracked:  output/plots/
+    Untracked:  tmp/
+
+Unstaged changes:
+    Modified:   README.md
+    Modified:   analysis/_site.yml
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>library(ggtree)
+library(treeio)
+library(tidyverse)
+library(ggtreeExtra)
+library(ggstar)
+library(readr)
+library(ggrepel)
+library(ape)
+library(phangorn)</code></pre>
+<p><a href="https://4va.github.io/biodatasci/r-ggtree.html">Tutorial here</a> <a href="https://yulab-smu.top/treedata-book/index.html">Tutorial here</a> <a href="https://guangchuangyu.github.io/software/ggtree/faq/">here</a> <a href="https://bioconductor.riken.jp/packages/3.1/bioc/vignettes/ggtree/inst/doc/ggtree.html">here</a> <a href="http://www.phytools.org/Cordoba2017/ex/1/">here</a> <a href="https://guangchuangyu.github.io/2018/04/rename-phylogeny-tip-labels-in-treeio/">blog post</a></p>
+<div id="bacteria-taxa-of-interest" class="section level2">
+<h2>Bacteria taxa of interest</h2>
+<p>Load data</p>
+<pre class="r"><code>toi_tree &lt;- read.iqtree(&quot;data/dada2_tois/IQTREE/all_tois_aln.fasta.treefile&quot;) # load IQTREE output
+metadata_tree &lt;- read_csv(&quot;data/dada2_tois/IQTREE/all_tois_aln.csv&quot;)</code></pre>
+<p>Make tree</p>
+<pre class="r"><code>toi_tree = ggtree(toi_tree, branch.length=&#39;none&#39;, layout=&#39;circular&#39;)
+toi_tree1 = toi_tree %&lt;+% metadata_tree
+toi_tree2 = toi_tree1 + 
+   aes(color = Family)
+ggsave(&quot;tree_toi.pdf&quot;, plot = toi_tree2, path = &quot;output/plots&quot;, width = 20, height = 20, units = &quot;cm&quot;)
+# bootstrap
+bsp = tree@phylo$node.label
+# Add node info
+toi_tree3 = toi_tree2 + geom_text(aes(label = label), hjust = 1, vjust = -0.4, size = 3) + geom_nodelab(aes(label = FALSE))</code></pre>
+<p>Add note support information</p>
+<pre class="r"><code>ggtree(toi_tree, layout = &#39;circular&#39;) + geom_label_repel(aes(label=UFboot, fill=UFboot)) +
+  theme(legend.position = c(.1, .8)) + scale_fill_viridis_c()</code></pre>
+<p>toi_tree2 %&gt;% gheatmap(metadata_tree, offset=8, width=0.6, colnames=FALSE) %&gt;% scale_x_ggtree() pp + theme(legend.position=“right”)</p>
+<p>To identify node numbers</p>
+<pre class="r"><code>toi_tree2n = toi_tree2 + geom_text(aes(label=node), hjust=-.3)</code></pre>
+</div>
+<div id="borrelia" class="section level1">
+<h1>Borrelia</h1>
+<p>Load data</p>
+<pre class="r"><code>bor_iqtree &lt;- read.iqtree(&quot;data/taxa_trees/Borrelia/IQTREE_root/borrelia16sv34_trim_43.fasta.treefile&quot;) # load IQTREE output
+# newtick tree
+bor_ntree &lt;- read.tree(&quot;data/taxa_trees/Borrelia/IQTREE_root/tree.newick&quot;) # load newick tree
+# Metadata
+library(readr)
+metadata &lt;- read_csv(&quot;data/taxa_trees/Borrelia/IQTREE_root/metadata.csv&quot;, 
+    col_types = cols(X6 = col_skip(), X7 = col_skip(), X8 = col_skip(), X9 = col_skip(), X10 = col_skip()))</code></pre>
+<pre class="r"><code>ggtree(bor_tree) + geom_label_repel(aes(label=UFboot, fill=UFboot)) +
+  theme(legend.position = c(.1, .8)) + scale_fill_viridis_c()</code></pre>
+<p>Edit labels</p>
+<pre class="r"><code>genus &lt;- c(metadata$Genus)
+species &lt;- c(metadata$Species)
+acc &lt;- c(metadata$Accession)
+d &lt;- data.frame(label =bor_iqtree@phylo$tip.label, genus = genus,
+                species = species, acc = acc)</code></pre>
+<p>Make tree with new labels</p>
+<pre class="r"><code>bor_ntree2 = ggtree(bor_iqtree) %&lt;+% d + geom_tiplab(aes(label=paste0(&#39;italic(&#39;, genus, &#39;)~bolditalic(&#39;, species, &#39;)~&#39;, acc)), parse=T) + geom_point2(aes(subset=(node==46)), shape=23, size=5, fill=&#39;black&#39;) + geom_hilight(mapping=aes(subset = node %in% c(46))) + scale_fill_manual(values=c(&quot;darkgreen&quot;))</code></pre>
+<p>Save</p>
+<pre class="r"><code>ggsave(&quot;bor_ntree2.pdf&quot;, plot = bor_ntree2, path = &quot;output/plots&quot;, width = 70, height = 40, units = &quot;cm&quot;)</code></pre>
+<div id="bartonella" class="section level2">
+<h2>Bartonella</h2>
+<p>Load data</p>
+<pre class="r"><code># load IQTREE output
+bart_tree &lt;- read.iqtree(&quot;data/taxa_trees/Bartonella/IQTREE_root/bartonella_clustalw_57seq_533bp.fasta.treefile&quot;)</code></pre>
+<pre class="r"><code># simple load with branch support and tip labels
+ggtree(bart_tree) + geom_text(aes(label = label))
+#Identify node numbers
+ggtree(bart_tree) + geom_text(aes(label=node), hjust=-.3)</code></pre>
+<p>bart_tree<span class="math inline">\(root.edge &lt;- 80 ggtree(b) + geom_tiplab() + geom_rootedge() ggtree(bart_tree) + geom_tiplab() + geom_rootedge() ggtree(bart_tree) + geom_tiplab() + geom_rootedge(rootedge = 80) bart_tree\)</span>root.edge &lt;- 80 ggtree(tree2) + geom_tiplab() + geom_rootedge()</p>
+<p>read.nexus parsing standard NEXUS file (re-exported from ape)</p>
+<pre class="r"><code>plot_bartree = ggtree(bart_tree) + geom_label_repel(aes(label=UFboot, fill=SH_aLRT)) +
+  theme(legend.position = c(.1, .8)) + scale_fill_viridis_c() 
+plot_bartree = plot_bartree + geom_point2(aes(subset=(node==68)), shape=23, size=5, fill=&#39;red&#39;)</code></pre>
+<pre class="r"><code>#zoom in on clade
+viewClade(p, MRCA(p, &quot;DQ538396&quot;, &quot;GU168959&quot;))</code></pre>
+<hr />
+<p>Old data</p>
+<pre><code>#To load data
+load(&quot;data/taxa_of_interest.RData&quot;)
+# Load tree
+tree &lt;- read.iqtree(&quot;data/dada2_tois/IQTREE/ASV_taxa_of_interest_aln.fasta.treefile&quot;) # load IQTREE output
+# tree &lt;- read.tree(&quot;data/dada2_tois/IQTREE/ASV_taxa_of_interest.newick&quot;) # load newick tree
+# Add metadata
+library(readr)
+metadata_tree &lt;- read_csv(&quot;data/dada2_tois/taxa_of_interest3.csv&quot;)</code></pre>
+<p>Plot tree</p>
+<pre><code>pg = ggtree(tree, branch.length=&#39;none&#39;, layout=&#39;circular&#39;)
+pg2 = pg %&lt;+% metadata_tree
+pg3 = pg2 + 
+   aes(color = Family)
+
+pg3 = pg2  + 
+     geom_tippoint(mapping=aes(color=Family)
+
+
+pg4 = pg3 + 
+   aes(color = &quot;Family&quot;) + 
+  geom_fruit(data=taxa_of_interest,
+             geom=geom_bar, 
+             mapping = aes(y=OTU, size=&quot;Abundance&quot;))
+
+
+pg4 = pg3 +
+     geom_fruit(
+         data=taxa_of_interest,
+         geom=geom_boxplot,
+         mapping = aes(
+                     y=OTU,
+                     fill=species
+                   ))
+
+pg4 = pg3 +
+    geom_fruit(
+        data=taxa_of_interest,
+        geom=geom_bar,
+        mapping = aes(
+            x=OTU,
+            y=Abundance))</code></pre>
+<pre><code>pg = ggtree(tree, branch.length=&#39;none&#39;, layout=&#39;circular&#39;)
+t1 = pg %&lt;+% taxa_of_interest
+t2 = t1 + 
+   aes(color = Family)
+t3 &lt;- t1 + 
+      geom_star(
+          mapping=aes(fill=Family, size=Abundance, starshape=SampleCategory),
+          starstroke=1
+      ) +
+      scale_size_continuous(
+          range=c(1, 3),
+          guide=guide_legend(
+                     keywidth=0.5, 
+                     keyheight=0.5, 
+                     override.aes=list(starshape=15), 
+                     order=2)
+      ) + 
+      scale_starshape_manual(
+          values=c(15, 13, 1),
+          guide=guide_legend(
+                    keywidth=1,
+                    keyheight=1,
+                    order=1
+                )
+      )
+t4 = t3 + geom_hilight(node=306, fill=&quot;pink&quot;, alpha=.6)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

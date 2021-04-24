@@ -1,0 +1,1905 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Microbiome visualization</title>
+
+<script src="site_libs/header-attrs-2.7.2/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">wildlife-bacteria</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+<li>
+  <a href="site-map.html">Sites</a>
+</li>
+<li>
+  <a href="QIIME2.html">QIIME2</a>
+</li>
+<li>
+  <a href="phyloseq.html">Phyloseq</a>
+</li>
+<li>
+  <a href="microbiome-viz.html">Microbiome viz</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/siobhon-egan/wildlife-bacteria">
+    <span class="fas fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Microbiome visualization</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-04-24
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>wildlife-bacteria/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210129code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210129)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210129code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210129)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreea0173d49bf2a7ffe8bebaf994dedf7048daaa07ctargetblanka0173d4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c" target="_blank">a0173d4</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreea0173d49bf2a7ffe8bebaf994dedf7048daaa07ctargetblanka0173d4a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c" target="_blank">a0173d4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  NCBI_data/
+    Untracked:  RData/
+    Untracked:  analysis/microbiome-viz-extra.Rmd
+    Untracked:  analysis/phylogeny.Rmd
+    Untracked:  analysis/tois.Rmd
+    Untracked:  data/dada2/
+    Untracked:  data/dada2_tois/
+    Untracked:  data/ps_raw_bact.RData
+    Untracked:  data/site_map.xlsx
+    Untracked:  data/taxa_of_interest.RData
+    Untracked:  data/taxa_trees/
+    Untracked:  data/tmp/
+    Untracked:  output/beta-div-statistics.txt
+    Untracked:  output/plots/
+    Untracked:  output/supp_table_pos.xlsx
+    Untracked:  tmp/
+
+Unstaged changes:
+    Modified:   analysis/QIIME2.Rmd
+    Modified:   analysis/_site.yml
+    Modified:   analysis/microbiome-viz.Rmd
+    Modified:   analysis/phyloseq.Rmd
+
+Staged changes:
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/microbiome-viz.Rmd
+    Modified:   analysis/phyloseq.Rmd
+    New:        analysis/site-map.Rmd
+    New:        code/taxa_summary.R
+    New:        data/ps_bact_samp.RData
+    New:        data/ps_dec_bact.RData
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<p>Visualization and analysis of microbiome data.</p>
+<blockquote>
+<p>Note this was run using R version 4.0.3 and RStudo version 1.4. See <a href="#rinfo">R info</a> for full details of R session.</p>
+</blockquote>
+<div id="getting-started" class="section level2">
+<h2>0. Getting started</h2>
+<p><strong>Install libraries if required</strong></p>
+<p>Only need to run this code once.</p>
+<pre><code>if (!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE))
+    install.packages(&quot;BiocManager&quot;)
+# phyloseq
+source(&#39;http://bioconductor.org/biocLite.R&#39;)
+biocLite(&#39;phyloseq&#39;)
+#tidyverse
+install. packages(&quot;tidyverse&quot;)
+#ampvis2
+install.packages(&quot;remotes&quot;)
+remotes::install_github(&quot;MadsAlbertsen/ampvis2&quot;)
+#ampvis2extras
+install.packages(&quot;BiocManager&quot;)
+BiocManager::install(&quot;kasperskytte/ampvis2extras&quot;)
+#ggpubr
+install.packages(&quot;ggpubr&quot;)
+#agricolae
+install.packages(&quot;agricolae&quot;)
+install.packages(&quot;remotes&quot;)
+remotes::install_github(&quot;DanielSprockett/reltools&quot;)
+devtools::install_github(&#39;jsilve24/philr&#39;)
+#decontam
+BiocManager::install(&quot;decontam&quot;)
+library(decontam)</code></pre>
+<p><strong>Load libraries</strong></p>
+<pre class="r"><code>library(qiime2R)
+library(phyloseq)
+library(tidyverse)
+library(ampvis2)
+library(ampvis2extras)
+library(ggpubr)
+library(agricolae)
+library(plotly)
+library(viridis)
+library(cowplot)
+library(MicrobeR)
+library(microbiome)
+library(reshape)
+library(decontam)
+library(data.table)
+library(ape)
+library(DESeq2)
+library(vegan)
+library(microbiomeutilities)
+library(knitr)
+library(tibble)
+library(dplyr)
+library(patchwork)
+library(Biostrings)</code></pre>
+</div>
+<div id="data-import" class="section level2">
+<h2>1. Data import</h2>
+<pre class="r"><code>ps_raw_bact&lt;-qza_to_phyloseq(
+    features=&quot;data/dada2/all_table.qza&quot;,
+    metadata=&quot;data/dada2/metadata.tsv&quot;,
+    taxonomy=&quot;data/dada2/all_SILVAtaxonomy.qza&quot;)</code></pre>
+<p>Add sequences and tree to phyloseq object</p>
+<pre class="r"><code># read sequence file
+rep.seqs &lt;- Biostrings::readDNAStringSet(&quot;data/dada2/all_rep-seqs.fasta&quot;, format = &quot;fasta&quot;)
+# merge to phyloseq object
+ps_raw_bact &lt;- merge_phyloseq(ps_raw_bact, rep.seqs)</code></pre>
+<p>Remove samples with NA values or not part of final data set,</p>
+<pre class="r"><code>ps_raw_bact &lt;- subset_samples(ps_raw_bact, !SampleType==&quot;EcolSample&quot;)</code></pre>
+<p>An easy way to view the tables is using Nice Tables</p>
+<pre class="r"><code>Nice.Table(ps_raw_bact@sam_data)</code></pre>
+<div id="statistics-on-denosied-data" class="section level3">
+<h3>1.2. Statistics on denosied data</h3>
+<p>Load denoising data</p>
+<pre class="r"><code>library(readxl)
+denosing_stats &lt;- read_excel(&quot;data/dada2/denosing-stats.xlsx&quot;)</code></pre>
+<pre class="r"><code>denosing_stats_control &lt;- denosing_stats %&gt;%
+    filter(SampleType == &quot;Control&quot;) %&gt;%
+    select(input, filtered, denoised, merged) %&gt;%
+    summarize(mean_gdpPercap = mean(gdpPercap))</code></pre>
+<pre class="r"><code>denosing_stats_control &lt;- denosing_stats %&gt;%
+    filter(SampleType == &quot;Sample&quot;) %&gt;%
+    filter(SampleCategory == &quot;Blood&quot;) %&gt;%
+    summarize(mean_input = mean(input), sd_input = sd(input), sum_input = sum(input), med_input = median(input))</code></pre>
+</div>
+<div id="filter-asvs" class="section level3">
+<h3>1.3. Filter ASVs</h3>
+<p>Filter ASVs for unassigned taxa and write fasta files and abundance tables</p>
+<pre class="r"><code>## Unassigned Kingdom
+kingdom_na = subset_taxa(ps_bact_samp, is.na(Kingdom))
+kingdom_na &lt;- prune_taxa(taxa_sums(kingdom_na) &gt; 0, kingdom_na)
+writeXStringSet(kingdom_na@refseq, &quot;data/dada2/unclassified_taxa/kingdom_na.fa&quot;)
+# melt dataframe into long df
+m_kingdom = psmelt(kingdom_na)
+#Remove all rows were abundance is zero
+m_kingdom2 = m_kingdom[m_kingdom$Abundance != 0, ]
+write.csv(m_kingdom2, &quot;data/dada2/unclassified_taxa/kingdom_na.csv&quot;)
+
+## Unassigned Phylum
+phylum_na = subset_taxa(ps_bact_samp, is.na(Phylum))
+phylum_na &lt;- prune_taxa(taxa_sums(phylum_na) &gt; 0, phylum_na)
+writeXStringSet(phylum_na@refseq, &quot;data/dada2/unclassified_taxa/phylum_na.fa&quot;)
+# melt dataframe into long df
+m_phylum = psmelt(phylum_na)
+#Remove all rows were abundance is zero
+m_phylum2 = m_phylum[m_phylum$Abundance != 0, ]
+write.csv(m_phylum2, &quot;data/dada2/unclassified_taxa/phylum_na.csv&quot;)
+
+## Unassigned Class
+class_na = subset_taxa(ps_bact_samp, is.na(Class))
+class_na &lt;- prune_taxa(taxa_sums(class_na) &gt; 0, class_na)
+writeXStringSet(class_na@refseq, &quot;data/dada2/unclassified_taxa/class_na.fa&quot;)
+# melt dataframe into long df
+m_class = psmelt(class_na)
+#Remove all rows were abundance is zero
+m_class2 = m_class[m_class$Abundance != 0, ]
+write.csv(m_class2, &quot;data/dada2/unclassified_taxa/class_na.csv&quot;)
+
+## Unassigned Order
+order_na = subset_taxa(ps_bact_samp, is.na(Order))
+order_na &lt;- prune_taxa(taxa_sums(order_na) &gt; 0, order_na)
+writeXStringSet(order_na@refseq, &quot;data/dada2/unclassified_taxa/order_na.fa&quot;)
+# melt dataframe into long df
+m_order = psmelt(order_na)
+#Remove all rows were abundance is zero
+m_order2 = m_order[m_order$Abundance != 0, ]
+write.csv(m_order2, &quot;data/dada2/unclassified_taxa/order_na.csv&quot;)
+
+## Unassigned Family
+family_na = subset_taxa(ps_bact_samp, is.na(Family))
+family_na &lt;- prune_taxa(taxa_sums(family_na) &gt; 0, family_na)
+writeXStringSet(family_na@refseq, &quot;data/dada2/unclassified_taxa/family_na.fa&quot;)
+# melt dataframe into long df
+m_family = psmelt(family_na)
+#Remove all rows were abundance is zero
+m_family2 = m_family[m_family$Abundance != 0, ]
+write.csv(m_family2, &quot;data/dada2/unclassified_taxa/family_na.csv&quot;)</code></pre>
+<p>Filter ASVs for taxa of interest and write as fasta file</p>
+<pre class="r"><code>### Filter by taxa and then filter out ASVs with 0 sequences
+Anaplasmataceae &lt;- subset_taxa(ps_dec_bact, Family == &quot;Anaplasmataceae&quot;)
+Anaplasmataceae &lt;- prune_taxa(taxa_sums(Anaplasmataceae) &gt; 0, Anaplasmataceae)
+writeXStringSet(Anaplasmataceae@refseq, &quot;data/dada2_tois/Anaplasmataceae.fa&quot;)
+Rickettsiaceae &lt;- subset_taxa(ps_dec_bact, Family == &quot;Rickettsiaceae&quot;)
+Rickettsiaceae &lt;- prune_taxa(taxa_sums(Rickettsiaceae) &gt; 0, Rickettsiaceae)
+writeXStringSet(Rickettsiaceae@refseq, &quot;data/dada2_tois/Rickettsiaceae.fa&quot;)
+Midichloriaceae &lt;- subset_taxa(ps_dec_bact, Family == &quot;Midichloriaceae&quot;)
+Midichloriaceae &lt;- prune_taxa(taxa_sums(Midichloriaceae) &gt; 0, Midichloriaceae)
+writeXStringSet(Midichloriaceae@refseq, &quot;data/dada2_tois/Midichloriaceae.fa&quot;)
+Coxiellaceae &lt;- subset_taxa(ps_dec_bact, Family == &quot;Coxiellaceae&quot;)
+Coxiellaceae &lt;- prune_taxa(taxa_sums(Coxiellaceae) &gt; 0, Coxiellaceae)
+writeXStringSet(Coxiellaceae@refseq, &quot;data/dada2_tois/Coxiellaceae.fa&quot;)
+Mycoplasmataceae &lt;- subset_taxa(ps_dec_bact, Family == &quot;Mycoplasmataceae&quot;)
+Mycoplasmataceae &lt;- prune_taxa(taxa_sums(Mycoplasmataceae) &gt; 0, Mycoplasmataceae)
+writeXStringSet(Mycoplasmataceae@refseq, &quot;data/dada2_tois/Mycoplasmataceae.fa&quot;)
+Francisellaceae &lt;- subset_taxa(ps_dec_bact, Family == &quot;Francisellaceae&quot;)
+Francisellaceae &lt;- prune_taxa(taxa_sums(Francisellaceae) &gt; 0, Francisellaceae)
+writeXStringSet(Francisellaceae@refseq, &quot;data/dada2_tois/Francisellaceae.fa&quot;)
+Diplorickettsiaceae &lt;- subset_taxa(ps_dec_bact, Family == &quot;Diplorickettsiaceae&quot;)
+Diplorickettsiaceae &lt;- prune_taxa(taxa_sums(Diplorickettsiaceae) &gt; 0, Diplorickettsiaceae)
+writeXStringSet(Diplorickettsiaceae@refseq, &quot;data/dada2_tois/Diplorickettsiaceae.fa&quot;)
+Rickettsiales &lt;- subset_taxa(ps_dec_bact, Order == &quot;Rickettsiales&quot;)
+Rickettsiales &lt;- prune_taxa(taxa_sums(Rickettsiales) &gt; 0, Rickettsiales)
+writeXStringSet(Rickettsiales@refseq, &quot;data/dada2_tois/Rickettsiales.fa&quot;)
+Borreliella &lt;- subset_taxa(ps_dec_bact, Genus == &quot;Borreliella&quot;)
+Borreliella &lt;- prune_taxa(taxa_sums(Borreliella) &gt; 0, Borreliella)
+writeXStringSet(Borreliella@refseq, &quot;data/dada2_tois/Borreliella.fa&quot;)
+Bartonella &lt;- subset_taxa(ps_dec_bact, Genus == &quot;Bartonella&quot;)
+Bartonella &lt;- prune_taxa(taxa_sums(Bartonella) &gt; 0, Bartonella)
+writeXStringSet(Bartonella@refseq, &quot;data/dada2_tois/Bartonella.fa&quot;)
+Eimeria &lt;- subset_taxa(ps_dec_bact, Family == &quot;Eimeria praecox&quot;)
+Eimeria &lt;- prune_taxa(taxa_sums(Eimeria) &gt; 0, Eimeria)
+writeXStringSet(Eimeria@refseq, &quot;data/dada2_tois/Eimeria.fa&quot;)
+Mycobacteriaceae &lt;- subset_taxa(ps_dec_bact, Family == &quot;Mycobacteriaceae&quot;)
+Mycobacteriaceae &lt;- prune_taxa(taxa_sums(Mycobacteriaceae) &gt; 0, Mycobacteriaceae)
+writeXStringSet(Mycobacteriaceae@refseq, &quot;data/dada2_tois/Mycobacteriaceae.fa&quot;)</code></pre>
+<p>Make melt dataframe of these subsetted phyloseq taxa objects</p>
+<pre class="r"><code>## Borrelia
+# melt dataframe into long df
+m_Borreliella = psmelt(Borreliella)
+#Remove all rows were aundance is zero
+m_Borreliella2 = m_Borreliella[m_Borreliella$Abundance != 0, ]
+
+## Anaplasmataceae
+# melt dataframe into long df
+m_Anaplasmataceae = psmelt(Anaplasmataceae)
+#Remove all rows were aundance is zero
+m_Anaplasmataceae2 = m_Anaplasmataceae[m_Anaplasmataceae$Abundance != 0, ]
+
+## Midichloriaceae
+# melt dataframe into long df
+m_Midichloriaceae = psmelt(Midichloriaceae)
+#Remove all rows were aundance is zero
+m_Midichloriaceae2 = m_Midichloriaceae[m_Midichloriaceae$Abundance != 0, ]
+
+## Rickettsiaceae
+# melt dataframe into long df
+m_Rickettsiaceae = psmelt(Rickettsiaceae)
+#Remove all rows were aundance is zero
+m_Rickettsiaceae2 = m_Rickettsiaceae[m_Rickettsiaceae$Abundance != 0, ]
+
+## Coxiellaceae
+# melt dataframe into long df
+m_Coxiellaceae = psmelt(Coxiellaceae)
+#Remove all rows were aundance is zero
+m_Coxiellaceae2 = m_Coxiellaceae[m_Coxiellaceae$Abundance != 0, ]
+
+## Mycoplasmataceae
+# melt dataframe into long df
+m_Mycoplasmataceae = psmelt(Mycoplasmataceae)
+#Remove all rows were aundance is zero
+m_Mycoplasmataceae2 = m_Mycoplasmataceae[m_Mycoplasmataceae$Abundance != 0, ]
+
+## Francisellaceae
+# melt dataframe into long df
+m_Francisellaceae = psmelt(Francisellaceae)
+#Remove all rows were aundance is zero
+m_Francisellaceae2 = m_Francisellaceae[m_Francisellaceae$Abundance != 0, ]
+
+## Diplorickettsiaceae
+# melt dataframe into long df
+m_Diplorickettsiaceae = psmelt(Diplorickettsiaceae)
+#Remove all rows were aundance is zero
+m_Diplorickettsiaceae2 = m_Diplorickettsiaceae[m_Diplorickettsiaceae$Abundance != 0, ]
+
+
+## Bartonella
+# melt dataframe into long df
+m_Bartonella = psmelt(Bartonella)
+#Remove all rows were aundance is zero
+m_Bartonella2 = m_Bartonella[m_Bartonella$Abundance != 0, ]
+
+## Merge these datasets
+taxa_of_interest = bind_rows(m_Borreliella2, m_Anaplasmataceae2, m_Midichloriaceae2, m_Bartonella2, m_Rickettsiaceae2, m_Diplorickettsiaceae2, m_Francisellaceae2, m_Mycoplasmataceae2, m_Coxiellaceae2)
+write_csv(taxa_of_interest, &quot;data/dada2_tois/taxa_of_interest.csv&quot;)
+
+#### EXTRAS
+
+## Rickettsiales
+# melt dataframe into long df
+m_Rickettsiales = psmelt(Rickettsiales)
+#Remove all rows were aundance is zero
+m_Rickettsiales2 = m_Rickettsiales[m_Rickettsiales$Abundance != 0, ]
+
+## Mycobacteriaceae
+# melt dataframe into long df
+m_Mycobacteriaceae = psmelt(Mycobacteriaceae)
+#Remove all rows were aundance is zero
+m_Mycobacteriaceae2 = m_Mycobacteriaceae[m_Mycobacteriaceae$Abundance != 0, ]
+
+## Eimeria
+# melt dataframe into long df
+m_Eimeria = psmelt(Eimeria)
+#Remove all rows were aundance is zero
+m_Eimeria2 = m_Eimeria[m_Eimeria$Abundance != 0, ]</code></pre>
+<p>Mutate and get info</p>
+<pre class="r"><code>bt = taxa_of_interest %&gt;%
+   group_by(Sample) %&gt;%  
+   select(&quot;SampleCategory&quot;, &quot;Abundance&quot;, &quot;Sample&quot;, &quot;species&quot;)</code></pre>
+<pre><code>bt = taxa_of_interest %&gt;%
+  filter(Genus == &quot;Borreliella&quot;) %&gt;%
+   group_by(Sample) %&gt;% 
+   select(&quot;SampleCategory&quot;, &quot;Abundance&quot;, &quot;Sample&quot;)
+taxa_of_interest %&gt;%
+  filter(Genus == &quot;Borreliella&quot;) %&gt;%
+   group_by(animalID) %&gt;% 
+   summarize(sum = sum(Abundance)) %&gt;%
+   select(&quot;SampleType&quot;)</code></pre>
+</div>
+</div>
+<div id="decontam" class="section level2">
+<h2>2. Decontam</h2>
+<p>R package <code>decontam</code> to assess contaminating OTUs, <a href="https://bioconductor.org/packages/release/bioc/vignettes/decontam/inst/doc/decontam_intro.html">tutorial</a>.</p>
+<p>The CRAN version only works on R version &lt;4. To install for R versions &gt;4 install from <a href="https://bioconductor.org/packages/release/bioc/html/decontam.html">bioconductor</a> using the following</p>
+<p>Make plot of library size of Samples vs Controls</p>
+<pre class="r"><code>df &lt;- as.data.frame(sample_data(ps_raw_bact)) # Put sample_data into a ggplot-friendly data.frame
+df$LibrarySize &lt;- sample_sums(ps_raw_bact)
+df &lt;- df[order(df$LibrarySize),]
+df$Index &lt;- seq(nrow(df))
+libQC &lt;- ggplot(data=df, aes(x=Index, y=LibrarySize, color=SampleType)) + geom_point()
+LibQC = libQC + scale_color_brewer(palette=&quot;Dark2&quot;) + labs(color = &quot;Sample Type&quot;) + theme_bw()
+ggsave(&quot;libQC.pdf&quot;, plot = LibQC, path = &quot;output/plots&quot;, width = 10, height = 10, units = &quot;cm&quot;)</code></pre>
+<p>Make html plot with <code>plotly</code></p>
+<pre class="r"><code>libQCplotly &lt;- ggplotly(libQC)
+htmlwidgets::saveWidget(libQCplotly, &quot;output/plots/libQCplotly.html&quot;)</code></pre>
+<p>Identify contaminating ASVs - define control samples and threshold (e.g. <code>0.05</code>)</p>
+<pre class="r"><code>df &lt;- as.data.frame(sample_data(ps_raw_bact)) # Put sample_data into a ggplot-friendly data.frame
+sample_data(ps_raw_bact)$is.neg &lt;- sample_data(ps_raw_bact)$SampleType == &quot;Control&quot;
+contamdf.prev &lt;- isContaminant(ps_raw_bact, method=&quot;prevalence&quot;, neg=&quot;is.neg&quot;, threshold = 0.05)</code></pre>
+<p>Identify contaminants</p>
+<pre class="r"><code>table(contamdf.prev$contaminant)
+head(which(contamdf.prev$contaminant))
+table(contamdf.prev$contaminant)</code></pre>
+<pre class="r"><code>con_ASVs &lt;- contamdf.prev %&gt;% 
+  filter(contaminant == &quot;TRUE&quot;)
+con_ASVs  &lt;- rownames(con_ASVs)</code></pre>
+<p>Take a look at the number of times several of these taxa were observed in negative controls and positive samples.</p>
+<pre class="r"><code># Make phyloseq object of presence-absence in negative controls and true samples
+ps.pa &lt;- transform_sample_counts(ps_raw_bact, function(abund) 1*(abund&gt;0))
+ps.pa.neg &lt;- prune_samples(sample_data(ps_raw_bact)$SampleType == &quot;Control&quot;, ps.pa)
+ps.pa.pos &lt;- prune_samples(sample_data(ps.pa)$SampleType == &quot;Sample&quot;, ps.pa)
+# Make data.frame of prevalence in positive and negative samples
+df.pa &lt;- data.frame(pa.pos=taxa_sums(ps.pa.pos), pa.neg=taxa_sums(ps.pa.neg),
+                      contaminant=contamdf.prev$contaminant)
+# Make plot and save as pdf
+deconplot &lt;- ggplot(data=df.pa, aes(x=pa.neg, y=pa.pos, color=contaminant)) + geom_point() +
+  xlab(&quot;Prevalence (Negative Controls)&quot;) + ylab(&quot;Prevalence (True Samples)&quot;) +
+  scale_color_brewer(palette=&quot;Dark2&quot;) + labs(color = &quot;Contaminant&quot;) + theme_bw()
+ggsave(&quot;deconplot.pdf&quot;, plot = deconplot, path = &quot;output/plots&quot;, width = 10, height = 10, units = &quot;cm&quot;)</code></pre>
+<p>Make distribution plot of reads using <a href="https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#distribution-of-reads-1">microbiomeutilities</a></p>
+<pre class="r"><code>distrib &lt;- plot_read_distribution(ps_raw_bact, groups = &quot;SampleCategory&quot;, 
+                            plot.type = &quot;density&quot;) + xlab(&quot;Reads per sample&quot;) + ylab(&quot;Density&quot;)
+distrib &lt;- distrib + geom_density(alpha = 0.5, fill = &quot;grey&quot;) + theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1)) + theme_bw()
+ggsave(&quot;distrib.pdf&quot;, plot = distrib, path = &quot;output/plots&quot;, width = 15, height = 10, units = &quot;cm&quot;)</code></pre>
+<p>Merge QC, decon and distribution plots</p>
+<pre class="r"><code>Seq_QC_plots = ggdraw() +
+  draw_plot(LibQC, x = 0, y = .5, width = .5, height = .5) +
+  draw_plot(deconplot, x = .5, y = .5, width = .5, height = .5) +
+  draw_plot(distrib, x = 0, y = 0, width = 1, height = 0.5) +
+  draw_plot_label(label = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;), size = 15,
+                  x = c(0, 0.5, 0), y = c(1, 1, 0.5))
+ggsave(&quot;merged_QC.pdf&quot;, plot = Seq_QC_plots, path = &quot;output/plots/QC&quot;, width = 20, height = 15, units = &quot;cm&quot;)</code></pre>
+</div>
+<div id="subset-and-filter" class="section level2">
+<h2>3. Subset and Filter</h2>
+<p>As determined by <code>decontam</code> methods identify contaminant ASVs and threshold for positive reads. Then transform otu count data.</p>
+<pre class="r"><code>ps_dec_bact &lt;- prune_taxa(!contamdf.prev$contaminant, ps_raw_bact)
+ps_dec_bact@otu_table [, 1:702][ps_dec_bact@otu_table [, 1:702] &lt; 100] &lt;- 0</code></pre>
+<p>Save R data for <code>ps_dec_samp</code> phyloseq object</p>
+<pre class="r"><code>save(ps_dec_bact, file = &quot;data/ps_dec_bact.RData&quot;)</code></pre>
+<p>To load data</p>
+<pre class="r"><code>load(&quot;data/ps_dec_bact.RData&quot;)</code></pre>
+<div id="for-phyloseq-object" class="section level3">
+<h3>3.1. For phyloseq object</h3>
+<p>Subset phyloseq object based on sample types</p>
+<pre class="r"><code># Exclude controls
+ps_bact_samp = subset_samples(ps_dec_bact, !SampleType==&quot;Control&quot;)
+# Blood samples only
+ps_bact_bl = subset_samples(ps_bact_samp, SampleCategory==&quot;Blood&quot;)
+# Tissue samples only
+ps_bact_tis = subset_samples(ps_bact_samp, SampleCategory==&quot;Tissue&quot;)
+# Tick samples only
+ps_bact_tick = subset_samples(ps_bact_samp, SampleCategory==&quot;Tick&quot;)</code></pre>
+<p>Subset certain taxa of interest</p>
+<pre class="r"><code># taxa of interest
+ps_bact_samp_sub = subset_taxa(ps_bact_samp, Order==&quot;Coxiellales&quot; | Order==&quot;Mycoplasmataceae&quot; | Genus==&quot;Bartonella&quot; | Order==&quot;Francisellales&quot; | Genus==&quot;Borreliella&quot; | Genus==&quot;Leptospira&quot; | Family==&quot;Rickettsiaceae&quot; | Family==&quot;Anaplasmataceae&quot; | Family==&quot;Midichloriaceae&quot; | Genus==&quot;Rickettsiella&quot;)
+ps_bact_samp_sub = prune_samples(sample_sums(ps_bact_samp_sub)&gt;=1000, ps_bact_samp_sub)
+ps_bact_samp_sub = filter_taxa(ps_bact_samp_sub, function(x) sum(x &gt; 1) &gt; (0.01*length(x)), TRUE)</code></pre>
+<p>Subset certain taxa of interest</p>
+<pre class="r"><code># taxa of interest
+ps_bact_samp_sub = subset_taxa(ps_bact_samp, Order==&quot;Coxiellales&quot; | Order==&quot;Mycoplasmataceae&quot; | Genus==&quot;Bartonella&quot; | Order==&quot;Francisellales&quot; | Genus==&quot;Borreliella&quot; | Genus==&quot;Leptospira&quot; | Genus==&quot;Rickettsia&quot; | Family==&quot;Anaplasmataceae&quot; | Family==&quot;Midichloriaceae&quot; | Genus==&quot;Rickettsiella&quot;)
+ps_bact_samp_sub = prune_samples(sample_sums(ps_bact_samp_sub)&gt;=1000, ps_bact_samp_sub)
+ps_bact_samp_sub = filter_taxa(ps_bact_samp_sub, function(x) sum(x &gt; 1) &gt; (0.01*length(x)), TRUE)</code></pre>
+<p>Add tree for this taxa</p>
+<pre class="r"><code>tree2 &lt;- read_tree(&quot;data/dada2/top38.nwk&quot;)
+ps_bact_samp_sub &lt;- merge_phyloseq(ps_bact_samp_sub, tree)</code></pre>
+<p>Subset phyloseq object based on host species</p>
+<pre class="r"><code># Black rat
+ps_BR = subset_samples(ps_bact_samp, species==&quot;Black rat&quot;)
+# Brush tail possum
+ps_BTP = subset_samples(ps_bact_samp, species==&quot;Brush tail possum&quot;)
+# Chuditch
+ps_chud = subset_samples(ps_bact_samp, species==&quot;Chuditch&quot;)
+# Long-nosed bandicoot
+ps_LNB = subset_samples(ps_bact_samp, species==&quot;Long-nosed bandicoot&quot;)</code></pre>
+</div>
+<div id="for-ampvis2-object" class="section level3">
+<h3>3.2. For ampvis2 object</h3>
+<p><strong>Make ampvis2 object for analysis</strong></p>
+<pre class="r"><code>#require the devtools package to source gist
+if(!require(&quot;devtools&quot;))
+  install.packages(&quot;devtools&quot;)
+#source the phyloseq_to_ampvis2() function from the gist
+devtools::source_gist(&quot;8d0ca4206a66be7ff6d76fc4ab8e66c6&quot;)
+
+#convert
+bact_amp &lt;- phyloseq_to_ampvis2(ps_dec_bact)</code></pre>
+<p>Subset ampvis2 object based on sample category</p>
+<pre class="r"><code>#remove controls
+amp_samp &lt;- amp_subset_samples(bact_amp, 
+                                 !SampleType %in% c(&quot;Control&quot;),
+                                 RemoveAbsents = TRUE)
+#blood samples
+amp_samp &lt;- amp_subset_samples(bact_amp, 
+                                 !SampleType %in% c(&quot;Control&quot;),
+                                 RemoveAbsents = TRUE)
+#tissue samples
+am_tis &lt;- amp_subset_samples(amp_samp, 
+                                 SampleCategory %in% c(&quot;Tissue&quot;),
+                                 RemoveAbsents = TRUE)
+#tick samples
+amp_tick &lt;- amp_subset_samples(amp_samp, 
+                                 SampleCategory %in% c(&quot;Tick&quot;),
+                                 RemoveAbsents = TRUE)
+#tick samples
+amp_tick_sub &lt;- amp_subset_samples(amp_tick, 
+                                 instar %in% c(&quot;Female&quot;, &quot;Larvae&quot;, &quot;Nymph&quot;),
+                                 RemoveAbsents = TRUE)</code></pre>
+<p>Filter out low abundant samples</p>
+<pre class="r"><code>amp_samp1000 &lt;- amp_subset_samples(amp_samp,
+                                 minreads = 1000,
+                                 RemoveAbsents = TRUE)
+amp_samp1000</code></pre>
+<p>rarecurve = amp_rarecurve(amp_samp100, facet_by = “SampleCategory”, stepsize = 100, facet_scales = “free”) Subset certain species and sites</p>
+<pre class="r"><code>chud &lt;- amp_subset_samples(amp_samp, 
+                              species %in% c(&quot;Chuditch&quot;),
+                              !SampleCategory %in% c(&quot;Tick&quot;),
+                              RemoveAbsents = TRUE)
+LNB &lt;- amp_subset_samples(amp_samp, 
+                              species %in% c(&quot;Long-nosed bandicoot&quot;),
+                              RemoveAbsents = TRUE)
+BTP &lt;- amp_subset_samples(amp_samp, 
+                              species %in% c(&quot;Brush tail possum&quot;),
+                              RemoveAbsents = TRUE)
+BR &lt;- amp_subset_samples(amp_samp, 
+                              species %in% c(&quot;Black rat&quot;),
+                              RemoveAbsents = TRUE)</code></pre>
+</div>
+<div id="preliminary-data-exploration" class="section level3">
+<h3>3.3. Preliminary data exploration</h3>
+<blockquote>
+<p>Set colours when comparing tick tissue and blood</p>
+</blockquote>
+<pre class="r"><code>ColSampCat = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;)</code></pre>
+<p>Get information on sequencing depth</p>
+<pre class="r"><code>sdt = data.table(as(sample_data(ps_raw_bact), &quot;data.frame&quot;),
+                 TotalReads = sample_sums(ps_raw_bact), keep.rownames = TRUE)
+setnames(sdt, &quot;rn&quot;, &quot;SampleID&quot;)
+pSeqDepth = ggplot(sdt, aes(TotalReads)) + geom_histogram() + ggtitle(&quot;Sequencing Depth&quot;) + facet_wrap(~SampleCategory) + theme_bw()
+pSeqDepth = pSeqDepth + theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1), axis.text.y = element_text(size=10), legend.position=&quot;right&quot;)
+ggsave(&quot;pSeqDepth.pdf&quot;, plot = pSeqDepth, path = &quot;output/plots&quot;, width = 15, height = 10, units = &quot;cm&quot;)</code></pre>
+<p><strong>Taxa prevalence information</strong> Using <code>fast_melt()</code> command to get an idea of most prevalent taxa and distribution</p>
+<pre class="r"><code>source(&quot;code/taxa_summary.R&quot;, local = TRUE)
+
+mdt = fast_melt(ps_bact_samp)
+prevdt = mdt[, list(Prevalence = sum(count &gt; 0), 
+                    TotalCounts = sum(count)),
+             by = TaxaID]</code></pre>
+<pre class="r"><code>addPhylum = unique(copy(mdt[, list(TaxaID, Phylum)]))
+# Join by TaxaID
+setkey(prevdt, TaxaID)
+setkey(addPhylum, TaxaID)
+prevdt &lt;- addPhylum[prevdt]
+showPhyla = prevdt[, sum(TotalCounts), by = Phylum][order(-V1)][1:12]$Phylum
+setkey(prevdt, Phylum)</code></pre>
+<p>Make plots</p>
+<pre class="r"><code>top_phyla1 = ggplot(prevdt[showPhyla], 
+       mapping = aes(Prevalence, TotalCounts, color = Phylum)) + 
+  geom_point(size = 2.5, alpha = 0.75) + 
+  scale_y_log10() + theme_bw() + scale_color_viridis(discrete=TRUE)
+top_phyla2 = ggplot(prevdt[showPhyla], 
+       mapping = aes(Prevalence, TotalCounts, color = Phylum)) + 
+  geom_point(size = 2.5, alpha = 0.75) + 
+  scale_y_log10() + theme_bw() + scale_color_viridis(discrete=TRUE) + xlim(0, 125)
+#Merge plots
+top_phyla &lt;- ggarrange(top_phyla1, top_phyla2,
+                    labels = c(&quot;A&quot;, &quot;B&quot;),
+                    ncol = 2, nrow = 1)
+ggsave(&quot;top_phyla.pdf&quot;, plot = top_phyla, path = &quot;output/plots&quot;, width = 40, height = 15, units = &quot;cm&quot;)
+
+# Alternative plot
+top_phyla3 = top_phyla1 + facet_wrap(~Phylum)
+ggsave(&quot;top_phyla3.pdf&quot;, plot = top_phyla3, path = &quot;output/plots&quot;, width = 40, height = 30, units = &quot;cm&quot;)</code></pre>
+</div>
+</div>
+<div id="alpha-diversity" class="section level2">
+<h2>4. Alpha diversity</h2>
+<div id="rarefaction-curve" class="section level3">
+<h3>4.1 Rarefaction curve</h3>
+<p>Plot rarefaction curves, using <a href="https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#rarefaction-curves-for-alpha-diversity-indices">microbiomeutilities</a>. Create separate plots by sample type for the three <code>SampleCategory</code> variables</p>
+<pre class="r"><code>rare_bl &lt;- plot_alpha_rcurve(ps_bact_bl, index=&quot;observed&quot;, 
+                       subsamples = subsamples,
+                       lower.conf = 0.025, 
+                       upper.conf = 0.975,
+                       group=&quot;species&quot;,
+                       label.color = &quot;brown3&quot;,
+                       label.size = 3,
+                       label.min = TRUE) 
+# change color of line 
+mycols = viridis(7, option = &quot;D&quot;)
+rare_bl &lt;- rare_bl + scale_color_manual(values = mycols) + 
+  scale_fill_manual(values = mycols)
+
+# Tissue samples
+rare_tis &lt;- plot_alpha_rcurve(ps_bact_tis, index=&quot;observed&quot;, 
+                       subsamples = subsamples,
+                       lower.conf = 0.025, 
+                       upper.conf = 0.975,
+                       group=&quot;species&quot;,
+                       label.color = &quot;brown3&quot;,
+                       label.size = 3,
+                       label.min = TRUE) 
+# change color of line 
+mycols = viridis(9, option = &quot;D&quot;)
+rare_tis &lt;- rare_tis + scale_color_manual(values = mycols) + 
+  scale_fill_manual(values = mycols)
+
+# Tick samples
+rare_tick &lt;- plot_alpha_rcurve(ps_bact_tick, index=&quot;observed&quot;, 
+                       subsamples = subsamples,
+                       lower.conf = 0.025, 
+                       upper.conf = 0.975,
+                       group=&quot;species&quot;,
+                       label.color = &quot;brown3&quot;,
+                       label.size = 3,
+                       label.min = TRUE) 
+# change color of line 
+mycols = viridis(8, option = &quot;D&quot;)
+rare_tick &lt;- rare_tick + scale_color_manual(values = mycols) + 
+  scale_fill_manual(values = mycols)</code></pre>
+</div>
+<div id="alpha-diversity-measures" class="section level3">
+<h3>4.2. Alpha diversity measures</h3>
+<p>Create matrix with alpha diversity measures - this produces a data frame.</p>
+<pre class="r"><code>alphadiversityresult &lt;- amp_alphadiv(amp_samp, measure = NULL, richness = FALSE, rarefy = NULL)</code></pre>
+<p>Create boxplot of measures grouped by SampleCategory with dataframe from alpha diversity results</p>
+<pre class="r"><code>alpha1 &lt;- ggplot() + geom_boxplot(data = alphadiversityresult, aes(SampleCategory, ObservedOTUs)) + theme(axis.title.x=element_blank())
+alpha2 &lt;- ggplot() + geom_boxplot(data = alphadiversityresult, aes(SampleCategory, Shannon)) + theme(axis.title.x=element_blank())
+alpha3 &lt;- ggplot() + geom_boxplot(data = alphadiversityresult, aes(SampleCategory, Simpson)) + theme(axis.title.x=element_blank())
+alpha4 &lt;- ggplot() + geom_boxplot(data = alphadiversityresult, aes(SampleCategory, invSimpson)) + theme(axis.title.x=element_blank())
+
+#Merge all four alpha div plots into one figure
+alphadiv &lt;- ggarrange(alpha1, alpha2, alpha3, alpha4,
+                    labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;),
+                    ncol = 2, nrow = 2)
+ggsave(&quot;alphadiv.pdf&quot;, plot = alphadiv, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)</code></pre>
+<p><strong>Statistical analysis</strong></p>
+<p>Explore statistical relationship between sample type and alpha diversity</p>
+<p>ANOVA test to identify if there is significant difference by <code>SampleCategory</code>. Link <a href="https://grunwaldlab.github.io/analysis_of_microbiome_community_data_in_r/07--diversity_stats.html">here</a></p>
+<pre class="r"><code>ObservedOTUs_result &lt;- aov(ObservedOTUs ~ SampleCategory, alphadiversityresult)
+summary(ObservedOTUs_result)
+Shannon_result &lt;- aov(Shannon ~ SampleCategory, alphadiversityresult)
+summary(Shannon_result)
+Simpson_result &lt;- aov(Simpson ~ SampleCategory, alphadiversityresult)
+summary(Simpson_result)
+invSimpson_result &lt;- aov(invSimpson ~ SampleCategory, alphadiversityresult)
+summary(invSimpson_result)</code></pre>
+<p>Then to identify <em>which</em> group is significantly different use <code>HSD.test</code></p>
+<pre class="r"><code>tukey_obs &lt;- HSD.test(ObservedOTUs_result, &quot;SampleCategory&quot;, group = TRUE)
+print(tukey_obs)
+tukey_shannon &lt;- HSD.test(Shannon_result, &quot;SampleCategory&quot;, group = TRUE)
+print(tukey_shannon)
+tukey_Simpson &lt;- HSD.test(Simpson_result, &quot;SampleCategory&quot;, group = TRUE)
+print(tukey_Simpson)</code></pre>
+<p><strong>Alternative alpha diversity plots</strong></p>
+<p>Make using alpha diversity plots with statistical values using <a href="https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#plot-alpha-diversities">microbiomeutilities</a></p>
+<pre class="r"><code>obs_alpha_plot &lt;- plot_diversity_stats(ps_bact_samp, group = &quot;SampleCategory&quot;, 
+                            index = &quot;observed&quot;,
+                            group.colors = ColSampCat,
+                            label.format=&quot;p.format&quot;,
+                            stats = TRUE)
+obs_alpha_plot = obs_alpha_plot + ylab(&quot;No. Observed ASVs&quot;) + xlab(&quot;&quot;) + labs(title = &quot;Observed&quot;)
+chao1_alpha_plot &lt;- plot_diversity_stats(ps_bact_samp, group = &quot;SampleCategory&quot;, 
+                            index = &quot;chao1&quot;,
+                            group.colors = ColSampCat,
+                            label.format=&quot;p.format&quot;,
+                            stats = TRUE)
+chao1_alpha_plot = chao1_alpha_plot + ylab(&quot;Chao1 Index&quot;) + xlab(&quot;&quot;) + labs(title = &quot;Chao1&quot;)
+shan_alpha_plot &lt;- plot_diversity_stats(ps_bact_samp, group = &quot;SampleCategory&quot;, 
+                            index = &quot;diversity_shannon&quot;,
+                            group.colors = ColSampCat,
+                            label.format=&quot;p.format&quot;,
+                            stats = TRUE)
+shan_alpha_plot = shan_alpha_plot + ylab(&quot;Shannon Index&quot;) + xlab(&quot;&quot;) + labs(title = &quot;Shannon&quot;)
+invsimp_alpha_plot &lt;- plot_diversity_stats(ps_bact_samp, group = &quot;SampleCategory&quot;, 
+                            index = &quot;diversity_inverse_simpson&quot;,
+                            group.colors = ColSampCat,
+                            label.format=&quot;p.format&quot;,
+                            stats = TRUE)
+invsimp_alpha_plot = invsimp_alpha_plot + ylab(&quot;Inverse Simpson Index&quot;) + xlab(&quot;&quot;) + labs(title = &quot;Inverse Simpson&quot;)</code></pre>
+<pre class="r"><code>#Merge all four alpha div plots into one figure
+alphadiv_wp &lt;- ggarrange(obs_alpha_plot, chao1_alpha_plot, shan_alpha_plot, invsimp_alpha_plot,
+                    labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;),
+                    ncol = 2, nrow = 2)
+ggsave(&quot;alphadiv_withpvalues.pdf&quot;, plot = alphadiv_wp, path = &quot;output/plots&quot;, width = 30, height = 30, units = &quot;cm&quot;)</code></pre>
+</div>
+<div id="inter-individual-divergence" class="section level3">
+<h3>4.3. Inter-individual divergence</h3>
+<p>Divergence within a sample set quantifies the overall heterogeneity in community composition across samples or individuals. This is sometimes quantified as the average dissimilarity of each sample from the group mean; the dissimilarity can be quantified by beta diversity as in Salonen et al. ISME J 2014 (they focused on homogeneity using inverse divergence but the measure is essentially the same).</p>
+<p>Documentation <a href="https://microbiome.github.io/tutorials/Betadiversity.html">here</a></p>
+<pre class="r"><code>Bl.pla &lt;- divergence(subset_samples(ps_bact_samp, SampleCategory == &quot;Blood&quot;),
+                    apply(abundances(subset_samples(ps_bact_samp, SampleCategory == &quot;Blood&quot;)), 1, median))
+Tis.pla &lt;- divergence(subset_samples(ps_bact_samp, SampleCategory == &quot;Tissue&quot;),
+                    apply(abundances(subset_samples(ps_bact_samp, SampleCategory == &quot;Tissue&quot;)), 1, median))
+Tick.pla &lt;- divergence(subset_samples(ps_bact_samp, SampleCategory == &quot;Tick&quot;),
+                    apply(abundances(subset_samples(ps_bact_samp, SampleCategory == &quot;Tick&quot;)), 1, median))
+l&lt;- list(Bl.pla, Tis.pla, Tick.pla)
+df&lt;- melt(l)
+df$L1[df$L1 == &#39;1&#39;]&lt;- &#39;Blood&#39;
+df$L1[df$L1 == &#39;2&#39;]&lt;- &#39;Tissue&#39;
+df$L1[df$L1 == &#39;3&#39;]&lt;- &#39;Tick&#39;
+
+df$L1&lt;- factor(df$L1, levels = c(&#39;Blood&#39;,&#39;Tissue&#39;, &#39;Tick&#39;))
+
+divergence &lt;- ggplot(df, aes(x = L1, y = value)) + geom_boxplot()+ xlab(&#39;&#39;)</code></pre>
+</div>
+</div>
+<div id="taxonomy-plots" class="section level2">
+<h2>5. Taxonomy plots</h2>
+<div id="heatmap" class="section level3">
+<h3>5.1. Heatmap</h3>
+<p>Make frequency heat map using <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_heatmap.html">ampvis2</a></p>
+<p>Aggregate taxa, showing 20 most abundant by Family species. Show data as abundance (i.e. number of reads).</p>
+<pre class="r"><code># facet by samlpe type
+bact_heatmap &lt;- amp_heatmap(amp_samp,
+            facet_by = &quot;SampleCategory&quot;,
+            group_by = &quot;species&quot;,
+            tax_aggregate = &quot;Family&quot;,
+            tax_show = 40,
+            normalise = FALSE,
+            plot_values = FALSE,
+            plot_values_size = 3,
+            round = 0
+            )  +
+  theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1),
+        axis.text.y = element_text(size=10),
+        legend.position=&quot;right&quot;)
+# facet by species
+bact_heatmap_sp &lt;- amp_heatmap(amp_samp,
+            facet_by = &quot;species&quot;,
+            group_by = &quot;SampleCategory&quot;,
+            tax_aggregate = &quot;Family&quot;,
+            tax_show = 40,
+            normalise = FALSE,
+            plot_values = FALSE,
+            plot_values_size = 3,
+            round = 0
+            )  +
+  theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1),
+        axis.text.y = element_text(size=10),
+        legend.position=&quot;right&quot;)</code></pre>
+<p>Save PDF of plot</p>
+<pre class="r"><code>ggsave(&quot;bact_heatmap.pdf&quot;, plot = bact_heatmap, path = &quot;output/plots&quot;, width = 40, height = 25, units = &quot;cm&quot;)
+ggsave(&quot;bact_heatmap_sp.pdf&quot;, plot = bact_heatmap_sp, path = &quot;output/plots&quot;, width = 40, height = 25, units = &quot;cm&quot;)</code></pre>
+<p><strong>Make abundance heat map</strong></p>
+<p>Now make heatmap similar to above but with relative abundance data</p>
+<pre class="r"><code>heatmap_abund &lt;- amp_heatmap(amp_samp,
+            facet_by = &quot;SampleCategory&quot;,
+            group_by = &quot;species&quot;,
+            tax_aggregate = &quot;Family&quot;,
+            tax_show = 40,
+            normalise = TRUE,
+            plot_values = FALSE,
+            plot_values_size = 3,
+            round = 0
+            )  +
+  theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1),
+        axis.text.y = element_text(size=10),
+        legend.position=&quot;right&quot;)</code></pre>
+</div>
+<div id="boxplot" class="section level3">
+<h3>5.2. Boxplot</h3>
+<p>Create boxplot using ampvis2</p>
+<pre class="r"><code># bacteria blood
+bact_bl_boxplot &lt;- amp_boxplot(amp_bl,
+  group_by = &quot;species&quot;,
+  tax_show = 20,
+  tax_aggregate = &quot;Family&quot;)
+bact_tis_boxplot &lt;- amp_boxplot(amp_tick,
+  group_by = &quot;species&quot;,
+  tax_show = 20,
+  tax_aggregate = &quot;Family&quot;)
+bact_tick_boxplot &lt;- amp_boxplot(amp_tis,
+  group_by = &quot;species&quot;,
+  tax_show = 20,
+  tax_aggregate = &quot;Family&quot;)</code></pre>
+<pre class="r"><code>#Merge all four alpha div plots into one figure
+bact_boxplot &lt;- ggarrange(bact_bl_boxplot, bact_tis_boxplot, bact_tick_boxplot,
+                    labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;),
+                    ncol = 1, nrow = 3)</code></pre>
+<p>Save plots</p>
+<pre class="r"><code>ggsave(&quot;bact_boxplot.pdf&quot;, plot = bact_boxplot, path = &quot;output/plots&quot;, width = 40, height = 40, units = &quot;cm&quot;)
+ggsave(&quot;bact_bl_boxplot.pdf&quot;, plot = bact_bl_boxplot, path = &quot;output/plots&quot;, width = 30, height = 15, units = &quot;cm&quot;)
+ggsave(&quot;bact_tis_boxplot.pdf&quot;, plot = bact_tis_boxplot, path = &quot;output/plots&quot;, width = 30, height = 15, units = &quot;cm&quot;)
+ggsave(&quot;bact_tick_boxplot.pdf&quot;, plot = bact_tick_boxplot, path = &quot;output/plots&quot;, width = 30, height = 15, units = &quot;cm&quot;)</code></pre>
+<pre class="r"><code>ggdraw() +
+  draw_plot(bact_bl_boxplot, x = 0, y = .5, width = .5, height = .5) +
+  draw_plot(bact_tis_boxplot, x = .5, y = .5, width = .5, height = .5) +
+  draw_plot(bact_tick_boxplot, x = 0, y = 0, width = 0.5, height = 0.5) +
+  draw_plot_label(label = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;), size = 15,
+                  x = c(0, 0.5, 0), y = c(1, 1, 0.5))</code></pre>
+<pre class="r"><code>#save individually
+ggsave(&quot;bact_boxplot.pdf&quot;, plot = bact_boxplot, path = &quot;output/plots&quot;, width = 40, height = 40, units = &quot;cm&quot;)</code></pre>
+</div>
+<div id="distribution-plots" class="section level3">
+<h3>5.3. Distribution plots</h3>
+<p>Create distribution plots on cleaned data using <a href="https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#check-distribution">microbiomeutilities</a></p>
+<pre class="r"><code># Blood
+distrib_bl &lt;- taxa_distribution(ps_bact_bl) + 
+  theme_biome_utils() + 
+  labs(title = &quot;Blood&quot;) + scale_color_viridis(discrete=TRUE)
+
+# Tissue
+distrib_tis &lt;- taxa_distribution(ps_bact_tis) + 
+  theme_biome_utils() + 
+  labs(title = &quot;Tissue&quot;) + scale_color_viridis(discrete=TRUE)
+
+# Tick
+distrib_tk &lt;- taxa_distribution(ps_bact_tk) + 
+  theme_biome_utils() + 
+  labs(title = &quot;Tick&quot;) + scale_color_viridis(discrete=TRUE)</code></pre>
+<p>Combine plots</p>
+<pre class="r"><code>distrib_group &lt;- ggarrange(distrib_bl, distrib_tis, distrib_tk,
+                          labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;),
+                          ncol = 2, nrow = 2)
+ggsave(&quot;distrib_group.pdf&quot;, plot = distrib_group, path = &quot;output/plots&quot;, width = 45, height = 30, units = &quot;cm&quot;)</code></pre>
+</div>
+<div id="dominant-taxa" class="section level3">
+<h3>5.4. Dominant taxa</h3>
+<p>To identify dominant taxa and abundance</p>
+<pre class="r"><code>p0.gen &lt;- aggregate_taxa(ps_bact_samp,&quot;Family&quot;)
+x.d &lt;- dominant_taxa(p0,level = &quot;Family&quot;, group=&quot;species&quot;)
+#bac_dom &lt;- find_samples_taxa(p0.gen, taxa = &quot;Midichloriaceae&quot;)
+#head(x.d$dominant_overview)</code></pre>
+<p>Plot most abundant taxa using <a href="https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#plot-taxa-boxplot">microbiomeutilities</a></p>
+<p>Plot top 10 Family taxa across all samples</p>
+<pre class="r"><code># Subset to exclude samples with &lt; 1000 reads
+ps_bact_samp_pr = prune_samples(sample_sums(ps_bact_samp)&gt;=10000, ps_bact_samp)
+mycols &lt;- c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;)
+top_tax_plot &lt;- plot_taxa_boxplot(ps_bact_samp_pr,
+                        taxonomic.level = &quot;Phylum&quot;,
+                        top.otu = 3, 
+                        group = &quot;SampleCategory&quot;,
+                        add.violin= FALSE,
+                        title = &quot;Top ten family taxa&quot;, 
+                        group.colors = mycols,
+                        keep.other = FALSE,
+                        dot.size = 1)
+ggsave(&quot;top_tax_plot.pdf&quot;, plot = top_tax_plot, path = &quot;output/plots&quot;, width = 45, height = 30, units = &quot;cm&quot;)</code></pre>
+<p>Plot top 6 Family taxa across different sample types</p>
+<pre class="r"><code>bl_col = viridis(7, option = &quot;D&quot;)
+top_tax_plot_bl &lt;- plot_taxa_boxplot(ps_bact_bl,
+                        taxonomic.level = &quot;Family&quot;,
+                        top.otu = 6, 
+                        group = &quot;species&quot;,
+                        add.violin= TRUE,
+                        title = &quot;Blood&quot;,
+                        group.colors = bl_col,
+                        keep.other = FALSE,
+                        dot.size = 1)
+tis_col = viridis(9, option = &quot;D&quot;)
+top_tax_plot_tis &lt;- plot_taxa_boxplot(ps_bact_tis,
+                        taxonomic.level = &quot;Family&quot;,
+                        top.otu = 6, 
+                        group = &quot;species&quot;,
+                        add.violin= TRUE,
+                        title = &quot;Tissue&quot;,
+                        group.colors = tis_col,
+                        keep.other = FALSE,
+                        dot.size = 1)
+tick_col = viridis(8, option = &quot;D&quot;)
+top_tax_plot_tick &lt;- plot_taxa_boxplot(ps_bact_tick,
+                        taxonomic.level = &quot;Family&quot;,
+                        top.otu = 6, 
+                        group = &quot;species&quot;,
+                        add.violin= TRUE,
+                        title = &quot;Tick&quot;,
+                        group.colors = tick_col,
+                        keep.other = FALSE,
+                        dot.size = 1)</code></pre>
+<p>Customize and save plots</p>
+<pre class="r"><code>top_tax_plot_bl2 = top_tax_plot_bl + theme(axis.text.x = element_text(angle=45, size=8, vjust = 0.5)) +  scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+ggsave(&quot;top_tax_plot_bl.pdf&quot;, plot = top_tax_plot_bl2, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)
+top_tax_plot_tis2 = top_tax_plot_tis + theme(axis.text.x = element_text(angle=45, size=8, vjust = 0.5)) +  scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+ggsave(&quot;top_tax_plot_tis.pdf&quot;, plot = top_tax_plot_tis2, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)
+top_tax_plot_tick2 = top_tax_plot_tick + theme(axis.text.x = element_text(angle=45, size=8, vjust = 0.5)) +  scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+ggsave(&quot;top_tax_plot_tick.pdf&quot;, plot = top_tax_plot_tick2, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)</code></pre>
+</div>
+<div id="variance" class="section level3">
+<h3>5.5. Variance</h3>
+<p>Microbiome variance plots <a href="https://bioconductor.org/help/course-materials/2017/BioC2017/Day1/Workshops/Microbiome/MicrobiomeWorkflowII.html">here</a></p>
+<pre class="r"><code>plot_abundance = function(ps_bact_samp,title = &quot;&quot;,
+                          Facet = &quot;Family&quot;, Color = &quot;Phylum&quot;){
+  # Arbitrary subset, based on Phylum, for plotting
+  p1f = subset_taxa(ps_bact_samp, Phylum %in% c(&quot;Alphaproteobacteria&quot;))
+  mphyseq = psmelt(p1f)
+  mphyseq &lt;- subset(mphyseq, Abundance &gt; 0)
+  ggplot(data = mphyseq, mapping = aes_string(x = &quot;SampleCategory&quot;,y = &quot;Abundance&quot;,
+                              color = Color, fill = Color)) +
+    geom_violin(fill = NA) +
+    geom_point(size = 1, alpha = 0.3,
+               position = position_jitter(width = 0.3)) +
+    facet_wrap(facets = Facet) + scale_y_log10()+
+    theme(legend.position=&quot;none&quot;)
+}
+ps3ra = transform_sample_counts(ps3, function(x){x / sum(x)})</code></pre>
+<p><strong>Plot top Family for main hosts</strong></p>
+<p>Using <a href="https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#plotting-selected-taxa">microbiomeutilities</a></p>
+<pre class="r"><code># BR - plot 6 taxa forLNB
+BR_ag &lt;- aggregate_taxa(ps_BR, &quot;Family&quot;)
+top_six_BR_ag &lt;- top_taxa(BR_ag, 6)
+top_six_BR_ag
+list_6_BR1 &lt;- plot_listed_taxa(BR_ag, top_six_BR_ag, 
+                      group= &quot;SampleCategory&quot;,
+                      group.colors = ColSampCat,
+                      add.violin = TRUE,
+                      violin.opacity = 0.3,
+                      dot.opacity = 0.25,
+                      box.opacity = 0.25,
+                      panel.arrange= &quot;wrap&quot;)
+compsBR &lt;- make_pairs(sample_data(BR_ag)$SampleCategory)
+list_6_BR2 &lt;- list_6_BR1 + stat_compare_means(
+      comparisons = compsBR,
+      label = &quot;p.format&quot;,
+      tip.length = 0.05,
+      method = &quot;wilcox.test&quot;)
+
+# BRP - plot 6 taxa for BTP
+BTP_ag &lt;- aggregate_taxa(ps_BTP, &quot;Family&quot;)
+top_six_BTP_ag &lt;- top_taxa(BTP_ag, 6)
+top_six_BTP_ag
+list_6_BTP1 &lt;- plot_listed_taxa(BTP_ag, top_six_BTP_ag, 
+                      group= &quot;SampleCategory&quot;,
+                      group.colors = ColSampCat,
+                      add.violin = TRUE,
+                      violin.opacity = 0.3,
+                      dot.opacity = 0.25,
+                      box.opacity = 0.25,
+                      panel.arrange= &quot;wrap&quot;)
+compsBTP &lt;- make_pairs(sample_data(BTP_ag)$SampleCategory)
+list_6_BTP2 &lt;- list_6_BTP1 + stat_compare_means(
+      comparisons = compsBTP,
+      label = &quot;p.format&quot;,
+      tip.length = 0.05,
+      method = &quot;wilcox.test&quot;)
+
+# CHU - plot 6 taxa for Chuditch
+chu_ag &lt;- aggregate_taxa(ps_chud, &quot;Family&quot;)
+top_six_chu_ag &lt;- top_taxa(chu_ag, 6)
+top_six_chu_ag
+list_6_chu1 &lt;- plot_listed_taxa(chu_ag, top_six_chu_ag, 
+                      group= &quot;SampleCategory&quot;,
+                      group.colors = ColSampCat,
+                      add.violin = TRUE,
+                      violin.opacity = 0.3,
+                      dot.opacity = 0.25,
+                      box.opacity = 0.25,
+                      panel.arrange= &quot;wrap&quot;)
+compschu &lt;- make_pairs(sample_data(chu_ag)$SampleCategory)
+list_6_chu2 &lt;- list_6_chu1 + stat_compare_means(
+      comparisons = compschu,
+      label = &quot;p.format&quot;,
+      tip.length = 0.05,
+      method = &quot;wilcox.test&quot;)
+
+# top 6 taxa for LNB
+LNB_ag &lt;- aggregate_taxa(ps_LNB, &quot;Family&quot;)
+top_six_LNB_ag &lt;- top_taxa(LNB_ag, 6)
+top_six_LNB_ag
+list_6_LNB1 &lt;- plot_listed_taxa(LNB_ag, top_six_LNB_ag, 
+                      group= &quot;SampleCategory&quot;,
+                      group.colors = ColSampCat,
+                      add.violin = TRUE,
+                      violin.opacity = 0.3,
+                      dot.opacity = 0.25,
+                      box.opacity = 0.25,
+                      panel.arrange= &quot;wrap&quot;)
+compsLNB &lt;- make_pairs(sample_data(LNB_ag)$SampleCategory)
+list_6_LNB2 &lt;- list_6_LNB1 + stat_compare_means(
+      comparisons = compsLNB,
+      label = &quot;p.format&quot;,
+      tip.length = 0.05,
+      method = &quot;wilcox.test&quot;)</code></pre>
+<p>Format plots and save</p>
+<pre class="r"><code>list_6_BR3 &lt;- list_6_BR2 + ylab(&quot;Relative abundance&quot;) + scale_y_continuous(labels = scales::percent)
+ggsave(&quot;BR_top6.pdf&quot;, plot = list_6_BR3, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)
+list_6_BTP3 &lt;- list_6_BTP2 + ylab(&quot;Relative abundance&quot;) + scale_y_continuous(labels = scales::percent)
+ggsave(&quot;BTP_top6.pdf&quot;, plot = list_6_BTP3, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)
+list_6_chu3 &lt;- list_6_chu2 + ylab(&quot;Relative abundance&quot;) + scale_y_continuous(labels = scales::percent)
+ggsave(&quot;chu_top6.pdf&quot;, plot = list_6_chu3, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)
+list_6_LNB3 &lt;- list_6_LNB2 + ylab(&quot;Relative abundance&quot;) + scale_y_continuous(labels = scales::percent)
+ggsave(&quot;LNB_top6.pdf&quot;, plot = list_6_LNB3, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)</code></pre>
+</div>
+</div>
+<div id="beta-diversity" class="section level2">
+<h2>6. Beta diversity</h2>
+<p>You will need to have a play around with the difference options: ordination method, data transformation and distance measure to see which one best explains the data. So I suggest try to keep good code here with lots of notes.</p>
+<div id="ordination" class="section level3">
+<h3>6.1 Ordination</h3>
+<div id="ampvis2-ordination" class="section level4">
+<h4>6.1.1 Ampvis2 ordination</h4>
+<p>Ordination plots by <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_ordinate.html">documentation</a>. Plots <code>PCA</code>, <code>RDA</code>, <code>CA</code>, <code>CCS</code>, <code>DCA</code>, <code>NMDS</code>, <code>PCOA</code>, and <code>MMDS</code>. Note when performing NMDS do not transform data - i.e. <code>transform = "none"</code>. For PCoA and MMDS need to include a <code>distmeasure</code> option. Valid options outlined <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_ordinate.html">here</a> (note some require a phylogenetic tree). Using transform = “Hellinger” and distmeasure = “bray” and “jaccard” for PCOA and MMDS</p>
+<pre class="r"><code>#Filter out samples with &lt;1000 reads after QC
+amp_samp1000 &lt;- amp_subset_samples(amp_samp,
+                                 minreads = 1000,
+                                 RemoveAbsents = TRUE)
+# CCA Canonical Correspondence Analysis (considered the constrained version of CA)
+ord_CCA &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;CCA&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        transform = &quot;Hellinger&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)
+# CA Correspondence Analysis
+ord_CA &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;CA&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        transform = &quot;Hellinger&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)
+# PCA Principal Components Analysis
+ord_PCA &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;PCA&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        transform = &quot;Hellinger&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)
+# NMDS non-metric Multidimensional Scaling
+ord_NMDS &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;NMDS&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        transform = &quot;Hellinger&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)
+# RDA  Redundancy Analysis (considered the constrained version of PCA)
+ord_RDA &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;RDA&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        transform = &quot;Hellinger&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)
+# PCOA Principal Coordinates Analysis Jaccard
+ord_PCOA_jac &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;PCOA&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        distmeasure = &quot;jaccard&quot;,
+                        transform = &quot;none&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)
+# PCOA Principal Coordinates Analysis Bray
+ord_PCOA_bray &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;PCOA&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        distmeasure = &quot;bray&quot;,
+                        transform = &quot;none&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)
+# MMDS metric Multidimensional Scaling jaccard
+ord_MMDS_jac &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;MMDS&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        distmeasure = &quot;jaccard&quot;,
+                        transform = &quot;none&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)
+# MMDS metric Multidimensional Scaling Bray
+ord_MMDS_bray &lt;- amp_ordinate(amp_samp1000,
+                        type = &quot;MMDS&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        distmeasure = &quot;bray&quot;,
+                        transform = &quot;none&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_shape_by = &quot;species&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)</code></pre>
+<p>Customise and save plotS</p>
+<pre class="r"><code>ord_CCA_plot = ord_CCA$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_CCA.pdf&quot;, plot = ord_CCA_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+ord_CA_plot &lt;- ord_CA$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_CA.pdf&quot;, plot = ord_CA_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+ord_RDA_plot = ord_RDA$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_RDA.pdf&quot;, plot = ord_RDA_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+ord_PCA_plot &lt;- ord_PCA$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_PCA.pdf&quot;, plot = ord_PCA_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+ord_NMDS_plot &lt;- ord_NMDS$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_NMDS.pdf&quot;, plot = ord_NMDS_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+ord_PCOA_bray_plot &lt;- ord_PCOA_bray$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_PCOA_bray.pdf&quot;, plot = ord_PCOA_bray_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+ord_PCOA_jac_plot &lt;- ord_PCOA_jac$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_PCOA_jac.pdf&quot;, plot = ord_PCOA_jac_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+ord_MMDS_bray_plot &lt;- ord_MMDS_bray$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_MMDS_bray.pdf&quot;, plot = ord_MMDS_bray_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+ord_MMDS_jac_plot &lt;- ord_MMDS_jac$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
+ggsave(&quot;ord_MMDS_jac.pdf&quot;, plot = ord_MMDS_jac_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
+# Merge the two constrained analysis methods into one figrue
+ordination_CCA_RDA &lt;- ggarrange(ord_CCA_plot, ord_RDA_plot,
+                    labels = c(&quot;A&quot;, &quot;B&quot;),
+                    ncol = 2, nrow = 1)
+ggsave(&quot;ordination_CCA_RDA.pdf&quot;, plot = ordination_CCA_RDA, path = &quot;output/plots&quot;, width = 30, height = 10, units = &quot;cm&quot;)</code></pre>
+<p>Repeat the constrained analysis on subsetted host data</p>
+<pre class="r"><code>#Subset black rat samples and filter out samples with &lt;1000 reads after QC
+amp_BR1000 &lt;- amp_subset_samples(amp_samp,
+                                 species %in% c(&quot;Black rat&quot;),
+                                 minreads = 1000,
+                                 RemoveAbsents = TRUE)
+# Canonical Correspondence Analysis (considered the constrained version of CA)
+BRord_CCA &lt;- amp_ordinate(amp_BR1000,
+                        type = &quot;CCA&quot;,
+                        constrain = &quot;SampleType&quot;,
+                        transform = &quot;Hellinger&quot;,
+                        sample_color_by = &quot;SampleType&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleType&quot;,
+                        detailed_output = TRUE)
+# RDA  Redundancy Analysis (considered the constrained version of PCA)
+BRord_RDA &lt;- amp_ordinate(amp_BR1000,
+                        type = &quot;RDA&quot;,
+                        constrain = &quot;SampleCategory&quot;,
+                        transform = &quot;Hellinger&quot;,
+                        sample_color_by = &quot;SampleCategory&quot;,
+                        sample_colorframe = TRUE,
+                        sample_colorframe_label = &quot;SampleCategory&quot;,
+                        detailed_output = TRUE)</code></pre>
+</div>
+<div id="phyloseq" class="section level4">
+<h4>6.1.2 Phyloseq</h4>
+<p>Use the phyloseq package</p>
+<pre class="r"><code>#prune samples with low reads
+ps_BR1 = prune_samples(sample_sums(ps_BR)&gt;=1000, ps_BR)
+bray_dist = phyloseq::distance(ps_BR1, method=&quot;bray&quot;, weighted=F)
+BR_bray_PCoAordination = ordinate(ps_BR1, method=&quot;PCoA&quot;, distance=bray_dist)
+BR_bray_PCoA &lt;- plot_ordination(ps_BR1, BR_bray_PCoAordination, color=&quot;SampleCategory&quot;) + theme(aspect.ratio=1)
+adonis(bray_dist ~ sample_data(ps_BR1)$SampleCategory)</code></pre>
+<pre class="r"><code>#prune samples with low reads
+ps_BR1 = prune_samples(sample_sums(ps_BR)&gt;=1000, ps_BR)
+eu_dist = phyloseq::distance(ps_BR1, method=&quot;euclidean&quot;, weighted=F)
+BR_eu_PCoAordination = ordinate(ps_BR1, method=&quot;PCoA&quot;, distance=eu_dist)
+BR_eu_PCoA &lt;- plot_ordination(ps_BR1, BR_eu_PCoAordination, color=&quot;SampleCategory&quot;) + theme(aspect.ratio=1)
+# Statistical analysis
+adonis(eu_dist ~ sample_data(ps_BR1)$SampleCategory)</code></pre>
+</div>
+</div>
+<div id="beta-diversity-plot" class="section level3">
+<h3>6.2 Beta-diversity plot</h3>
+<p>Documentation <a href="https://kasperskytte.github.io/ampvis2extras/reference/amp_betadiv.html">here</a></p>
+<p>Create matrix of beta diversity between samples.</p>
+<pre class="r"><code>betadiv &lt;- amp_betadiv(amp_subset,
+  distmeasure = &quot;bray&quot;,
+  label_by = &quot;Instar&quot;,
+  show_values = FALSE,
+  values_size = 3
+)
+betadiv</code></pre>
+</div>
+<div id="network" class="section level3">
+<h3>6.3. Network</h3>
+<p>Use phyloseq object to create network</p>
+<pre class="r"><code>ig = make_network(lnb, type = &quot;samples&quot;, distance = &quot;bray&quot;, max.dist = 0.85)
+network = plot_network(ig, ps_bact_bl, color = &quot;site&quot;, shape = &quot;SampleCategory&quot;, line_weight = 0.4, 
+             label = NULL)</code></pre>
+</div>
+</div>
+<div id="venn-diagram" class="section level2">
+<h2>7. Venn Diagram</h2>
+<pre class="r"><code>venn_chud &lt;- amp_venn(
+  chud,
+  group_by = &quot;SampleCategory&quot;,
+  cut_a = 0.1,
+  cut_f = 30,
+  text_size = 4,
+  normalise = TRUE,
+  detailed_output = TRUE
+)
+venn_BTP &lt;- amp_venn(
+  BTP,
+  group_by = &quot;SampleCategory&quot;,
+  cut_a = 0.1,
+  cut_f = 30,
+  text_size = 4,
+  normalise = TRUE,
+  detailed_output = TRUE
+)
+venn_BR &lt;- amp_venn(
+  BR,
+  group_by = &quot;SampleCategory&quot;,
+  cut_a = 0.1,
+  cut_f = 30,
+  text_size = 4,
+  normalise = TRUE,
+  detailed_output = TRUE
+)
+venn_LNB &lt;- amp_venn(
+  LNB,
+  group_by = &quot;SampleCategory&quot;,
+  cut_a = 0.1,
+  cut_f = 30,
+  text_size = 4,
+  normalise = TRUE,
+  detailed_output = TRUE
+)</code></pre>
+<pre class="r"><code>venn_BR_plot = venn_BR$plot + ggtitle(&quot;Black rat&quot;) + theme(plot.title = element_text(hjust = 0.5, face = &quot;bold&quot;, size = (15), colour = &quot;#8856a7&quot;))
+venn_BTP_plot = venn_BTP$plot + ggtitle(&quot;Brush tail possum&quot;) + theme(plot.title = element_text(hjust = 0.5, face = &quot;bold&quot;, size = (15), colour = &quot;#8856a7&quot;))
+venn_chud_plot = venn_chud$plot + ggtitle(&quot;Chuditch&quot;) + theme(plot.title = element_text(hjust = 0.5, face = &quot;bold&quot;, size = (15), colour = &quot;#8856a7&quot;))
+venn_LNB_plot = venn_LNB$plot + ggtitle(&quot;Long-nosed bandicoot&quot;) + theme(plot.title = element_text(hjust = 0.5, face = &quot;bold&quot;, size = (15), colour = &quot;#8856a7&quot;))
+#Merge all four alpha div plots into one figure
+venn_species &lt;- ggarrange(venn_BR_plot, venn_BTP_plot, venn_chud_plot, venn_LNB_plot,
+                    labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;),
+                    ncol = 2, nrow = 2)
+ggsave(&quot;venn_species.pdf&quot;, plot = venn_species, path = &quot;output/plots&quot;, width = 30, height = 30, units = &quot;cm&quot;)</code></pre>
+<pre class="r"><code>venn_tk &lt;- amp_venn(
+  bact_tk_sub,
+  group_by = &quot;instar&quot;,
+  cut_a = 0.1,
+  cut_f = 30,
+  text_size = 5,
+  normalise = TRUE,
+  detailed_output = TRUE
+)</code></pre>
+</div>
+<div id="phylogeny" class="section level2">
+<h2>8. Phylogeny</h2>
+<pre class="r"><code>library(ape)
+library(phangorn)</code></pre>
+<pre class="r"><code>bears &lt;- read.phyDat(ps_bact_samp_sub@refseq.fasta,
+                     format=&quot;fasta&quot;,type=&quot;DNA&quot;)</code></pre>
+</div>
+<div id="deseq2" class="section level2">
+<h2>9. Deseq2</h2>
+<p>DESeq2 Documentation <a href="http://joey711.github.io/phyloseq-extensions/DESeq2.html">here</a></p>
+<pre class="r"><code>diagdds = phyloseq_to_deseq2(chud, ~ SampleCategory)
+diagdds = DESeq(diagdds, test=&quot;Wald&quot;, fitType=&quot;parametric&quot;)
+res = results(diagdds, cooksCutoff = FALSE)
+alpha = 0.01
+sigtab = res[which(res$padj &lt; alpha), ]
+sigtab = cbind(as(sigtab, &quot;data.frame&quot;), as(tax_table(kostic)[rownames(sigtab), ], &quot;matrix&quot;))
+head(sigtab)
+dim(sigtab)</code></pre>
+<p>Let’s look at the OTUs that were significantly different between the two tissues. The following makes a nice ggplot2 summary of the results.</p>
+<pre class="r"><code>theme_set(theme_bw())
+scale_fill_discrete &lt;- function(palname = &quot;Set1&quot;, ...) {
+    scale_fill_brewer(palette = palname, ...)
+}
+# Phylum order
+x = tapply(sigtab$log2FoldChange, sigtab$Phylum, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Phylum = factor(as.character(sigtab$Phylum), levels=names(x))
+# Genus order
+x = tapply(sigtab$log2FoldChange, sigtab$Genus, function(x) max(x))
+x = sort(x, TRUE)
+sigtab$Genus = factor(as.character(sigtab$Genus), levels=names(x))
+ggplot(sigtab, aes(x=Genus, y=log2FoldChange, color=Phylum)) + geom_point(size=6) + 
+  theme(axis.text.x = element_text(angle = -90, hjust = 0, vjust=0.5))</code></pre>
+</div>
+<div id="dumping-ground" class="section level2">
+<h2>Dumping ground</h2>
+<p>Space for extra bits</p>
+<pre class="r"><code>library(readr)
+metadata &lt;- read_csv(&quot;data/dada2/phyloseq/metadata.csv&quot;, 
+    col_types = cols(gDNAID = col_factor(levels = c(&quot;categorical&quot;, 
+        &quot;Bl_1&quot;, &quot;Bl_10&quot;, &quot;Bl_102&quot;, &quot;Bl_113&quot;, 
+        &quot;Bl_114&quot;, &quot;Bl_115&quot;, &quot;Bl_116&quot;, &quot;Bl_117&quot;, 
+        &quot;Bl_118&quot;, &quot;Bl_119&quot;, &quot;Bl_120&quot;, &quot;Bl_121&quot;, 
+        &quot;Bl_122&quot;, &quot;Bl_123&quot;, &quot;Bl_124&quot;, &quot;Bl_125&quot;, 
+        &quot;Bl_126&quot;, &quot;Bl_127&quot;, &quot;Bl_128&quot;, &quot;Bl_129&quot;, 
+        &quot;Bl_130&quot;, &quot;Bl_131&quot;, &quot;Bl_132&quot;, &quot;Bl_133&quot;, 
+        &quot;Bl_134&quot;, &quot;Bl_135&quot;, &quot;Bl_136&quot;, &quot;Bl_137&quot;, 
+        &quot;Bl_138&quot;, &quot;Bl_139&quot;, &quot;Bl_140&quot;, &quot;Bl_141&quot;, 
+        &quot;Bl_142&quot;, &quot;Bl_143&quot;, &quot;Bl_144&quot;, &quot;Bl_145&quot;, 
+        &quot;Bl_146&quot;, &quot;Bl_147&quot;, &quot;Bl_149&quot;, &quot;Bl_150&quot;, 
+        &quot;Bl_151&quot;, &quot;Bl_152&quot;, &quot;Bl_153&quot;, &quot;Bl_154&quot;, 
+        &quot;Bl_155&quot;, &quot;Bl_156&quot;, &quot;Bl_157&quot;, &quot;Bl_158&quot;, 
+        &quot;Bl_159&quot;, &quot;Bl_160&quot;, &quot;Bl_161&quot;, &quot;Bl_162&quot;, 
+        &quot;Bl_163&quot;, &quot;Bl_164&quot;, &quot;Bl_18&quot;, &quot;Bl_19&quot;, 
+        &quot;Bl_25&quot;, &quot;Bl_27&quot;, &quot;Bl_28&quot;, &quot;Bl_31&quot;, 
+        &quot;Bl_37&quot;, &quot;Bl_43&quot;, &quot;Bl_49&quot;, &quot;Bl_52&quot;, 
+        &quot;Bl_54&quot;, &quot;Bl_55&quot;, &quot;Bl_6&quot;, &quot;Bl_61&quot;, 
+        &quot;Bl_63&quot;, &quot;Bl_66&quot;, &quot;Bl_7&quot;, &quot;Bl_73&quot;, 
+        &quot;Bl_75&quot;, &quot;Bl_78&quot;, &quot;Bl_79&quot;, &quot;Bl_80&quot;, 
+        &quot;Bl_82&quot;, &quot;Bl_86&quot;, &quot;Bl_94&quot;, &quot;Bl_98&quot;, 
+        &quot;Bl_NTC1&quot;, &quot;Bl_NTC2&quot;, &quot;Bl_NTC3&quot;, 
+        &quot;Bl_NTC4&quot;, &quot;Bl_NTC45&quot;, &quot;Bl_NTC46&quot;, 
+        &quot;Bl_NTC47&quot;, &quot;Bl_100&quot;, &quot;Bl_101&quot;, &quot;Bl_103&quot;, 
+        &quot;Bl_104&quot;, &quot;Bl_105&quot;, &quot;Bl_106&quot;, &quot;Bl_108&quot;, 
+        &quot;Bl_109&quot;, &quot;Bl_11&quot;, &quot;Bl_110&quot;, &quot;Bl_111&quot;, 
+        &quot;Bl_112&quot;, &quot;Bl_12&quot;, &quot;Bl_13&quot;, &quot;Bl_14&quot;, 
+        &quot;Bl_15&quot;, &quot;Bl_16&quot;, &quot;Bl_17&quot;, &quot;Bl_2&quot;, 
+        &quot;Bl_20&quot;, &quot;Bl_21&quot;, &quot;Bl_22&quot;, &quot;Bl_23&quot;, 
+        &quot;Bl_24&quot;, &quot;Bl_26&quot;, &quot;Bl_29&quot;, &quot;Bl_3&quot;, 
+        &quot;Bl_30&quot;, &quot;Bl_32&quot;, &quot;Bl_33&quot;, &quot;Bl_34&quot;, 
+        &quot;Bl_35&quot;, &quot;Bl_36&quot;, &quot;Bl_38&quot;, &quot;Bl_39&quot;, 
+        &quot;Bl_4&quot;, &quot;Bl_40&quot;, &quot;Bl_41&quot;, &quot;Bl_42&quot;, 
+        &quot;Bl_44&quot;, &quot;Bl_45&quot;, &quot;Bl_46&quot;, &quot;Bl_47&quot;, 
+        &quot;Bl_48&quot;, &quot;Bl_5&quot;, &quot;Bl_50&quot;, &quot;Bl_51&quot;, 
+        &quot;Bl_53&quot;, &quot;Bl_56&quot;, &quot;Bl_57&quot;, &quot;Bl_58&quot;, 
+        &quot;Bl_59&quot;, &quot;Bl_60&quot;, &quot;Bl_62&quot;, &quot;Bl_64&quot;, 
+        &quot;Bl_65&quot;, &quot;Bl_67&quot;, &quot;Bl_68&quot;, &quot;Bl_69&quot;, 
+        &quot;Bl_70&quot;, &quot;Bl_71&quot;, &quot;Bl_72&quot;, &quot;Bl_74&quot;, 
+        &quot;Bl_76&quot;, &quot;Bl_77&quot;, &quot;Bl_8&quot;, &quot;Bl_81&quot;, 
+        &quot;Bl_83&quot;, &quot;Bl_84&quot;, &quot;Bl_85&quot;, &quot;Bl_87&quot;, 
+        &quot;Bl_88&quot;, &quot;Bl_89&quot;, &quot;Bl_9&quot;, &quot;Bl_90&quot;, 
+        &quot;Bl_91&quot;, &quot;Bl_92&quot;, &quot;Bl_93&quot;, &quot;Bl_95&quot;, 
+        &quot;Bl_96&quot;, &quot;Bl_97&quot;, &quot;Bl_99&quot;, &quot;Bl_C001Q&quot;, 
+        &quot;Bl_C002M&quot;, &quot;Bl_C002Q&quot;, &quot;Bl_C003M&quot;, 
+        &quot;Bl_C003Q&quot;, &quot;Bl_exbM&quot;, &quot;Bl_exbQ&quot;, 
+        &quot;Bl_Q001M&quot;, &quot;Bl_Q001Q&quot;, &quot;Tis_indexNTC1&quot;, 
+        &quot;TIS_indexNTC2&quot;, &quot;Tis_indexNTC3&quot;, 
+        &quot;Tis_NTC5&quot;, &quot;Tis_NTC54&quot;, &quot;Tis_NTC55&quot;, 
+        &quot;Tis_NTC57&quot;, &quot;Tis_NTC58&quot;, &quot;Tis_NTC59&quot;, 
+        &quot;Tis_NTC6&quot;, &quot;Tis_NTC60&quot;, &quot;Tis_NTC7&quot;, 
+        &quot;Tis_NTC8&quot;, &quot;Tis_104&quot;, &quot;Tis_105&quot;, 
+        &quot;Tis_106&quot;, &quot;Tis_107&quot;, &quot;Tis_108&quot;, 
+        &quot;Tis_109&quot;, &quot;Tis_110&quot;, &quot;Tis_111&quot;, 
+        &quot;Tis_112&quot;, &quot;Tis_113&quot;, &quot;Tis_114&quot;, 
+        &quot;Tis_115&quot;, &quot;Tis_116&quot;, &quot;Tis_117&quot;, 
+        &quot;Tis_118&quot;, &quot;Tis_119&quot;, &quot;Tis_120&quot;, 
+        &quot;Tis_121&quot;, &quot;Tis_122&quot;, &quot;Tis_123&quot;, 
+        &quot;Tis_124&quot;, &quot;Tis_125&quot;, &quot;Tis_126&quot;, 
+        &quot;Tis_127&quot;, &quot;Tis_128&quot;, &quot;Tis_129&quot;, 
+        &quot;Tis_130&quot;, &quot;Tis_131&quot;, &quot;Tis_132&quot;, 
+        &quot;Tis_133&quot;, &quot;Tis_134&quot;, &quot;Tis_135&quot;, 
+        &quot;Tis_136&quot;, &quot;Tis_137&quot;, &quot;Tis_138&quot;, 
+        &quot;Tis_139&quot;, &quot;Tis_140&quot;, &quot;Tis_141&quot;, 
+        &quot;Tis_142&quot;, &quot;Tis_143&quot;, &quot;Tis_144&quot;, 
+        &quot;Tis_145&quot;, &quot;Tis_146&quot;, &quot;Tis_147&quot;, 
+        &quot;Tis_148&quot;, &quot;Tis_149&quot;, &quot;Tis_15&quot;, &quot;Tis_150&quot;, 
+        &quot;Tis_151&quot;, &quot;Tis_152&quot;, &quot;Tis_153&quot;, 
+        &quot;Tis_154&quot;, &quot;Tis_155&quot;, &quot;Tis_156&quot;, 
+        &quot;Tis_157&quot;, &quot;Tis_158&quot;, &quot;Tis_159&quot;, 
+        &quot;Tis_160&quot;, &quot;Tis_161&quot;, &quot;Tis_162&quot;, 
+        &quot;Tis_163&quot;, &quot;Tis_164&quot;, &quot;Tis_165&quot;, 
+        &quot;Tis_166&quot;, &quot;Tis_167&quot;, &quot;Tis_168&quot;, 
+        &quot;Tis_169&quot;, &quot;Tis_170&quot;, &quot;Tis_171&quot;, 
+        &quot;Tis_172&quot;, &quot;Tis_173&quot;, &quot;Tis_174&quot;, 
+        &quot;Tis_175&quot;, &quot;Tis_176&quot;, &quot;Tis_177&quot;, 
+        &quot;Tis_178&quot;, &quot;Tis_179&quot;, &quot;Tis_21&quot;, &quot;Tis_43&quot;, 
+        &quot;Tis_5&quot;, &quot;Tis_55&quot;, &quot;Tis_56&quot;, &quot;Tis_58&quot;, 
+        &quot;Tis_62&quot;, &quot;Tis_68&quot;, &quot;Tis_70&quot;, &quot;Tis_72&quot;, 
+        &quot;Tis_80&quot;, &quot;Tis_84&quot;, &quot;Tis_94&quot;, &quot;Tis_95&quot;, 
+        &quot;Tis_96&quot;, &quot;Tis_97&quot;, &quot;Tis_SC009&quot;, 
+        &quot;Tis_1&quot;, &quot;Tis_10&quot;, &quot;Tis_100&quot;, &quot;Tis_101&quot;, 
+        &quot;Tis_102&quot;, &quot;Tis_103&quot;, &quot;Tis_11&quot;, &quot;Tis_12&quot;, 
+        &quot;Tis_13&quot;, &quot;Tis_14&quot;, &quot;Tis_16&quot;, &quot;Tis_17&quot;, 
+        &quot;Tis_18&quot;, &quot;Tis_19&quot;, &quot;Tis_2&quot;, &quot;Tis_20&quot;, 
+        &quot;Tis_22&quot;, &quot;Tis_23&quot;, &quot;Tis_24&quot;, &quot;Tis_25&quot;, 
+        &quot;Tis_26&quot;, &quot;Tis_27&quot;, &quot;Tis_28&quot;, &quot;Tis_29&quot;, 
+        &quot;Tis_3&quot;, &quot;Tis_30&quot;, &quot;Tis_31&quot;, &quot;Tis_32&quot;, 
+        &quot;Tis_33&quot;, &quot;Tis_34&quot;, &quot;Tis_35&quot;, &quot;Tis_36&quot;, 
+        &quot;Tis_37&quot;, &quot;Tis_38&quot;, &quot;Tis_39&quot;, &quot;Tis_4&quot;, 
+        &quot;Tis_40&quot;, &quot;Tis_41&quot;, &quot;Tis_42&quot;, &quot;Tis_44&quot;, 
+        &quot;Tis_45&quot;, &quot;Tis_46&quot;, &quot;Tis_47&quot;, &quot;Tis_48&quot;, 
+        &quot;Tis_49&quot;, &quot;Tis_50&quot;, &quot;Tis_51&quot;, &quot;Tis_52&quot;, 
+        &quot;Tis_53&quot;, &quot;Tis_54&quot;, &quot;Tis_57&quot;, &quot;Tis_59&quot;, 
+        &quot;Tis_6&quot;, &quot;Tis_60&quot;, &quot;Tis_61&quot;, &quot;Tis_63&quot;, 
+        &quot;Tis_64&quot;, &quot;Tis_65&quot;, &quot;Tis_66&quot;, &quot;Tis_67&quot;, 
+        &quot;Tis_69&quot;, &quot;Tis_7&quot;, &quot;Tis_71&quot;, &quot;Tis_73&quot;, 
+        &quot;Tis_74&quot;, &quot;Tis_75&quot;, &quot;Tis_76&quot;, &quot;Tis_77&quot;, 
+        &quot;Tis_78&quot;, &quot;Tis_79&quot;, &quot;Tis_8&quot;, &quot;Tis_81&quot;, 
+        &quot;Tis_82&quot;, &quot;Tis_83&quot;, &quot;Tis_85&quot;, &quot;Tis_86&quot;, 
+        &quot;Tis_87&quot;, &quot;Tis_88&quot;, &quot;Tis_89&quot;, &quot;Tis_9&quot;, 
+        &quot;Tis_90&quot;, &quot;Tis_91&quot;, &quot;Tis_92&quot;, &quot;Tis_93&quot;, 
+        &quot;Tis_98&quot;, &quot;Tis_99&quot;, &quot;Tis_SC010&quot;, 
+        &quot;Tis_SC011&quot;, &quot;Tis_SCexb&quot;, &quot;Tk_1&quot;, 
+        &quot;Tk_100&quot;, &quot;Tk_101&quot;, &quot;Tk_102&quot;, &quot;Tk_103&quot;, 
+        &quot;Tk_107&quot;, &quot;Tk_108&quot;, &quot;Tk_119&quot;, &quot;Tk_120&quot;, 
+        &quot;Tk_122&quot;, &quot;Tk_131&quot;, &quot;Tk_134&quot;, &quot;Tk_136&quot;, 
+        &quot;Tk_141&quot;, &quot;Tk_143&quot;, &quot;Tk_144&quot;, &quot;Tk_148&quot;, 
+        &quot;Tk_149&quot;, &quot;Tk_150&quot;, &quot;Tk_151&quot;, &quot;Tk_152&quot;, 
+        &quot;Tk_153&quot;, &quot;Tk_154&quot;, &quot;Tk_155&quot;, &quot;Tk_156&quot;, 
+        &quot;Tk_157&quot;, &quot;Tk_158&quot;, &quot;Tk_159&quot;, &quot;Tk_160&quot;, 
+        &quot;Tk_161&quot;, &quot;Tk_162&quot;, &quot;Tk_163&quot;, &quot;Tk_164&quot;, 
+        &quot;Tk_165&quot;, &quot;Tk_166&quot;, &quot;Tk_167&quot;, &quot;Tk_168&quot;, 
+        &quot;Tk_169&quot;, &quot;Tk_17&quot;, &quot;Tk_170&quot;, &quot;Tk_171&quot;, 
+        &quot;Tk_172&quot;, &quot;Tk_173&quot;, &quot;Tk_174&quot;, &quot;Tk_175&quot;, 
+        &quot;Tk_176&quot;, &quot;Tk_177&quot;, &quot;Tk_178&quot;, &quot;Tk_179&quot;, 
+        &quot;Tk_180&quot;, &quot;Tk_181&quot;, &quot;Tk_182&quot;, &quot;Tk_183&quot;, 
+        &quot;Tk_184&quot;, &quot;Tk_185&quot;, &quot;Tk_186&quot;, &quot;Tk_187&quot;, 
+        &quot;Tk_188&quot;, &quot;Tk_189&quot;, &quot;Tk_19&quot;, &quot;Tk_190&quot;, 
+        &quot;Tk_191&quot;, &quot;Tk_192&quot;, &quot;Tk_193&quot;, &quot;Tk_194&quot;, 
+        &quot;Tk_195&quot;, &quot;Tk_196&quot;, &quot;Tk_197&quot;, &quot;Tk_198&quot;, 
+        &quot;Tk_199&quot;, &quot;Tk_20&quot;, &quot;Tk_200&quot;, &quot;Tk_201&quot;, 
+        &quot;Tk_202&quot;, &quot;Tk_203&quot;, &quot;Tk_204&quot;, &quot;Tk_205&quot;, 
+        &quot;Tk_206&quot;, &quot;Tk_207&quot;, &quot;Tk_208&quot;, &quot;Tk_209&quot;, 
+        &quot;Tk_210&quot;, &quot;Tk_211&quot;, &quot;Tk_212&quot;, &quot;Tk_213&quot;, 
+        &quot;Tk_214&quot;, &quot;Tk_215&quot;, &quot;Tk_216&quot;, &quot;Tk_217&quot;, 
+        &quot;Tk_218&quot;, &quot;Tk_219&quot;, &quot;Tk_220&quot;, &quot;Tk_221&quot;, 
+        &quot;Tk_222&quot;, &quot;Tk_223&quot;, &quot;Tk_224&quot;, &quot;Tk_225&quot;, 
+        &quot;Tk_27&quot;, &quot;Tk_3&quot;, &quot;Tk_34&quot;, &quot;Tk_38&quot;, 
+        &quot;Tk_4&quot;, &quot;Tk_40&quot;, &quot;Tk_46&quot;, &quot;Tk_47&quot;, 
+        &quot;Tk_48&quot;, &quot;Tk_49&quot;, &quot;Tk_50&quot;, &quot;Tk_51&quot;, 
+        &quot;Tk_52&quot;, &quot;Tk_53&quot;, &quot;Tk_54&quot;, &quot;Tk_56&quot;, 
+        &quot;Tk_57&quot;, &quot;Tk_59&quot;, &quot;Tk_60&quot;, &quot;Tk_61&quot;, 
+        &quot;Tk_62&quot;, &quot;Tk_64&quot;, &quot;Tk_68&quot;, &quot;Tk_71&quot;, 
+        &quot;Tk_72&quot;, &quot;Tk_73&quot;, &quot;Tk_74&quot;, &quot;Tk_76&quot;, 
+        &quot;Tk_85&quot;, &quot;Tk_86&quot;, &quot;Tk_89&quot;, &quot;Tk_90&quot;, 
+        &quot;Tk_91&quot;, &quot;Tk_95&quot;, &quot;Tk_96&quot;, &quot;Tk_97&quot;, 
+        &quot;Tk_98&quot;, &quot;Tk_83&quot;, &quot;Tk_2&quot;, &quot;Tk_18&quot;, 
+        &quot;Tk_35&quot;, &quot;Tk_84&quot;, &quot;Tk_37&quot;, &quot;Tk_5&quot;, 
+        &quot;Tk_22&quot;, &quot;Tk_39&quot;, &quot;Tk_63&quot;, &quot;Tk_75&quot;, 
+        &quot;Tk_87&quot;, &quot;Tk_99&quot;, &quot;Tk_6&quot;, &quot;Tk_24&quot;, 
+        &quot;Tk_88&quot;, &quot;Tk_8&quot;, &quot;Tk_26&quot;, &quot;Tk_41&quot;, 
+        &quot;Tk_65&quot;, &quot;Tk_77&quot;, &quot;Tk_9&quot;, &quot;Tk_42&quot;, 
+        &quot;Tk_66&quot;, &quot;Tk_78&quot;, &quot;Tk_11&quot;, &quot;Tk_29&quot;, 
+        &quot;Tk_43&quot;, &quot;Tk_55&quot;, &quot;Tk_79&quot;, &quot;Tk_12&quot;, 
+        &quot;Tk_31&quot;, &quot;Tk_44&quot;, &quot;Tk_67&quot;, &quot;Tk_80&quot;, 
+        &quot;Tk_92&quot;, &quot;Tk_104&quot;, &quot;Tk_13&quot;, &quot;Tk_32&quot;, 
+        &quot;Tk_45&quot;, &quot;Tk_69&quot;, &quot;Tk_81&quot;, &quot;Tk_93&quot;, 
+        &quot;Tk_105&quot;, &quot;Tk_15&quot;, &quot;Tk_33&quot;, &quot;Tk_58&quot;, 
+        &quot;Tk_70&quot;, &quot;Tk_82&quot;, &quot;Tk_94&quot;, &quot;Tk_ntc14&quot;, 
+        &quot;Tk_106&quot;, &quot;Tk_109&quot;, &quot;Tk_110&quot;, &quot;Tk_111&quot;, 
+        &quot;Tk_112&quot;, &quot;Tk_113&quot;, &quot;Tk_114&quot;, &quot;Tk_115&quot;, 
+        &quot;Tk_116&quot;, &quot;Tk_117&quot;, &quot;Tk_118&quot;, &quot;Tk_121&quot;, 
+        &quot;Tk_123&quot;, &quot;Tk_124&quot;, &quot;Tk_125&quot;, &quot;Tk_126&quot;, 
+        &quot;Tk_127&quot;, &quot;Tk_128&quot;, &quot;Tk_129&quot;, &quot;Tk_130&quot;, 
+        &quot;Tk_132&quot;, &quot;Tk_133&quot;, &quot;Tk_135&quot;, &quot;Tk_137&quot;, 
+        &quot;Tk_138&quot;, &quot;Tk_139&quot;, &quot;Tk_140&quot;, &quot;Tk_142&quot;, 
+        &quot;Tk_145&quot;, &quot;Tk_146&quot;, &quot;Tk_147&quot;, &quot;Tk_Ecol1&quot;, 
+        &quot;Tk_Ecol10&quot;, &quot;Tk_Ecol11&quot;, &quot;Tk_Ecol12&quot;, 
+        &quot;Tk_Ecol13&quot;, &quot;Tk_Ecol14&quot;, &quot;Tk_Ecol15&quot;, 
+        &quot;Tk_Ecol16&quot;, &quot;Tk_Ecol17&quot;, &quot;Tk_Ecol18&quot;, 
+        &quot;Tk_Ecol19&quot;, &quot;Tk_Ecol2&quot;, &quot;Tk_Ecol20&quot;, 
+        &quot;Tk_Ecol21&quot;, &quot;Tk_Ecol22&quot;, &quot;Tk_Ecol23&quot;, 
+        &quot;Tk_Ecol24&quot;, &quot;Tk_Ecol25&quot;, &quot;Tk_Ecol3&quot;, 
+        &quot;Tk_Ecol4&quot;, &quot;Tk_Ecol5&quot;, &quot;Tk_Ecol6&quot;, 
+        &quot;Tk_Ecol7&quot;, &quot;Tk_Ecol8&quot;, &quot;Tk_Ecol9&quot;, 
+        &quot;Tk_ntc15&quot;, &quot;Tk_ntc16&quot;, &quot;Tk_ntcecol1&quot;, 
+        &quot;Tk_ntcecol2&quot;))))
+###Not using tsv import anymore
+#metadata &lt;- read_tsv(&quot;../data/dada2/phyloseq/metadata.tsv&quot;)
+
+# Remove second row which contains column data for QIIME2 format
+metadata &lt;- metadata[-c(1), ]
+metadata_lab = column_to_rownames(metadata, var = &quot;sample-id&quot;)
+sampledata = sample_data(data.frame(metadata_lab))
+sampledata</code></pre>
+<hr />
+</div>
+<div id="rinfo" class="section level2">
+<h2>R session info</h2>
+<pre class="r"><code>sessioninfo::session_info()</code></pre>
+</div>
+<div id="links-for-analysis" class="section level2">
+<h2>Links for analysis</h2>
+<ul>
+<li><a href="https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities">microbiomeutilitie</a></li>
+<li><a href="https://mibwurrepo.github.io/Microbial-bioinformatics-introductory-course-Material-2018/introduction.html">Open and reproducible microbiome data analysis by Sudarshan A. Shetty, Leo Lahti, Gerben DA. Hermes</a></li>
+<li><a href="https://microbiome.github.io/tutorials/">microbiome</a> <a href="https://web.stanford.edu/class/bios221/labs/phyloseq/lab_phyloseq" class="uri">https://web.stanford.edu/class/bios221/labs/phyloseq/lab_phyloseq</a> <a href="https://www.nicholas-ollberding.com/post/introduction-to-the-statistical-analysis-of-microbiome-data-in-r/" class="uri">https://www.nicholas-ollberding.com/post/introduction-to-the-statistical-analysis-of-microbiome-data-in-r/</a> <a href="https://madsalbertsen.github.io/ampvis2/" class="uri">https://madsalbertsen.github.io/ampvis2/</a> <a href="https://chiliubio.github.io/microeco/" class="uri">https://chiliubio.github.io/microeco/</a> <a href="https://micca.readthedocs.io/en/latest/phyloseq.html" class="uri">https://micca.readthedocs.io/en/latest/phyloseq.html</a> <a href="http://evomics.org/wp-content/uploads/2016/01/phyloseq-Lab-01-Answers.html#mds-pcoa" class="uri">http://evomics.org/wp-content/uploads/2016/01/phyloseq-Lab-01-Answers.html#mds-pcoa</a> <a href="https://bioconductor.org/help/course-materials/2017/BioC2017/Day1/Workshops/Microbiome/MicrobiomeWorkflowII.html#graph-based_analyses" class="uri">https://bioconductor.org/help/course-materials/2017/BioC2017/Day1/Workshops/Microbiome/MicrobiomeWorkflowII.html#graph-based_analyses</a> <a href="https://help.galaxyproject.org/t/error-with-deseq2-every-gene-contains-at-least-one-zero/564" class="uri">https://help.galaxyproject.org/t/error-with-deseq2-every-gene-contains-at-least-one-zero/564</a> <a href="https://ucdavis-bioinformatics-training.github.io/2017-September-Microbial-Community-Analysis-Workshop/friday/MCA_Workshop_R/phyloseq.html" class="uri">https://ucdavis-bioinformatics-training.github.io/2017-September-Microbial-Community-Analysis-Workshop/friday/MCA_Workshop_R/phyloseq.html</a> <a href="https://4va.github.io/biodatasci/r-ggtree.html#basic_trees" class="uri">https://4va.github.io/biodatasci/r-ggtree.html#basic_trees</a> <a href="https://rstudio-pubs-static.s3.amazonaws.com/345955_fba1ccbdcd8f424aa5505c15bfd75bf7.html" class="uri">https://rstudio-pubs-static.s3.amazonaws.com/345955_fba1ccbdcd8f424aa5505c15bfd75bf7.html</a> <a href="http://zachcp.github.io/phylogeo/mapping_functions.html" class="uri">http://zachcp.github.io/phylogeo/mapping_functions.html</a> <a href="https://mibwurrepo.github.io/Microbial-bioinformatics-introductory-course-Material-2018/core-microbiota.html" class="uri">https://mibwurrepo.github.io/Microbial-bioinformatics-introductory-course-Material-2018/core-microbiota.html</a></li>
+</ul>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

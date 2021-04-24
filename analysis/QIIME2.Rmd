@@ -39,7 +39,7 @@ Place raw data files in zipped format (i.e. `.fastq.gz` in a directory called `r
 
 ### File naming conventions
 
-In [Casava 1.8 demultiplexed (paired-end)](https://docs.qiime2.org/2020.11/tutorials/importing/#casava-1-8-paired-end-demultiplexed-fastq) format, there are two `.fastq.gz` files for each sample in the study, each containing the forward or reverse reads for that sample. The file name includes the sample identifier. The forward and reverse read file names for a single sample might look like XXXX_15_L001_R1_001.fastq.gz and XXXX_15_L001_R2_001.fastq.gz, respectively. The underscore-separated fields in this file name are:
+In [Casava 1.8 demultiplexed (paired-end)](https://docs.qiime2.org/2020.11/tutorials/importing/#casava-1-8-paired-end-demultiplexed-fastq) format, there are two `.fastq.gz` files for each sample in the study, each containing the forward or reverse reads for that sample. The file name includes the sample identifier. The forward and reverse read file names for a single sample might look like `XXXX_L001_R1_001.fastq.gz` and `XXXX_L001_R2_001.fastq.gz`, respectively. The underscore-separated fields in this file name are:
 
 - the sample identifier,
 - the barcode sequence or a barcode identifier,

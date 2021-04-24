@@ -14,7 +14,7 @@ In the spirit of reproducibility this project website is created that outlines a
 
 Egan et al. Uncovering sylvatic cylces of bacteria in Australian wildlife. 
 
-PhD Thesis 2021 (Chapter three)
+PhD Thesis 2021 (Chapter four)
 
 ## Data availbility
 
@@ -22,39 +22,39 @@ Raw Illumina MiSeq data is available at NCBI SRA project XXXXX
 
 Nucleotide sequence data available on Genbank
 
-Anaplasmataceae (long 16S rRNA) 
-`MW633160-MW633167`
+Anaplasmataceae (long 16S rRNA)     
+`MW633160--MW633167`
 
-Borrelia 16S rRNA
+Borrelia 16S rRNA      
 `MW633074`
 
-Bartonella ITS
-`MW633076-MW633082`
+Bartonella ITS     
+`MW633076--MW633082`
 
-ASVs for taxa of interest
+ASVs for taxa of interest    
 `XXXXXX-XXXXXX`
 
 ## Supporting data
 
 Data used but not directly produced for this manuscript.
 
-Nucleotide data for identification of ticks
-MW665133-MW665150
+Nucleotide data for identification of ticks     
+MW665133--MW665150
 
 ## Directory information
 
 # Worlflowr commands 
 
-To build/view webiste locally
+To build/view webiste locally      
 `wflow_build()` and `wflow_view()`
 
-Status of workflow
+Status of workflow      
 `wflow_status()`
 
-Publish website pages
+Publish website pages       
 `wflow_publish(c("analysis/index.Rmd", "analysis/first-analysis.Rmd"), "Add my first analysis")`
 
-Push website to github
+Push website to github      
 `wflow_git_push()`
 
 

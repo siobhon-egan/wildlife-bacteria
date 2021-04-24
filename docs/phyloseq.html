@@ -9,9 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Siobhon Egan" />
 
-<meta name="date" content="2021-04-02" />
 
 <title>Phyloseq</title>
 
@@ -31,9 +29,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -235,69 +230,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -305,16 +237,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-sm-12 col-md-4 col-lg-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -335,10 +257,10 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="license.html">License</a>
 </li>
 <li>
-  <a href="license.html">License</a>
+  <a href="site-map.html">Sites</a>
 </li>
 <li>
   <a href="QIIME2.html">QIIME2</a>
@@ -368,15 +290,13 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Phyloseq</h1>
-<h4 class="author">Siobhon Egan</h4>
-<h4 class="date">04/02/2021</h4>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -385,7 +305,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -394,10 +314,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-26
+<strong>Last updated:</strong> 2021-04-24
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>wildlife-bacteria/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -413,12 +333,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has staged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -485,16 +405,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreeebe20d01dc71c1ba2eb30c7ab053c4d2d0c78821targetblankebe20d0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/ebe20d01dc71c1ba2eb30c7ab053c4d2d0c78821" target="_blank">ebe20d0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreea0173d49bf2a7ffe8bebaf994dedf7048daaa07ctargetblanka0173d4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c" target="_blank">a0173d4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreeebe20d01dc71c1ba2eb30c7ab053c4d2d0c78821targetblankebe20d0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreea0173d49bf2a7ffe8bebaf994dedf7048daaa07ctargetblanka0173d4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/ebe20d01dc71c1ba2eb30c7ab053c4d2d0c78821" target="_blank">ebe20d0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c" target="_blank">a0173d4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -504,32 +424,49 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    output/.DS_Store
 
 Untracked files:
     Untracked:  NCBI_data/
     Untracked:  analysis/microbiome-viz-extra.Rmd
-    Untracked:  analysis/microbiome-viz.Rmd
     Untracked:  analysis/phylogeny.Rmd
-    Untracked:  analysis/site-map.Rmd
     Untracked:  analysis/tois.Rmd
-    Untracked:  code/taxa_summary.R
     Untracked:  data/dada2/
     Untracked:  data/dada2_tois/
-    Untracked:  data/ps_bact_samp.RData
-    Untracked:  data/ps_dec_bact.RData
-    Untracked:  data/ps_raw_bact.RData
-    Untracked:  data/rickettsia.fasta
-    Untracked:  data/site_map.xlsx
-    Untracked:  data/taxa_of_interest.RData
     Untracked:  data/taxa_trees/
     Untracked:  data/tmp/
+    Untracked:  output/beta-div-statistics.txt
     Untracked:  output/plots/
+    Untracked:  output/supp_table_pos.xlsx
     Untracked:  tmp/
 
 Unstaged changes:
-    Modified:   README.md
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/license.Rmd
+    Modified:   analysis/microbiome-viz.Rmd
+    Modified:   analysis/phyloseq.Rmd
+    Deleted:    data/ps_bact_samp.RData
+    Deleted:    data/ps_dec_bact.RData
+
+Staged changes:
+    New:        RData/amp_dec_bact.RData
+    New:        RData/amp_raw_bact.RData
+    New:        RData/ps_Ecol.RData
+    New:        RData/ps_dec_bact.RData
+    New:        RData/ps_raw_bact.RData
+    New:        RData/taxa_of_interest.RData
+    Modified:   analysis/QIIME2.Rmd
+    Modified:   analysis/_site.yml
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/microbiome-viz.Rmd
+    Modified:   analysis/phyloseq.Rmd
+    New:        analysis/site-map.Rmd
+    New:        code/taxa_summary.R
+    New:        data/ps_bact_samp.RData
+    New:        data/ps_dec_bact.RData
+    New:        data/site_map.xlsx
 
 </code></pre>
 <p>
@@ -570,6 +507,23 @@ Message
 <tbody>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/siobhon-egan/wildlife-bacteria/5486f7e4f4a6cfe483395735ecfa6254cd45174b/docs/phyloseq.html" target="_blank">5486f7e</a>
+</td>
+<td>
+siobhon-egan
+</td>
+<td>
+2021-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -596,6 +550,7 @@ add qiime and phyloseq pages
 <blockquote>
 <p>Note this was run using R version 4.0.3 and RStudo version 1.4. See <a href="#rinfo">R info</a> for full details of R session.</p>
 </blockquote>
+<p>See <a href="microbiome-viz.html">Visualization page</a> for details on data visualization.</p>
 <div id="load-libraries" class="section level2">
 <h2>0. Load libraries</h2>
 <p><strong>Install libraries if required</strong></p>
@@ -627,30 +582,12 @@ if (!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE))
 install.packages(&quot;BiocManager&quot;)
 BiocManager::install(&quot;Biostrings&quot;)</code></pre>
 <p><strong>Load libraries</strong></p>
-<pre class="r"><code>library(qiime2R)
-library(phyloseq)
-library(tidyverse)
-library(ampvis2)
-library(ampvis2extras)
-library(ggpubr)
-library(agricolae)
-library(plotly)
-library(viridis)
-library(cowplot)
-library(MicrobeR)
-library(microbiome)
-library(reshape)
-library(decontam)
-library(data.table)
-library(ape)
-library(DESeq2)
-library(vegan)
-library(microbiomeutilities)
-library(knitr)
-library(tibble)
-library(dplyr)
-library(patchwork)
-library(Biostrings)</code></pre>
+<pre class="r"><code>pkgs &lt;- c(&quot;qiime2R&quot;, &quot;phyloseq&quot;, &quot;tidyverse&quot;, &quot;ampvis2&quot;, &quot;ampvis2extras&quot;, 
+          &quot;ggpubr&quot;, &quot;agricolae&quot;, &quot;plotly&quot;, &quot;viridis&quot;, &quot;cowplot&quot;, &quot;MicrobeR&quot;, 
+          &quot;microbiome&quot;, &quot;reshape&quot;, &quot;decontam&quot;, &quot;data.table&quot;, &quot;ape&quot;, &quot;DESeq2&quot;, 
+          &quot;vegan&quot;, &quot;microbiomeutilities&quot;, &quot;knitr&quot;, &quot;tibble&quot;, &quot;dplyr&quot;, 
+          &quot;patchwork&quot;, &quot;Biostrings&quot;)
+lapply(pkgs, require, character.only = TRUE)</code></pre>
 </div>
 <div id="import-data" class="section level2">
 <h2>1. Import data</h2>
@@ -678,7 +615,7 @@ sample_names(physeq)</code></pre>
 rep.seqs &lt;- Biostrings::readDNAStringSet(&quot;../data/dada2/phyloseq/all_rep-seqs.fasta&quot;, format = &quot;fasta&quot;)</code></pre>
 <p>Add metadata, importing gDNAID as factor to be able to merge later on</p>
 <pre class="r"><code>library(readr)
-metadata &lt;- read_csv(&quot;data/dada2/phyloseq/metadata.csv&quot;, 
+metadata &lt;- read_csv(&quot;../data/dada2/phyloseq/metadata.csv&quot;, 
     col_types = cols(gDNAID = col_factor(levels = c(&quot;categorical&quot;, 
         &quot;Bl_1&quot;, &quot;Bl_10&quot;, &quot;Bl_102&quot;, &quot;Bl_113&quot;, 
         &quot;Bl_114&quot;, &quot;Bl_115&quot;, &quot;Bl_116&quot;, &quot;Bl_117&quot;, 
@@ -907,18 +844,18 @@ ggsave(&quot;deconplot.pdf&quot;, plot = deconplot, path = &quot;output/plots&qu
                             plot.type = &quot;density&quot;) + xlab(&quot;Reads per sample&quot;) + ylab(&quot;Density&quot;)
 distrib &lt;- distrib + geom_density(alpha = 0.5, fill = &quot;grey&quot;)
 ggsave(&quot;distrib.pdf&quot;, plot = distrib, path = &quot;output/plots&quot;, width = 15, height = 10, units = &quot;cm&quot;)</code></pre>
-</div>
-<div id="subset-and-filter" class="section level2">
-<h2>3. Subset and Filter</h2>
 <p>As determined by <code>decontam</code> methods identify contaminant ASVs and threshold for positive reads. Then transform otu count data.</p>
 <pre class="r"><code>ps_dec_bact &lt;- prune_taxa(!contamdf.prev$contaminant, ps_raw_bact)
 ps_dec_bact@otu_table [, 1:702][ps_dec_bact@otu_table [, 1:702] &lt; 100] &lt;- 0</code></pre>
 <p>Save R data for phyloseq object - saving “raw data” (<code>ps_raw_bact</code>) and “decontaminated data” (<code>ps_dec_bact</code>)</p>
-<pre class="r"><code>save(ps_raw_bact, file = &quot;../data/dada2/phyloseq/ps_raw_bact.RData&quot;)
-save(ps_dec_bact, file = &quot;../data/dada2/phyloseq/ps_dec_bact.RData&quot;)</code></pre>
+<pre class="r"><code>save(ps_raw_bact, file = &quot;../RData/ps_raw_bact.RData&quot;)
+save(ps_dec_bact, file = &quot;../RData/ps_dec_bact.RData&quot;)</code></pre>
+</div>
+<div id="load-data-and-subset" class="section level2">
+<h2>3. Load data and subset</h2>
 <p>To load raw and decon data quickly from <code>.RData</code> format.</p>
-<pre class="r"><code>load(&quot;../data/dada2/phyloseq/ps_raw_bact.RData&quot;)
-load(&quot;../data/dada2/phyloseq/ps_dec_bact.RData&quot;)</code></pre>
+<pre class="r"><code>load(&quot;../RData/ps_raw_bact.RData&quot;)
+load(&quot;../RData/ps_dec_bact.RData&quot;)</code></pre>
 <div id="for-phyloseq-object" class="section level3">
 <h3>3.1. For phyloseq object</h3>
 <p>Subset phyloseq object based on sample types</p>
@@ -930,14 +867,42 @@ ps_bact_bl = subset_samples(ps_bact_samp, SampleCategory==&quot;Blood&quot;)
 ps_bact_tis = subset_samples(ps_bact_samp, SampleCategory==&quot;Tissue&quot;)
 # Tick samples only
 ps_bact_tick = subset_samples(ps_bact_samp, SampleCategory==&quot;Tick&quot;)</code></pre>
-<p>Subset certain taxa of interest</p>
+<p>Subset for taxa of interest - family level</p>
 <pre class="r"><code># taxa of interest
-ps_bact_samp_sub = subset_taxa(ps_bact_samp, Order==&quot;Coxiellales&quot; | Order==&quot;Mycoplasmataceae&quot; | Genus==&quot;Bartonella&quot; | Order==&quot;Francisellales&quot; | Genus==&quot;Borreliella&quot; | Genus==&quot;Leptospira&quot; | Family==&quot;Rickettsiaceae&quot; | Family==&quot;Anaplasmataceae&quot; | Family==&quot;Midichloriaceae&quot; | Genus==&quot;Rickettsiella&quot;)
-ps_bact_samp_sub = prune_samples(sample_sums(ps_bact_samp_sub)&gt;=1000, ps_bact_samp_sub)
-ps_bact_samp_sub = filter_taxa(ps_bact_samp_sub, function(x) sum(x &gt; 1) &gt; (0.01*length(x)), TRUE)</code></pre>
+ps_toi_fam = subset_taxa(ps_bact_samp, Family==&quot;Coxiellaceae&quot; | Family==&quot;Mycoplasmataceae&quot; | Family==&quot;Bartonellaceae&quot; | Family==&quot;Francisellaceae&quot; | Family==&quot;Borreliaceae&quot; | Family==&quot;Anaplasmataceae&quot; | Family==&quot;Midichloriaceae&quot; | Family ==&quot;Mycobacteriaceae&quot; | Family==&quot;Rickettsiaceae&quot;)
+ps_toi_fam = prune_taxa(taxa_sums(ps_toi_fam) &gt; 0, ps_toi_fam)
+writeXStringSet(ps_toi_fam@refseq, &quot;../data/dada2_tois/ps_toi_fam.fasta&quot;)
+melt_toi_fam = psmelt(ps_toi_fam)
+melt_toi_fam = subset(melt_toi_fam, Abundance &gt; 0)
+write.csv(melt_toi_fam, &quot;../data/dada2_tois/melt_toi_fam.csv&quot;)</code></pre>
+<p>Subset for taxa of interest - genus</p>
+<pre class="r"><code># taxa of interest
+ps_toi_gen = subset_taxa(ps_bact_samp, Family==&quot;Coxiellaceae&quot; | Genus==&quot;Mycoplasma&quot; | Genus==&quot;Bartonella&quot; | Genus==&quot;Francisella&quot; | Genus==&quot;Borrelia&quot; | Genus==&quot;Rickettsia&quot; | Genus==&quot;Neoehrlichia&quot; | Genus==&quot;Ehrlichia&quot; | Genus==&quot;Anaplasma&quot; | Genus==&quot;Candidatus Midichloria&quot;)
+ps_toi_gen = prune_taxa(taxa_sums(ps_toi_gen) &gt; 0, ps_toi_gen)
+writeXStringSet(ps_toi_gen@refseq, &quot;../data/dada2_tois/ps_toi_gen.fasta&quot;)
+melt_toi_gen = psmelt(ps_toi_gen)
+melt_toi_gen = subset(melt_toi_gen, Abundance &gt; 0)
+write.csv(melt_toi_gen, &quot;../data/dada2_tois/melt_toi_gen.csv&quot;)</code></pre>
+<p><strong>Outside of RStudio</strong></p>
+<p>Align sequences and produce quick neighbour joining tree using <a href="https://www.drive5.com/muscle/manual/">muscle64</a>. Code for command line terminal with <code>muscle64</code> installed in the <code>$PATH</code></p>
+<pre class="bash"><code># Family taxa of interest
+muscle64 -in data/dada2_tois/ps_toi_fam.fasta -out data/dada2_tois/ps_toi_fam_musaln.fasta
+muscle64 -maketree -in data/dada2_tois/ps_toi_fam_musaln.fasta -out data/dada2_tois/ps_toi_fam_tree.phy -cluster neighborjoining
+
+# Genus taxa of interest
+muscle64 -in data/dada2_tois/ps_toi_gen.fasta -out data/dada2_tois/ps_toi_gen_musaln.fasta
+muscle64 -maketree -in data/dada2_tois/ps_toi_gen_musaln.fasta -out data/dada2_tois/ps_toi_gen_tree.phy -cluster neighborjoining</code></pre>
+<p><strong>Now back to RStudio</strong></p>
 <p>Add tree for this taxa</p>
-<pre class="r"><code>tree2 &lt;- read_tree(&quot;data/dada2/top38.nwk&quot;)
-ps_bact_samp_sub &lt;- merge_phyloseq(ps_bact_samp_sub, tree)</code></pre>
+<p><code>tree_toi_fam</code></p>
+<pre class="r"><code>tree_toi_fam &lt;- read_tree(&quot;../data/dada2_tois/ps_toi_fam_tree.phy&quot;)
+# Merge tree object into phyloseq to create tree_toi_fam object
+ps_toi_fam &lt;- merge_phyloseq(ps_toi_fam, tree_toi_fam)</code></pre>
+<p><code>tree_toi_gen</code></p>
+<pre class="r"><code>tree_toi_gen &lt;- read_tree(&quot;../data/dada2_tois/ps_toi_gen_tree.phy&quot;)
+# Merge tree object into phyloseq to create tree_toi_gen object
+ps_toi_gen &lt;- merge_phyloseq(ps_toi_gen, tree_toi_gen)</code></pre>
+<p><strong>More subsetting</strong></p>
 <p>Subset phyloseq object based on host species</p>
 <pre class="r"><code># Black rat
 ps_BR = subset_samples(ps_bact_samp, species==&quot;Black rat&quot;)
@@ -957,11 +922,19 @@ if(!require(&quot;devtools&quot;))
 #source the phyloseq_to_ampvis2() function from the gist
 devtools::source_gist(&quot;8d0ca4206a66be7ff6d76fc4ab8e66c6&quot;)
 
-#convert
-bact_amp &lt;- phyloseq_to_ampvis2(ps_dec_bact)</code></pre>
+# convert
+amp_raw_bact &lt;- phyloseq_to_ampvis2(ps_raw_bact)
+amp_dec_bact  &lt;- phyloseq_to_ampvis2(ps_dec_bact)
+amp_toi_fam &lt;- phyloseq_to_ampvis2(ps_toi_fam)
+amp_toi_gen &lt;- phyloseq_to_ampvis2(ps_toi_gen)</code></pre>
+<p>Save R data for ampvis2 object - saving “decontam ampvis2 data” (<code>bact_amp</code>)</p>
+<pre class="r"><code># raw ampvis2
+save(amp_raw_bact, file = &quot;RData/amp_raw_bact.RData&quot;)
+# decontam ampvis2
+save(amp_dec_bact, file = &quot;RData/amp_dec_bact.RData&quot;)</code></pre>
 <p>Subset ampvis2 object based on sample category</p>
 <pre class="r"><code>#remove controls
-amp_samp &lt;- amp_subset_samples(bact_amp, 
+amp_samp &lt;- amp_subset_samples(amp_dec_bact, 
                                  !SampleType %in% c(&quot;Control&quot;),
                                  RemoveAbsents = TRUE)
 #blood samples
@@ -1080,8 +1053,6 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -1114,32 +1085,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

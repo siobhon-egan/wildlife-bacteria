@@ -7,6 +7,8 @@ navbar:
     href: index.html
   - text: License
     href: license.html
+  - text: Sites
+    href: site-map.html
   - text: QIIME2
     href: QIIME2.html
   - text: Phyloseq

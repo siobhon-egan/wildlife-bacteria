@@ -1,8 +1,10 @@
 ---
 title: "Phyloseq"
-author: "Siobhon Egan"
-date: "04/02/2021"
-output: html_document
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -13,6 +15,7 @@ Visualization and analysis of microbiome data.
 
 > Note this was run using R version 4.0.3 and RStudo version 1.4. See [R info](#rinfo) for full details of R session.
 
+See [Visualization page](microbiome-viz.html) for details on data visualization.
 
 ## 0. Load libraries
 
@@ -52,31 +55,14 @@ BiocManager::install("Biostrings")
 **Load libraries**
 
 ```{r}
-library(qiime2R)
-library(phyloseq)
-library(tidyverse)
-library(ampvis2)
-library(ampvis2extras)
-library(ggpubr)
-library(agricolae)
-library(plotly)
-library(viridis)
-library(cowplot)
-library(MicrobeR)
-library(microbiome)
-library(reshape)
-library(decontam)
-library(data.table)
-library(ape)
-library(DESeq2)
-library(vegan)
-library(microbiomeutilities)
-library(knitr)
-library(tibble)
-library(dplyr)
-library(patchwork)
-library(Biostrings)
+pkgs <- c("qiime2R", "phyloseq", "tidyverse", "ampvis2", "ampvis2extras", 
+          "ggpubr", "agricolae", "plotly", "viridis", "cowplot", "MicrobeR", 
+          "microbiome", "reshape", "decontam", "data.table", "ape", "DESeq2", 
+          "vegan", "microbiomeutilities", "knitr", "tibble", "dplyr", 
+          "patchwork", "Biostrings")
+lapply(pkgs, require, character.only = TRUE)
 ```
+
 ## 1. Import data
 
 Generate phyloseq object from spreadsheets.
@@ -88,6 +74,7 @@ dada2_ASVs_lab = column_to_rownames(dada2_ASVs, var = "#OTU ID")
 # Make matrix
 otumat <- as.matrix(dada2_ASVs_lab)
 ```
+
 Import taxonomy data
 ```{r}
 taxonomy <- read_csv("../data/dada2/phyloseq/taxonomy.csv")
@@ -117,7 +104,7 @@ rep.seqs <- Biostrings::readDNAStringSet("../data/dada2/phyloseq/all_rep-seqs.fa
 Add metadata, importing gDNAID as factor to be able to merge later on
 ```{r}
 library(readr)
-metadata <- read_csv("data/dada2/phyloseq/metadata.csv", 
+metadata <- read_csv("../data/dada2/phyloseq/metadata.csv", 
     col_types = cols(gDNAID = col_factor(levels = c("categorical", 
         "Bl_1", "Bl_10", "Bl_102", "Bl_113", 
         "Bl_114", "Bl_115", "Bl_116", "Bl_117", 
@@ -372,6 +359,7 @@ deconplot <- ggplot(data=df.pa, aes(x=pa.neg, y=pa.pos, color=contaminant)) + ge
   xlab("Prevalence (Negative Controls)") + ylab("Prevalence (True Samples)")
 ggsave("deconplot.pdf", plot = deconplot, path = "output/plots", width = 10, height = 10, units = "cm")
 ```
+
 Make distribution plot of reads using [microbiomeutilities](https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#distribution-of-reads-1)
 ```{r}
 distrib <- plot_read_distribution(ps_raw_bact, groups = "SampleCategory", 
@@ -379,8 +367,6 @@ distrib <- plot_read_distribution(ps_raw_bact, groups = "SampleCategory",
 distrib <- distrib + geom_density(alpha = 0.5, fill = "grey")
 ggsave("distrib.pdf", plot = distrib, path = "output/plots", width = 15, height = 10, units = "cm")
 ```
-
-## 3. Subset and Filter
 
 As determined by `decontam` methods identify contaminant ASVs and threshold for positive reads. Then transform otu count data.
 ```{r}
@@ -390,14 +376,16 @@ ps_dec_bact@otu_table [, 1:702][ps_dec_bact@otu_table [, 1:702] < 100] <- 0
 
 Save R data for phyloseq object - saving "raw data" (`ps_raw_bact`) and "decontaminated data"  (`ps_dec_bact`)
 ```{r}
-save(ps_raw_bact, file = "../data/dada2/phyloseq/ps_raw_bact.RData")
-save(ps_dec_bact, file = "../data/dada2/phyloseq/ps_dec_bact.RData")
+save(ps_raw_bact, file = "../RData/ps_raw_bact.RData")
+save(ps_dec_bact, file = "../RData/ps_dec_bact.RData")
 ```
+
+## 3. Load data and subset
 
 To load raw and decon data quickly from `.RData` format.
 ```{r}
-load("../data/dada2/phyloseq/ps_raw_bact.RData")
-load("../data/dada2/phyloseq/ps_dec_bact.RData")
+load("../RData/ps_raw_bact.RData")
+load("../RData/ps_dec_bact.RData")
 ```
 
 ### 3.1. For phyloseq object
@@ -414,19 +402,61 @@ ps_bact_tis = subset_samples(ps_bact_samp, SampleCategory=="Tissue")
 ps_bact_tick = subset_samples(ps_bact_samp, SampleCategory=="Tick")
 ```
 
-Subset certain taxa of interest
+Subset for taxa of interest - family level
 ```{r}
 # taxa of interest
-ps_bact_samp_sub = subset_taxa(ps_bact_samp, Order=="Coxiellales" | Order=="Mycoplasmataceae" | Genus=="Bartonella" | Order=="Francisellales" | Genus=="Borreliella" | Genus=="Leptospira" | Family=="Rickettsiaceae" | Family=="Anaplasmataceae" | Family=="Midichloriaceae" | Genus=="Rickettsiella")
-ps_bact_samp_sub = prune_samples(sample_sums(ps_bact_samp_sub)>=1000, ps_bact_samp_sub)
-ps_bact_samp_sub = filter_taxa(ps_bact_samp_sub, function(x) sum(x > 1) > (0.01*length(x)), TRUE)
+ps_toi_fam = subset_taxa(ps_bact_samp, Family=="Coxiellaceae" | Family=="Mycoplasmataceae" | Family=="Bartonellaceae" | Family=="Francisellaceae" | Family=="Borreliaceae" | Family=="Anaplasmataceae" | Family=="Midichloriaceae" | Family =="Mycobacteriaceae" | Family=="Rickettsiaceae")
+ps_toi_fam = prune_taxa(taxa_sums(ps_toi_fam) > 0, ps_toi_fam)
+writeXStringSet(ps_toi_fam@refseq, "../data/dada2_tois/ps_toi_fam.fasta")
+melt_toi_fam = psmelt(ps_toi_fam)
+melt_toi_fam = subset(melt_toi_fam, Abundance > 0)
+write.csv(melt_toi_fam, "../data/dada2_tois/melt_toi_fam.csv")
 ```
 
-Add tree for this taxa
+
+Subset for taxa of interest - genus
 ```{r}
-tree2 <- read_tree("data/dada2/top38.nwk")
-ps_bact_samp_sub <- merge_phyloseq(ps_bact_samp_sub, tree)
+# taxa of interest
+ps_toi_gen = subset_taxa(ps_bact_samp, Family=="Coxiellaceae" | Genus=="Mycoplasma" | Genus=="Bartonella" | Genus=="Francisella" | Genus=="Borrelia" | Genus=="Rickettsia" | Genus=="Neoehrlichia" | Genus=="Ehrlichia" | Genus=="Anaplasma" | Genus=="Candidatus Midichloria")
+ps_toi_gen = prune_taxa(taxa_sums(ps_toi_gen) > 0, ps_toi_gen)
+writeXStringSet(ps_toi_gen@refseq, "../data/dada2_tois/ps_toi_gen.fasta")
+melt_toi_gen = psmelt(ps_toi_gen)
+melt_toi_gen = subset(melt_toi_gen, Abundance > 0)
+write.csv(melt_toi_gen, "../data/dada2_tois/melt_toi_gen.csv")
 ```
+
+**Outside of RStudio**
+
+Align sequences and produce quick neighbour joining tree using [muscle64](https://www.drive5.com/muscle/manual/).
+Code for command line terminal with `muscle64` installed in the `$PATH`
+```{bash}
+# Family taxa of interest
+muscle64 -in data/dada2_tois/ps_toi_fam.fasta -out data/dada2_tois/ps_toi_fam_musaln.fasta
+muscle64 -maketree -in data/dada2_tois/ps_toi_fam_musaln.fasta -out data/dada2_tois/ps_toi_fam_tree.phy -cluster neighborjoining
+
+# Genus taxa of interest
+muscle64 -in data/dada2_tois/ps_toi_gen.fasta -out data/dada2_tois/ps_toi_gen_musaln.fasta
+muscle64 -maketree -in data/dada2_tois/ps_toi_gen_musaln.fasta -out data/dada2_tois/ps_toi_gen_tree.phy -cluster neighborjoining
+```
+
+**Now back to RStudio**
+
+Add tree for this taxa
+
+`tree_toi_fam`
+```{r}
+tree_toi_fam <- read_tree("../data/dada2_tois/ps_toi_fam_tree.phy")
+# Merge tree object into phyloseq to create tree_toi_fam object
+ps_toi_fam <- merge_phyloseq(ps_toi_fam, tree_toi_fam)
+```
+`tree_toi_gen`
+```{r}
+tree_toi_gen <- read_tree("../data/dada2_tois/ps_toi_gen_tree.phy")
+# Merge tree object into phyloseq to create tree_toi_gen object
+ps_toi_gen <- merge_phyloseq(ps_toi_gen, tree_toi_gen)
+```
+
+**More subsetting**
 
 Subset phyloseq object based on host species
 ```{r}
@@ -451,14 +481,25 @@ if(!require("devtools"))
 #source the phyloseq_to_ampvis2() function from the gist
 devtools::source_gist("8d0ca4206a66be7ff6d76fc4ab8e66c6")
 
-#convert
-bact_amp <- phyloseq_to_ampvis2(ps_dec_bact)
+# convert
+amp_raw_bact <- phyloseq_to_ampvis2(ps_raw_bact)
+amp_dec_bact  <- phyloseq_to_ampvis2(ps_dec_bact)
+amp_toi_fam <- phyloseq_to_ampvis2(ps_toi_fam)
+amp_toi_gen <- phyloseq_to_ampvis2(ps_toi_gen)
+```
+
+Save R data for ampvis2 object - saving "decontam ampvis2 data" (`bact_amp`)
+```{r}
+# raw ampvis2
+save(amp_raw_bact, file = "RData/amp_raw_bact.RData")
+# decontam ampvis2
+save(amp_dec_bact, file = "RData/amp_dec_bact.RData")
 ```
 
 Subset ampvis2 object based on sample category
 ```{r}
 #remove controls
-amp_samp <- amp_subset_samples(bact_amp, 
+amp_samp <- amp_subset_samples(amp_dec_bact, 
                                  !SampleType %in% c("Control"),
                                  RemoveAbsents = TRUE)
 #blood samples

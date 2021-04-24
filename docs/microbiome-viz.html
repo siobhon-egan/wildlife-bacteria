@@ -11,7 +11,7 @@
 
 
 
-<title>Microbiome visualization - manuscript</title>
+<title>Microbiome visualization</title>
 
 <script src="site_libs/header-attrs-2.7.2/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -260,6 +260,9 @@ $(document).ready(function () {
   <a href="license.html">License</a>
 </li>
 <li>
+  <a href="site-map.html">Sites</a>
+</li>
+<li>
   <a href="QIIME2.html">QIIME2</a>
 </li>
 <li>
@@ -286,14 +289,14 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Microbiome visualization - manuscript</h1>
+<h1 class="title toc-ignore">Microbiome visualization</h1>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -302,7 +305,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -311,10 +314,10 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-26
+<strong>Last updated:</strong> 2021-04-24
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>wildlife-bacteria/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -330,12 +333,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has staged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -402,16 +405,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreed50218801edf9252662a796b3d67ec7f99be454ftargetblankd502188a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/d50218801edf9252662a796b3d67ec7f99be454f" target="_blank">d502188</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreea0173d49bf2a7ffe8bebaf994dedf7048daaa07ctargetblanka0173d4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c" target="_blank">a0173d4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreed50218801edf9252662a796b3d67ec7f99be454ftargetblankd502188a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreea0173d49bf2a7ffe8bebaf994dedf7048daaa07ctargetblanka0173d4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/d50218801edf9252662a796b3d67ec7f99be454f" target="_blank">d502188</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c" target="_blank">a0173d4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -429,21 +432,39 @@ Untracked files:
     Untracked:  NCBI_data/
     Untracked:  analysis/microbiome-viz-extra.Rmd
     Untracked:  analysis/phylogeny.Rmd
-    Untracked:  analysis/site-map.Rmd
     Untracked:  analysis/tois.Rmd
-    Untracked:  code/taxa_summary.R
     Untracked:  data/dada2/
     Untracked:  data/dada2_tois/
-    Untracked:  data/ps_bact_samp.RData
-    Untracked:  data/ps_dec_bact.RData
-    Untracked:  data/ps_raw_bact.RData
-    Untracked:  data/rickettsia.fasta
-    Untracked:  data/site_map.xlsx
-    Untracked:  data/taxa_of_interest.RData
     Untracked:  data/taxa_trees/
     Untracked:  data/tmp/
+    Untracked:  output/beta-div-statistics.txt
     Untracked:  output/plots/
+    Untracked:  output/supp_table_pos.xlsx
     Untracked:  tmp/
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/microbiome-viz.Rmd
+    Deleted:    data/ps_bact_samp.RData
+    Deleted:    data/ps_dec_bact.RData
+
+Staged changes:
+    New:        RData/amp_dec_bact.RData
+    New:        RData/amp_raw_bact.RData
+    New:        RData/ps_Ecol.RData
+    New:        RData/ps_dec_bact.RData
+    New:        RData/ps_raw_bact.RData
+    New:        RData/taxa_of_interest.RData
+    Modified:   analysis/QIIME2.Rmd
+    Modified:   analysis/_site.yml
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/microbiome-viz.Rmd
+    Modified:   analysis/phyloseq.Rmd
+    New:        analysis/site-map.Rmd
+    New:        code/taxa_summary.R
+    New:        data/ps_bact_samp.RData
+    New:        data/ps_dec_bact.RData
+    New:        data/site_map.xlsx
 
 </code></pre>
 <p>
@@ -484,6 +505,23 @@ Message
 <tbody>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/siobhon-egan/wildlife-bacteria/a0173d49bf2a7ffe8bebaf994dedf7048daaa07c/docs/microbiome-viz.html" target="_blank">a0173d4</a>
+</td>
+<td>
+siobhon-egan
+</td>
+<td>
+2021-02-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -510,6 +548,7 @@ microbiome visualization
 <blockquote>
 <p>Note this was run using R version 4.0.3 and RStudo version 1.4. See <a href="#rinfo">R info</a> for full details of R session.</p>
 </blockquote>
+<p>See <a href="phyloseq.html">Phyloseq page</a> for details on data cleaning.</p>
 <div id="getting-started" class="section level2">
 <h2>0. Getting started</h2>
 <p><strong>Install libraries if required</strong></p>
@@ -537,37 +576,33 @@ devtools::install_github(&#39;jsilve24/philr&#39;)
 #decontam
 BiocManager::install(&quot;decontam&quot;)
 library(decontam)
-BiocManager::install(&quot;FelixErnst/mia&quot;)</code></pre>
+BiocManager::install(&quot;FelixErnst/mia&quot;)
+# Microbota process
+remotes::install_github(&quot;YuLab-SMU/MicrobiotaProcess&quot;)</code></pre>
 <p><strong>Load libraries</strong></p>
-<pre class="r"><code>library(qiime2R)
-library(phyloseq)
-library(tidyverse)
-library(ampvis2)
-library(ampvis2extras)
-library(ggpubr)
-library(agricolae)
-library(plotly)
-library(viridis)
-library(cowplot)
-library(MicrobeR)
-library(microbiome)
-library(reshape)
-library(decontam)
-library(data.table)
-library(ape)
-library(DESeq2)
-library(vegan)
-library(microbiomeutilities)
-library(knitr)
-library(tibble)
-library(dplyr)
-library(patchwork)
-library(mia)
-library(Biostrings)
-library(eulerr)</code></pre>
+<pre class="r"><code>pkgs &lt;- c(&quot;qiime2R&quot;, &quot;phyloseq&quot;, &quot;tidyverse&quot;, &quot;ampvis2&quot;, &quot;ampvis2extras&quot;, 
+          &quot;ggpubr&quot;, &quot;agricolae&quot;, &quot;plotly&quot;, &quot;viridis&quot;, &quot;cowplot&quot;, &quot;MicrobeR&quot;, 
+          &quot;microbiome&quot;, &quot;reshape&quot;, &quot;decontam&quot;, &quot;data.table&quot;, &quot;ape&quot;, &quot;DESeq2&quot;, 
+          &quot;vegan&quot;, &quot;microbiomeutilities&quot;, &quot;knitr&quot;, &quot;tibble&quot;, &quot;dplyr&quot;, 
+          &quot;patchwork&quot;, &quot;Biostrings&quot;, &quot;mia&quot;, &quot;eulerr&quot;, &quot;MicrobiotaProcess&quot;)
+lapply(pkgs, require, character.only = TRUE)</code></pre>
 <p>Load data as imported and filtered as per <a href="phyloseq.html">phyloseq</a></p>
-<pre class="r"><code>load(&quot;data/dada2/phyloseq/ps_raw_bact.RData&quot;)
-load(&quot;data/dada2/phyloseq/ps_dec_bact.RData&quot;)</code></pre>
+<pre class="r"><code># phyloseq raw data
+load(&quot;Rdata/ps_raw_bact.RData&quot;)
+# phyloseq decontam data
+load(&quot;Rdata/ps_dec_bact.RData&quot;)
+
+# ampvis2 raw data
+load(&quot;Rdata/amp_raw_bact.RData&quot;)
+# ampvis2 decontam data
+load(&quot;Rdata/amp_dec_bact.RData&quot;)</code></pre>
+<p>Subset decontam objects to remove controls Subset ampvis2 object based on sample category</p>
+<pre class="r"><code># remove controls from phyloseq decontam data
+ps_bact_samp = subset_samples(ps_dec_bact, !SampleType==&quot;Control&quot;)
+# remove controls from ampvis2 decontam data
+amp_samp &lt;- amp_subset_samples(amp_dec_bact, 
+                                 !SampleType %in% c(&quot;Control&quot;),
+                                 RemoveAbsents = TRUE)</code></pre>
 <p>Set colours for Sample Category</p>
 <pre class="r"><code>ColSampCat = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;)</code></pre>
 </div>
@@ -575,12 +610,9 @@ load(&quot;data/dada2/phyloseq/ps_dec_bact.RData&quot;)</code></pre>
 <h2>1. Alpha diversity</h2>
 <div id="rarefaction-plots" class="section level3">
 <h3>1.1. Rarefaction plots</h3>
-<p>Plotting of rarefaction curves using <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_rarecurve.html">ampvis2</a> - separating out by sample type. Use raw ASV count data for inspection of sequencing depth (not decon data)</p>
-<pre class="r"><code># Covert raw data phyloseq object to ampvis2
-bact_raw_amp &lt;- phyloseq_to_ampvis2(ps_raw_bact)
-
-# Subset blood samples from raw data 
-amp_raw_bl0 &lt;- amp_subset_samples(bact_raw_amp, 
+<p>Plotting of rarefaction curves using <a href="https://madsalbertsen.github.io/ampvis2/reference/amp_rarecurve.html">ampvis2</a> - separating out by sample type. Use raw ASV count data for inspection of sequencing depth (using raw data here not decon data)</p>
+<pre class="r"><code># Subset blood samples from raw data 
+amp_raw_bl0 &lt;- amp_subset_samples(amp_raw_bact, 
                               SampleCategory %in% c(&quot;Blood&quot;),
                               minreads = 0,
                               RemoveAbsents = TRUE)
@@ -588,7 +620,7 @@ rarecurveblraw = amp_rarecurve(amp_raw_bl0, stepsize = 100)
 rarecurveblraw1 = rarecurveblraw + ylab(label = &quot;Number of ASVs&quot;) +
   theme(axis.text.x = element_text(angle = 45, size=10, vjust = 0.5)) + ggtitle(&quot;Blood&quot;) + theme_bw()
 # Subset Tick samples form raw data 
-amp_raw_tick0 &lt;- amp_subset_samples(bact_raw_amp, 
+amp_raw_tick0 &lt;- amp_subset_samples(amp_raw_bact, 
                               SampleCategory %in% c(&quot;Tick&quot;),
                               minreads = 0,
                               RemoveAbsents = TRUE)
@@ -596,7 +628,7 @@ rarecurvetickraw = amp_rarecurve(amp_raw_tick0, stepsize = 100)
 rarecurvetickraw1 = rarecurvetickraw + ylab(label = &quot;Number of ASVs&quot;) +
   theme(axis.text.x = element_text(angle = 45, size=10, vjust = 0.5)) + ggtitle(&quot;Tick&quot;) + theme_bw()
 # Subset Tissue samples form raw data 
-amp_raw_tis100 &lt;- amp_subset_samples(bact_raw_amp, 
+amp_raw_tis100 &lt;- amp_subset_samples(amp_raw_bact, 
                               SampleCategory %in% c(&quot;Tissue&quot;),
                               minreads = 100,
                               RemoveAbsents = TRUE)
@@ -642,6 +674,43 @@ alphadiv_wp &lt;- ggarrange(obs_alpha_plot, chao1_alpha_plot, shan_alpha_plot, i
                     labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;),
                     ncol = 2, nrow = 2)
 ggsave(&quot;alphadiv_withpvalues.pdf&quot;, plot = alphadiv_wp, path = &quot;output/plots&quot;, width = 30, height = 30, units = &quot;cm&quot;)</code></pre>
+<p><strong>EXTRA - Tick samples only</strong></p>
+<p>Repeat but just on tick data for supplementary information Make using alpha diversity plots with statistical values using <a href="https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#plot-alpha-diversities">microbiomeutilities</a></p>
+<pre class="r"><code># Tick samples only
+ps_bact_tick = subset_samples(ps_bact_samp, SampleCategory==&quot;Tick&quot;)
+# subset tick species
+ps_bact_tick_sub = subset_samples(ps_bact_tick, !tick_sp_short==&quot;Ixhol;Ixtri&quot;)
+tickspcols = c(&quot;#000004FF&quot;, &quot;#781C6DFF&quot;, &quot;#BB3754FF&quot;, &quot;#ED6925FF&quot;, &quot;#FCB519FF&quot;, &quot;#c5cc00&quot;)
+
+obs_alpha_plot_tk &lt;- plot_diversity_stats(ps_bact_tick_sub, group = &quot;tick_sp_short&quot;, 
+                            index = &quot;observed&quot;,
+                            group.colors = tickspcols,
+                            label.format=&quot;p.format&quot;,
+                            stats = TRUE)
+obs_alpha_plot_tk = obs_alpha_plot_tk + ylab(&quot;No. Observed ASVs&quot;) + xlab(&quot;&quot;) + labs(title = &quot;Observed&quot;)
+chao1_alpha_plot_tk &lt;- plot_diversity_stats(ps_bact_tick_sub, group = &quot;tick_sp_short&quot;, 
+                            index = &quot;chao1&quot;,
+                            group.colors = tickspcols,
+                            label.format=&quot;p.format&quot;,
+                            stats = TRUE)
+chao1_alpha_plot_tk = chao1_alpha_plot_tk + ylab(&quot;Chao1 Index&quot;) + xlab(&quot;&quot;) + labs(title = &quot;Chao1&quot;)
+shan_alpha_plot_tk &lt;- plot_diversity_stats(ps_bact_tick_sub, group = &quot;tick_sp_short&quot;, 
+                            index = &quot;diversity_shannon&quot;,
+                            group.colors = tickspcols,
+                            label.format=&quot;p.format&quot;,
+                            stats = TRUE)
+shan_alpha_plot_tk = shan_alpha_plot_tk + ylab(&quot;Shannon Index&quot;) + xlab(&quot;&quot;) + labs(title = &quot;Shannon&quot;)
+invsimp_alpha_plot_tk &lt;- plot_diversity_stats(ps_bact_tick_sub, group = &quot;tick_sp_short&quot;, 
+                            index = &quot;diversity_inverse_simpson&quot;,
+                            group.colors = tickspcols,
+                            label.format=&quot;p.format&quot;,
+                            stats = TRUE)
+invsimp_alpha_plot_tk = invsimp_alpha_plot_tk + ylab(&quot;Inverse Simpson Index&quot;) + xlab(&quot;&quot;) + labs(title = &quot;Inverse Simpson&quot;)</code></pre>
+<pre class="r"><code>#Merge all four alpha div plots into one figure
+alphadiv_wp_tk &lt;- ggarrange(obs_alpha_plot_tk, chao1_alpha_plot_tk, shan_alpha_plot_tk, invsimp_alpha_plot_tk,
+                    labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;),
+                    ncol = 2, nrow = 2)
+ggsave(&quot;alphadiv_withpvalues_tk.pdf&quot;, plot = alphadiv_wp_tk, path = &quot;output/plots&quot;, width = 30, height = 30, units = &quot;cm&quot;)</code></pre>
 </div>
 </div>
 <div id="taxonomy" class="section level2">
@@ -837,6 +906,24 @@ heatmap_count &lt;- amp_heatmap(amp_samp,
 <p>Save PDF of plots</p>
 <pre class="r"><code>ggsave(&quot;heatmap_rel.pdf&quot;, plot = heatmap_rel, path = &quot;output/plots&quot;, width = 40, height = 25, units = &quot;cm&quot;)
 ggsave(&quot;heatmap_count.pdf&quot;, plot = heatmap_count, path = &quot;output/plots&quot;, width = 40, height = 25, units = &quot;cm&quot;)</code></pre>
+<p>Heat map with more detail for tick samples only. Aggregate taxa, showing 40 most abundant by Family species, facet by sample type</p>
+<pre class="r"><code>amp_tick_sub &lt;- amp_subset_samples(amp_tick,
+                                    tick_sp_short %in% c(&quot;Ixhol&quot;, &quot;Ixtri&quot;, &quot;Ixtas&quot;, &quot;Ixant&quot;, &quot;Ixaus&quot;, &quot;Amtri&quot;))
+# Relative abundance
+hmap_rel_tick &lt;- amp_heatmap(amp_tick_sub,
+            facet_by = &quot;tick_sp_short&quot;,
+            group_by = &quot;instar&quot;,
+            tax_aggregate = &quot;Family&quot;,
+            tax_show = 15,
+            normalise = TRUE,
+            plot_values = FALSE,
+            plot_values_size = 3,
+            round = 0, color_vector = c(&quot;white&quot;, &quot;#e5ba52&quot;, &quot;#ab7ca3&quot;, &quot;#9d02d7&quot;, &quot;#0030bf&quot;), plot_colorscale = &quot;log10&quot;)  +
+  theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1),
+        axis.text.y = element_text(size=10),
+        legend.position=&quot;right&quot;)</code></pre>
+<p>Save plot</p>
+<pre class="r"><code>ggsave(&quot;heatmap_rel_tick.pdf&quot;, plot = hmap_rel_tick, path = &quot;output/plots&quot;, width = 40, height = 25, units = &quot;cm&quot;)</code></pre>
 </div>
 <div id="microbiome-utlities" class="section level4">
 <h4>2.2.2 Microbiome utlities</h4>
@@ -943,7 +1030,7 @@ plot_select_taxa_sp4 = plot_select_taxa_sp1 + theme(axis.text.x = element_text(a
 # Save plot as PDF
 ggsave(&quot;plot_select_taxa_sp1.pdf&quot;, plot = plot_select_taxa_sp3, path = &quot;output/plots&quot;, width = 30, height = 30, units = &quot;cm&quot;)
 ggsave(&quot;plot_select_taxa_sp2.pdf&quot;, plot = plot_select_taxa_sp4, path = &quot;output/plots&quot;, width = 30, height = 30, units = &quot;cm&quot;)</code></pre>
-<p><em>Now rotate through this to separate sample types and species</em></p>
+<p><strong>Now rotate through this to separate sample types and species</strong></p>
 <p><strong>1. Blood</strong></p>
 <pre class="r"><code>ps_bact_blF &lt;- aggregate_taxa(ps_bact_bl, &quot;Family&quot;)
 # Identify top 40 taxa
@@ -1077,6 +1164,45 @@ plot_select_taxa_tis4 = plot_select_taxa_tis1 + theme(axis.text.x = element_text
 # Save plot as PDF
 ggsave(&quot;plot_select_taxa_tis1.pdf&quot;, plot = plot_select_taxa_tis3, path = &quot;output/plots&quot;, width = 30, height = 30, units = &quot;cm&quot;)
 ggsave(&quot;plot_select_taxa_tis2.pdf&quot;, plot = plot_select_taxa_tis4, path = &quot;output/plots&quot;, width = 30, height = 30, units = &quot;cm&quot;)</code></pre>
+<p>More detailed info on Anaplasmataceae family and tick species</p>
+<pre class="r"><code># Subset Ixodes holocyclus
+Ixhol = subset_samples(ps_bact_tick, tick_sp_short == &quot;Ixhol&quot;)
+IxholF &lt;- aggregate_taxa(Ixhol, &quot;Family&quot;)
+# Select just Anaplasmataceae
+select.taxa_ana &lt;- c(&quot;Anaplasmataceae&quot;)
+
+# identify number of species
+n_distinct(IxholF@sam_data$instar)
+# set colours
+instarcol = viridis(4, option = &quot;D&quot;)
+
+# Now plot selected taxa with statistical analysis
+
+ixhol_ana &lt;- plot_listed_taxa(IxholF, select.taxa_ana, 
+                      group= &quot;instar&quot;,
+                      group.colors = instarcol,
+                      add.violin = TRUE,
+                      violin.opacity = 0.3,
+                      dot.opacity = 0.25,
+                      box.opacity = 0.25,
+                      panel.arrange= &quot;wrap&quot;)
+
+# Add statistical analysis
+comps &lt;- make_pairs(sample_data(IxholF)$instar)
+ixhol_ana1 &lt;- ixhol_ana + stat_compare_means(
+  comparisons = comps,
+  label = &quot;p.format&quot;,
+  tip.length = 0.05,
+  method = &quot;wilcox.test&quot;,
+  size = 3) + xlab(&quot;Instar&quot;) + ylab(&quot;Relative abundance (%)&quot;) + scale_y_continuous(labels = scales::percent)</code></pre>
+<pre><code>### For visualization saving option with and without p values
+# Customise plot
+plot_select_taxa_bl3 = plot_select_taxa_bl + theme(axis.text.x = element_text(angle=45, size=8, vjust = 0.5)) +  scale_x_discrete(labels = function(x) str_wrap(x, width = 10)) + xlab(&quot;Species&quot;) + ylab(&quot;Relative abundance (%)&quot;) + scale_y_continuous(labels = scales::percent)
+plot_select_taxa_bl4 = plot_select_taxa_bl1 + theme(axis.text.x = element_text(angle=45, size=8, vjust = 0.5)) +  scale_x_discrete(labels = function(x) str_wrap(x, width = 10))
+
+# Save plot as PDF
+ggsave(&quot;plot_select_taxa_bl1.pdf&quot;, plot = plot_select_taxa_bl3, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)
+ggsave(&quot;plot_select_taxa_bl2.pdf&quot;, plot = plot_select_taxa_bl4, path = &quot;output/plots&quot;, width = 30, height = 20, units = &quot;cm&quot;)</code></pre>
 </div>
 <div id="plotting-top-taxa" class="section level3">
 <h3>2.4. Plotting top taxa</h3>
@@ -1258,7 +1384,7 @@ ps_bact_samprel.f &lt;- format_to_besthit(ps_bact_samprel)
 # Make a list of SampleCategory
 sample_cat &lt;- unique(as.character(meta(ps_bact_samprel.f)$SampleCategory))
 print(sample_cat)</code></pre>
-<p>Format to best best and then Re-Write a for loop to go through each of the disease_states one by one and combine identified core taxa into a list. Loop through for three different abundance/prevalence situations</p>
+<p>Format to best hit and then Re-Write a for loop to go through each of the disease_states one by one and combine identified core taxa into a list. Loop through for three different abundance/prevalence situations</p>
 <p><strong>option a</strong></p>
 <pre class="r"><code>list_core &lt;- c() # an empty object to store information
 
@@ -1540,7 +1666,7 @@ ord_MMDS_bray &lt;- amp_ordinate(amp_samp1000,
                         sample_colorframe = TRUE,
                         sample_colorframe_label = &quot;SampleCategory&quot;,
                         detailed_output = TRUE)</code></pre>
-<p>Customise and save plotS</p>
+<p>Customise and save plots</p>
 <pre class="r"><code>ord_CCA_plot = ord_CCA$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
 ggsave(&quot;ord_CCA.pdf&quot;, plot = ord_CCA_plot, path = &quot;output/plots&quot;, width = 15, height = 15, units = &quot;cm&quot;)
 ord_CA_plot &lt;- ord_CA$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;))
@@ -1663,7 +1789,7 @@ ggsave(&quot;ticksub_ord.pdf&quot;, plot = ticksub_ord, path = &quot;output/plot
 </div>
 <div id="phyloseq" class="section level3">
 <h3>5.2. Phyloseq</h3>
-<p>Use the phyloseq package</p>
+<p>Ordination using the phyloseq package</p>
 <pre class="r"><code>#prune samples with low reads
 ps_BR1 = prune_samples(sample_sums(ps_BR)&gt;=1000, ps_BR)
 bray_dist = phyloseq::distance(ps_BR1, method=&quot;bray&quot;, weighted=F)
@@ -1677,25 +1803,180 @@ BR_eu_PCoAordination = ordinate(ps_BR1, method=&quot;PCoA&quot;, distance=eu_dis
 BR_eu_PCoA &lt;- plot_ordination(ps_BR1, BR_eu_PCoAordination, color=&quot;SampleCategory&quot;) + theme(aspect.ratio=1)
 # Statistical analysis
 adonis(eu_dist ~ sample_data(ps_BR1)$SampleCategory)</code></pre>
+<p>phyloseq ordination - tick samples</p>
+<pre class="r"><code>#prune samples with low reads
+ps_tick = prune_samples(sample_sums(ps_bact_tick)&gt;=1000, ps_bact_tick)
+bray_dist = phyloseq::distance(ps_tick, method=&quot;bray&quot;, weighted=F)
+tick_PCoAordination = ordinate(ps_tick, method=&quot;PCoA&quot;, distance=bray_dist)
+tick_PCoAordination2 = plot_ordination(ps_tick, tick_PCoAordination, color=&quot;tick_sp_short&quot;, shape=&quot;instar&quot;) + theme(aspect.ratio=1)
+adonis(bray_dist ~ sample_data(ps_tick)$species)</code></pre>
+<p>phyloseq ordination - <em>Ix. holocyclus</em> samples</p>
+<pre class="r"><code>ixhol = subset_samples(ps_bact_tick, tick_sp_short==&quot;Ixhol&quot;)
+#prune samples with low reads
+ps_tick = prune_samples(sample_sums(ixhol)&gt;=1000, ixhol)
+bray_dist = phyloseq::distance(ps_tick, method=&quot;bray&quot;, weighted=F)
+tick_PCoAordination = ordinate(ps_tick, method=&quot;PCoA&quot;, distance=bray_dist)
+tick_PCoAordination2 = plot_ordination(ps_tick, tick_PCoAordination, color=&quot;tick_sp_short&quot;, shape=&quot;instar&quot;) + theme(aspect.ratio=1)
+adonis(bray_dist ~ sample_data(ps_tick)$species)</code></pre>
+<p>phyloseq ordination - <em>Ix. holocyclus</em>, <em>Ix. tasmani</em> and <em>Ix. trichosuri</em> samples</p>
+<pre class="r"><code>ps_bact_tick_sub = subset_samples(ps_bact_tick, tick_sp_short==&quot;Ixhol&quot; | tick_sp_short==&quot;Ixtri&quot; | tick_sp_short==&quot;Ixtas&quot; | tick_sp_short==&quot;Ixhol;Ixtri&quot;)
+# prune samples with less than 1000 reads
+ps_bact_tick_sub_pr = prune_samples(sample_sums(ps_bact_tick_sub)&gt;=1000, ps_bact_tick_sub)
+
+bray_dist = phyloseq::distance(ps_bact_tick_sub_pr, method=&quot;bray&quot;, weighted=F)
+tick_PCoAordination = ordinate(ps_bact_tick_sub_pr, method=&quot;PCoA&quot;, distance=bray_dist)
+tick_PCoAordination2 = plot_ordination(ps_bact_tick_sub_pr, tick_PCoAordination, color=&quot;tick_sp_short&quot;, shape=&quot;instar&quot;) + theme(aspect.ratio=1)
+adonis(bray_dist ~ sample_data(ps_bact_tick_sub_pr)$tick_sp_short)</code></pre>
 </div>
 <div id="statistical-analysis" class="section level3">
 <h3>5.3. Statistical analysis</h3>
 <p>See tutorial <a href="https://mibwurrepo.github.io/Microbial-bioinformatics-introductory-course-Material-2018/beta-diversity-metrics.html#permanova">here</a></p>
-<pre class="r"><code># Transform data to hellinger
-pseq.rel &lt;- microbiome::transform(ps_bact_samp, &quot;hellinger&quot;)
+<p><strong>Overall statistical analysis</strong> Differences by sample type - using both ANOVA and MANOVA methods</p>
+<pre class="r"><code># prune samples with less than 1000 reads
+ps_bact_pr = prune_samples(sample_sums(ps_bact_samp)&gt;=1000, ps_bact_samp)
+# Transform data to hellinger
+pseq.rel &lt;- microbiome::transform(ps_bact_pr, &quot;hellinger&quot;)
+# Pick relative abundances (compositional) and sample metadata 
+otu &lt;- abundances(pseq.rel)
+meta &lt;- meta(pseq.rel)
+
+# samples x SampleCategory as input
+permanova &lt;- adonis(t(otu) ~ SampleCategory,
+                    data = meta, permutations=999, method = &quot;bray&quot;)
+
+
+## statistics
+print(as.data.frame(permanova$aov.tab)[&quot;SampleCategory&quot;, &quot;Pr(&gt;F)&quot;])
+dist &lt;- vegdist(t(otu))
+mod &lt;- betadisper(dist, meta$SampleCategory)
+### ANOVA - are groups different 
+anova(betadisper(dist, meta$SampleCategory))
+### PERMANOVA - which groups different
+permutest(betadisper(dist, meta$SampleCategory), pairwise = TRUE)</code></pre>
+<p><strong>Statistical comparison within sample types statistical analysis</strong> Differences by sample type - using both ANOVA and MANOVA methods</p>
+<ol style="list-style-type: decimal">
+<li>Blood samples - all</li>
+</ol>
+<pre class="r"><code># prune samples with less than 1000 reads
+ps_bact_bl_pr = prune_samples(sample_sums(ps_bact_bl)&gt;=1000, ps_bact_bl)
+# Transform data to hellinger
+pseq.rel &lt;- microbiome::transform(ps_bact_bl_pr, &quot;hellinger&quot;)
 # Pick relative abundances (compositional) and sample metadata 
 otu &lt;- abundances(pseq.rel)
 meta &lt;- meta(pseq.rel)
 
 # samples x species as input
-permanova &lt;- adonis(t(otu) ~ SampleCategory,
+permanova &lt;- adonis(t(otu) ~ species,
                     data = meta, permutations=999, method = &quot;bray&quot;)
 
-# P-value
-print(as.data.frame(permanova$aov.tab)[&quot;SampleCategory&quot;, &quot;Pr(&gt;F)&quot;])
 
+## statistics
+print(as.data.frame(permanova$aov.tab)[&quot;species&quot;, &quot;Pr(&gt;F)&quot;])
 dist &lt;- vegdist(t(otu))
-anova(betadisper(dist, meta$SampleCategory))</code></pre>
+mod &lt;- betadisper(dist, meta$species)
+### ANOVA - are groups different 
+anova(betadisper(dist, meta$species))
+### PERMANOVA - which groups different
+permutest(betadisper(dist, meta$species), pairwise = TRUE)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Tick samples - all</li>
+</ol>
+<pre class="r"><code># prune samples with less than 1000 reads
+ps_bact_tick_pr = prune_samples(sample_sums(ps_bact_tick)&gt;=1000, ps_bact_tick)
+# Transform data to hellinger
+pseq.rel &lt;- microbiome::transform(ps_bact_tick_pr, &quot;hellinger&quot;)
+# Pick relative abundances (compositional) and sample metadata 
+otu &lt;- abundances(pseq.rel)
+meta &lt;- meta(pseq.rel)
+
+# samples x species as input
+permanova &lt;- adonis(t(otu) ~ species,
+                    data = meta, permutations=999, method = &quot;bray&quot;)
+
+
+## statistics
+print(as.data.frame(permanova$aov.tab)[&quot;species&quot;, &quot;Pr(&gt;F)&quot;])
+dist &lt;- vegdist(t(otu))
+mod &lt;- betadisper(dist, meta$species)
+### ANOVA - are groups different 
+anova(betadisper(dist, meta$species))
+### PERMANOVA - which groups different
+permutest(betadisper(dist, meta$species), pairwise = TRUE)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Tissue samples - all</li>
+</ol>
+<pre class="r"><code># prune samples with less than 1000 reads
+ps_bact_tis_pr = prune_samples(sample_sums(ps_bact_tis)&gt;=1000, ps_bact_tis)
+# Transform data to hellinger
+pseq.rel &lt;- microbiome::transform(ps_bact_tis_pr, &quot;hellinger&quot;)
+# Pick relative abundances (compositional) and sample metadata 
+otu &lt;- abundances(pseq.rel)
+meta &lt;- meta(pseq.rel)
+
+# samples x species as input
+permanova &lt;- adonis(t(otu) ~ species,
+                    data = meta, permutations=999, method = &quot;bray&quot;)
+
+
+## statistics
+print(as.data.frame(permanova$aov.tab)[&quot;species&quot;, &quot;Pr(&gt;F)&quot;])
+dist &lt;- vegdist(t(otu))
+mod &lt;- betadisper(dist, meta$species)
+### ANOVA - are groups different 
+anova(betadisper(dist, meta$species))
+### PERMANOVA - which groups different
+permutest(betadisper(dist, meta$species), pairwise = TRUE)</code></pre>
+<p><strong>Statistical comparison between tick species</strong> Differences by sample type - using both ANOVA and MANOVA methods</p>
+<ol style="list-style-type: decimal">
+<li>Tick samples - all</li>
+</ol>
+<pre class="r"><code># prune samples with less than 1000 reads
+ps_bact_tick_pr = prune_samples(sample_sums(ps_bact_tick)&gt;=1000, ps_bact_tick)
+# Transform data to hellinger
+pseq.rel &lt;- microbiome::transform(ps_bact_tick_pr, &quot;hellinger&quot;)
+# Pick relative abundances (compositional) and sample metadata 
+otu &lt;- abundances(pseq.rel)
+meta &lt;- meta(pseq.rel)
+
+# samples x tick species as input
+permanova &lt;- adonis(t(otu) ~ tick_sp_short,
+                    data = meta, permutations=999, method = &quot;bray&quot;)
+
+
+## statistics
+print(as.data.frame(permanova$aov.tab)[&quot;tick_sp_short&quot;, &quot;Pr(&gt;F)&quot;])
+dist &lt;- vegdist(t(otu))
+mod &lt;- betadisper(dist, meta$tick_sp_short)
+### ANOVA - are groups different 
+anova(betadisper(dist, meta$tick_sp_short))
+### PERMANOVA - which groups different
+permutest(betadisper(dist, meta$tick_sp_short), pairwise = TRUE)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Tick samples - subset of just sympatric Northern Beaches samples</li>
+</ol>
+<pre class="r"><code># subset select tick species
+ps_bact_tick_sub = subset_samples(ps_bact_tick, tick_sp_short==&quot;Ixhol&quot; | tick_sp_short==&quot;Ixtri&quot; | tick_sp_short==&quot;Ixtas&quot; | tick_sp_short==&quot;Ixhol;Ixtri&quot;)
+# prune samples with less than 1000 reads
+ps_bact_tick_sub_pr = prune_samples(sample_sums(ps_bact_tick_sub)&gt;=1000, ps_bact_tick_sub)
+# Transform data to hellinger
+pseq.rel &lt;- microbiome::transform(ps_bact_tick_sub_pr, &quot;hellinger&quot;)
+# Pick relative abundances (compositional) and sample metadata 
+otu &lt;- abundances(pseq.rel)
+meta &lt;- meta(pseq.rel)
+
+# samples x tick species as input
+permanova &lt;- adonis(t(otu) ~ tick_sp_short,
+                    data = meta, permutations=999, method = &quot;bray&quot;)
+
+
+## statistics
+print(as.data.frame(permanova$aov.tab)[&quot;tick_sp_short&quot;, &quot;Pr(&gt;F)&quot;])
+dist &lt;- vegdist(t(otu))
+mod &lt;- betadisper(dist, meta$tick_sp_short)
+### ANOVA - are groups different 
+anova(betadisper(dist, meta$tick_sp_short))
+### PERMANOVA - which groups different
+permutest(betadisper(dist, meta$tick_sp_short), pairwise = TRUE)</code></pre>
 </div>
 </div>
 <div id="beta-diversity-plot" class="section level2">
@@ -1709,6 +1990,154 @@ anova(betadisper(dist, meta$SampleCategory))</code></pre>
   values_size = 3
 )
 betadiv</code></pre>
+</div>
+<div id="hierarchical-cluster-analysis" class="section level2">
+<h2>7. Hierarchical cluster analysis</h2>
+<p>Function from <a href="https://bioconductor.org/packages/devel/bioc/vignettes/MicrobiotaProcess/inst/doc/MicrobiotaProcess-basics.html">MicrobiotaProcess</a>.</p>
+<p>Beta diversity metrics can assess the differences between microbial communities. It can be visualized with PCA or PCoA, this can also be visualized with hierarchical clustering. MicrobiotaProcess also implements the analysis based on <a href="https://yulab-smu.top/treedata-book/">ggtree</a>.</p>
+<pre class="r"><code>## All samples - detailed, include species and SampleCategory
+clust_all &lt;- get_clust(obj=ps_bact_samp, distmethod=&quot;euclidean&quot;,
+                      method=&quot;hellinger&quot;, hclustmethod=&quot;average&quot;)
+speciescol = viridis(10, option = &quot;D&quot;)
+# circular layout
+clust_all_plot &lt;- ggclust(obj=clust_all ,
+                      layout = &quot;circular&quot;,
+                      pointsize=1,
+                      fontsize=0,
+                      factorNames=c(&quot;species&quot;,&quot;SampleCategory&quot;)) + scale_color_manual(values=speciescol) +  scale_shape_manual(values=c(17, 15, 16)) + ggtitle(&quot;Hierarchical Cluster of All Samples (euclidean)&quot;)
+# Save plot
+ggsave(&quot;clust_all_plot.pdf&quot;, plot = clust_all_plot , path = &quot;output/plots&quot;, width = 25, height = 25, units = &quot;cm&quot;)
+
+### All samples - simple version, only colour SampleCategory
+ColSampCat = c(&quot;#7a255d&quot;, &quot;#9fd0cb&quot;, &quot;#7566ff&quot;)
+# circular layout
+clust_all_plot2 &lt;- ggclust(obj=clust_all ,
+                      layout = &quot;circular&quot;,
+                      pointsize=1,
+                      fontsize=0,
+                      factorNames=c(&quot;SampleCategory&quot;)) + scale_color_manual(values=ColSampCat) +  ggtitle(&quot;Hierarchical Cluster of All Samples (euclidean)&quot;)
+# Save plot
+ggsave(&quot;clust_all_plot2.pdf&quot;, plot = clust_all_plot2 , path = &quot;output/plots&quot;, width = 25, height = 25, units = &quot;cm&quot;)
+
+
+# Blood samples
+clust_bl &lt;- get_clust(obj=ps_bact_bl, distmethod=&quot;euclidean&quot;,
+                      method=&quot;hellinger&quot;, hclustmethod=&quot;average&quot;)
+speciesblcol = viridis(7, option = &quot;D&quot;)
+# circular layout
+clust_bl_plot &lt;- ggclust(obj=clust_bl ,
+                      layout = &quot;circular&quot;,
+                      pointsize=3,
+                      fontsize=0,
+                      factorNames=c(&quot;species&quot;)) + scale_color_manual(values=speciesblcol) + ggtitle(&quot;Hierarchical Cluster of Blood Samples (euclidean)&quot;)
+# Save plot
+ggsave(&quot;clust_bl_plot.pdf&quot;, plot = clust_bl_plot , path = &quot;output/plots&quot;, width = 25, height = 25, units = &quot;cm&quot;)
+
+## Tick samples
+clust_tick &lt;- get_clust(obj=ps_bact_tick, distmethod=&quot;euclidean&quot;,
+                      method=&quot;hellinger&quot;, hclustmethod=&quot;average&quot;)
+speciestickcol = viridis(8, option = &quot;D&quot;)
+# circular layout
+clust_tick_plot &lt;- ggclust(obj=clust_tick ,
+                      layout = &quot;circular&quot;,
+                      pointsize=2,
+                      fontsize=0,
+                      factorNames=c(&quot;species&quot;,&quot;tick_sp_short&quot;)) + scale_color_manual(values=speciestickcol) +  scale_shape_manual(values=c(17, 8, 25, 18, 7, 15, 16)) + ggtitle(&quot;Hierarchical Cluster of Tick Samples (euclidean)&quot;)
+# Save plot
+ggsave(&quot;clust_tick_plot.pdf&quot;, plot = clust_tick_plot , path = &quot;output/plots&quot;, width = 25, height = 25, units = &quot;cm&quot;)
+
+### Tissue samples
+clust_tis &lt;- get_clust(obj=ps_bact_tis, distmethod=&quot;euclidean&quot;,
+                      method=&quot;hellinger&quot;, hclustmethod=&quot;average&quot;)
+speciestiscol = viridis(9, option = &quot;D&quot;)
+## circular layout
+clust_tis_plot &lt;- ggclust(obj=clust_tis ,
+                      layout = &quot;circular&quot;,
+                      pointsize=3,
+                      fontsize=0,
+                      factorNames=c(&quot;species&quot;)) + scale_color_manual(values=speciestiscol) + ggtitle(&quot;Hierarchical Cluster of Tissue Samples (euclidean)&quot;)
+# Save plot
+ggsave(&quot;clust_tis_plot.pdf&quot;, plot = clust_tis_plot , path = &quot;output/plots&quot;, width = 25, height = 25, units = &quot;cm&quot;)</code></pre>
+</div>
+<div id="tree-for-taxa-of-interest" class="section level2">
+<h2>Tree for taxa of interest</h2>
+<p>Load additional libraries</p>
+<pre class="r"><code>library(ggridges)
+library(scales)
+library(ggtree)</code></pre>
+<p>Simple tree from tutorial <a href="https://web.stanford.edu/class/bios221/labs/phyloseq/lab_phyloseq.html">here</a></p>
+<pre class="r"><code># group by genus
+taxa_of_interest_g = tax_glom(taxa_of_interest, &quot;Genus&quot;)
+# plot tree
+tree1 = plot_tree(taxa_of_interest_g, color=&quot;species&quot;, shape =&quot;SampleCategory&quot;, size=&quot;abundance&quot;)</code></pre>
+<p>From tutorial <a href="https://yulab-smu.top/treedata-book/chapter9.html">here</a></p>
+<pre class="r"><code>tree2 = ggtree(taxa_of_interest, layout=&#39;circular&#39;) + geom_text2(aes(subset=!isTip, label=label), hjust=-.2, size=4) +
+  geom_tiplab(aes(label=Genus), hjust=-.3) +
+  geom_point(aes(x=x+hjust, color=species, shape=Family),na.rm=TRUE) +
+  scale_size_continuous(trans=log_trans(5)) +
+  theme(legend.position=&quot;right&quot;) + scale_shape_manual(values=c(17, 15, 16, 0, 1, 2, 10))</code></pre>
+<pre class="r"><code>library(ggtreeExtra)
+library(ggtree)
+library(phyloseq)
+library(dplyr)
+
+data(&quot;GlobalPatterns&quot;)
+GP &lt;- GlobalPatterns
+GP &lt;- prune_taxa(taxa_sums(GP) &gt; 600, GP)
+sample_data(GP)$human &lt;- get_variable(GP, &quot;SampleType&quot;) %in%
+                              c(&quot;Feces&quot;, &quot;Skin&quot;)
+mergedGP &lt;- merge_samples(GP, &quot;SampleType&quot;)
+mergedGP &lt;- rarefy_even_depth(taxa_of_interest,rngseed=394582)
+mergedGP &lt;- tax_glom(mergedGP,&quot;Order&quot;)
+
+melt_simple &lt;- psmelt(taxa_of_interest) %&gt;%
+               filter(Abundance &lt; 120) %&gt;%
+               select(OTU, val=Abundance)
+
+p &lt;- ggtree(taxa_of_interest, layout=&quot;fan&quot;, open.angle=10) + 
+     geom_tippoint(mapping=aes(color=Family), 
+                   size=1.5,
+                   show.legend=FALSE)
+p &lt;- rotate_tree(p, -90)
+
+p &lt;- tree2 +
+     geom_fruit(
+         data=melt_simple,
+         geom=geom_boxplot,
+         mapping = aes(
+                     y=OTU,
+                     x=val,
+                     group=label,
+                     fill=Family,
+                   ),
+         size=.2,
+         outlier.size=0.5,
+         outlier.stroke=0.08,
+         outlier.shape=21,
+         axis.params=list(
+                         axis       = &quot;x&quot;,
+                         text.size  = 1.8,
+                         hjust      = 1,
+                         vjust      = 0.5,
+                         nbreak     = 3,
+                     ),
+         grid.params=list()
+     ) 
+     
+p &lt;- p +
+     scale_fill_discrete(
+         name=&quot;Family&quot;,
+         guide=guide_legend(keywidth=0.8, keyheight=0.8, ncol=1)
+     ) +
+     theme(
+         legend.title=element_text(size=9), # The title of legend 
+         legend.text=element_text(size=7) # The label text of legend, the sizes should be adjust with dpi.
+     )
+p</code></pre>
+<p>melt_simple &lt;- psmelt(taxa_of_interest) %&gt;% filter(Abundance &lt; 120) %&gt;% select(OTU, val=Abundance)</p>
+<p>p &lt;- ggtree(taxa_of_interest, layout=“fan”, open.angle=10) + geom_tippoint(mapping=aes(color=Family), size=1.5, show.legend=FALSE) p &lt;- rotate_tree(p, -90)</p>
+<p>p &lt;- p + geom_fruit( data=melt_simple, geom=geom_boxplot, mapping = aes( y=OTU, x=val, group=label, fill=Family, ), size=.2, outlier.size=0.5, outlier.stroke=0.08, outlier.shape=21, axis.params=list( axis = “x”, text.size = 1.8, hjust = 1, vjust = 0.5, nbreak = 3, ), grid.params=list() )</p>
+<p>p &lt;- p + scale_fill_discrete( name=“Family”, guide=guide_legend(keywidth=0.8, keyheight=0.8, ncol=1) ) + theme( legend.title=element_text(size=9), # The title of legend legend.text=element_text(size=7) # The label text of legend, the sizes should be adjust with dpi. ) p</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
