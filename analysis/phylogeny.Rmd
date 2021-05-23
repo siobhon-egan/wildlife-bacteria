@@ -1,0 +1,228 @@
+---
+title: "Phylogeny visualization"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+```{r }
+library(ggtree)
+library(treeio)
+library(tidyverse)
+library(ggtreeExtra)
+library(ggstar)
+library(readr)
+library(ggrepel)
+library(ape)
+library(phangorn)
+```
+
+[Tutorial here](https://4va.github.io/biodatasci/r-ggtree.html)
+[Tutorial here](https://yulab-smu.top/treedata-book/index.html)
+[here](https://guangchuangyu.github.io/software/ggtree/faq/)
+[here](https://bioconductor.riken.jp/packages/3.1/bioc/vignettes/ggtree/inst/doc/ggtree.html)
+[here](http://www.phytools.org/Cordoba2017/ex/1/)
+[blog post](https://guangchuangyu.github.io/2018/04/rename-phylogeny-tip-labels-in-treeio/)
+
+## Bacteria taxa of interest
+
+
+Load data
+```{r}
+toi_tree <- read.iqtree("data/dada2_tois/IQTREE/all_tois_aln.fasta.treefile") # load IQTREE output
+metadata_tree <- read_csv("data/dada2_tois/IQTREE/all_tois_aln.csv")
+```
+
+Make tree
+```{r}
+toi_tree = ggtree(toi_tree, branch.length='none', layout='circular')
+toi_tree1 = toi_tree %<+% metadata_tree
+toi_tree2 = toi_tree1 + 
+   aes(color = Family)
+ggsave("tree_toi.pdf", plot = toi_tree2, path = "output/plots", width = 20, height = 20, units = "cm")
+# bootstrap
+bsp = tree@phylo$node.label
+# Add node info
+toi_tree3 = toi_tree2 + geom_text(aes(label = label), hjust = 1, vjust = -0.4, size = 3) + geom_nodelab(aes(label = FALSE))
+```
+
+Add note support information
+```{r}
+ggtree(toi_tree, layout = 'circular') + geom_label_repel(aes(label=UFboot, fill=UFboot)) +
+  theme(legend.position = c(.1, .8)) + scale_fill_viridis_c()
+```
+
+toi_tree2 %>%
+    gheatmap(metadata_tree, offset=8, width=0.6, colnames=FALSE) %>%
+    scale_x_ggtree()
+pp + theme(legend.position="right")
+
+To identify node numbers
+```{r}
+toi_tree2n = toi_tree2 + geom_text(aes(label=node), hjust=-.3)
+```
+
+# Borrelia
+
+
+Load data
+```{r}
+bor_iqtree <- read.iqtree("data/taxa_trees/Borrelia/IQTREE_root/borrelia16sv34_trim_43.fasta.treefile") # load IQTREE output
+# newtick tree
+bor_ntree <- read.tree("data/taxa_trees/Borrelia/IQTREE_root/tree.newick") # load newick tree
+# Metadata
+library(readr)
+metadata <- read_csv("data/taxa_trees/Borrelia/IQTREE_root/metadata.csv", 
+    col_types = cols(X6 = col_skip(), X7 = col_skip(), X8 = col_skip(), X9 = col_skip(), X10 = col_skip()))
+```
+
+```{r}
+ggtree(bor_tree) + geom_label_repel(aes(label=UFboot, fill=UFboot)) +
+  theme(legend.position = c(.1, .8)) + scale_fill_viridis_c()
+```
+
+Edit labels
+
+```{r}
+genus <- c(metadata$Genus)
+species <- c(metadata$Species)
+acc <- c(metadata$Accession)
+d <- data.frame(label =bor_iqtree@phylo$tip.label, genus = genus,
+                species = species, acc = acc)
+```
+Make tree with new labels
+```{r}
+bor_ntree2 = ggtree(bor_iqtree) %<+% d + geom_tiplab(aes(label=paste0('italic(', genus, ')~bolditalic(', species, ')~', acc)), parse=T) + geom_point2(aes(subset=(node==46)), shape=23, size=5, fill='black') + geom_hilight(mapping=aes(subset = node %in% c(46))) + scale_fill_manual(values=c("darkgreen"))
+```
+
+Save
+```{r}
+ggsave("bor_ntree2.pdf", plot = bor_ntree2, path = "output/plots", width = 70, height = 40, units = "cm")
+```
+
+
+## Bartonella
+
+Load data
+```{r}
+# load IQTREE output
+bart_tree <- read.iqtree("data/taxa_trees/Bartonella/IQTREE_root/bartonella_clustalw_57seq_533bp.fasta.treefile")
+```
+
+```{r}
+# simple load with branch support and tip labels
+ggtree(bart_tree) + geom_text(aes(label = label))
+#Identify node numbers
+ggtree(bart_tree) + geom_text(aes(label=node), hjust=-.3)
+```
+
+bart_tree$root.edge <- 80
+ggtree(b) + geom_tiplab() + geom_rootedge()
+ggtree(bart_tree) + geom_tiplab() + geom_rootedge()
+ggtree(bart_tree) + geom_tiplab() + geom_rootedge(rootedge = 80)
+bart_tree$root.edge <- 80
+ggtree(tree2) + geom_tiplab() + geom_rootedge()
+
+read.nexus	parsing standard NEXUS file (re-exported from ape)
+
+```{r}
+plot_bartree = ggtree(bart_tree) + geom_label_repel(aes(label=UFboot, fill=SH_aLRT)) +
+  theme(legend.position = c(.1, .8)) + scale_fill_viridis_c() 
+plot_bartree = plot_bartree + geom_point2(aes(subset=(node==68)), shape=23, size=5, fill='red')
+```
+
+```{r}
+#zoom in on clade
+viewClade(p, MRCA(p, "DQ538396", "GU168959"))
+```
+
+--------------------------
+
+
+
+
+
+
+Old data
+```
+#To load data
+load("data/taxa_of_interest.RData")
+# Load tree
+tree <- read.iqtree("data/dada2_tois/IQTREE/ASV_taxa_of_interest_aln.fasta.treefile") # load IQTREE output
+# tree <- read.tree("data/dada2_tois/IQTREE/ASV_taxa_of_interest.newick") # load newick tree
+# Add metadata
+library(readr)
+metadata_tree <- read_csv("data/dada2_tois/taxa_of_interest3.csv")
+```
+
+Plot tree
+```
+pg = ggtree(tree, branch.length='none', layout='circular')
+pg2 = pg %<+% metadata_tree
+pg3 = pg2 + 
+   aes(color = Family)
+
+pg3 = pg2  + 
+     geom_tippoint(mapping=aes(color=Family)
+
+
+pg4 = pg3 + 
+   aes(color = "Family") + 
+  geom_fruit(data=taxa_of_interest,
+             geom=geom_bar, 
+             mapping = aes(y=OTU, size="Abundance"))
+
+
+pg4 = pg3 +
+     geom_fruit(
+         data=taxa_of_interest,
+         geom=geom_boxplot,
+         mapping = aes(
+                     y=OTU,
+                     fill=species
+                   ))
+
+pg4 = pg3 +
+    geom_fruit(
+        data=taxa_of_interest,
+        geom=geom_bar,
+        mapping = aes(
+            x=OTU,
+            y=Abundance))
+```
+
+
+```
+pg = ggtree(tree, branch.length='none', layout='circular')
+t1 = pg %<+% taxa_of_interest
+t2 = t1 + 
+   aes(color = Family)
+t3 <- t1 + 
+      geom_star(
+          mapping=aes(fill=Family, size=Abundance, starshape=SampleCategory),
+          starstroke=1
+      ) +
+      scale_size_continuous(
+          range=c(1, 3),
+          guide=guide_legend(
+                     keywidth=0.5, 
+                     keyheight=0.5, 
+                     override.aes=list(starshape=15), 
+                     order=2)
+      ) + 
+      scale_starshape_manual(
+          values=c(15, 13, 1),
+          guide=guide_legend(
+                    keywidth=1,
+                    keyheight=1,
+                    order=1
+                )
+      )
+t4 = t3 + geom_hilight(node=306, fill="pink", alpha=.6)
+```

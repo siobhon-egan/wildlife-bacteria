@@ -8,13 +8,13 @@ editor_options:
   chunk_output_type: console
 ---
 
-Bacterial profiling of wildlife samples.
-
 In the spirit of reproducibility this project website is created that outlines analysis done for the following publication:
 
-Egan et al. Uncovering sylvatic cylces of bacteria in Australian wildlife. 
+*The bacterial biome of ticks and their wildlife hosts at the sylvatic urban interface.* 
 
-PhD Thesis 2021 (Chapter four)
+**Authors**: Siobhon L. Egan, Casey L. Taylor, Peter B. Banks, Amy S. Northover, Liisa A. Ahlstrom, Una M. Ryan, Peter J. Irwin, Charlotte L. Oskam. 
+
+This publication is also a chpater of my PhD Thesis 2021
 
 ## Data availbility
 

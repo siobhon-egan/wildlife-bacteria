@@ -2,7 +2,7 @@
 title: "Site map"
 output:
   workflowr::wflow_html:
-    toc: false
+    toc: true
 editor_options:
   chunk_output_type: console
 ---

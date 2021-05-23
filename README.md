@@ -2,15 +2,15 @@
 
 A [workflowr](https://github.com/jdblischak/workflowr) project for Siobhon Egan's PhD project on the characterisation of bacteria from wildlife ticks, tissue and blood.
 
-Project website available here http://siobhonlegan.com/wildlife-bacteria/
-
-Bacterial profiling of wildlife samples.
+Project website: http://siobhonlegan.com/wildlife-bacteria/
 
 In the spirit of reproducibility this project website is created that outlines analysis done for the following publication:
 
-Egan et al. Uncovering sylvatic cylces of bacteria in Australian wildlife. 
+*The bacterial biome of ticks and their wildlife hosts at the sylvatic urban interface.* 
 
-PhD Thesis 2021 (Chapter three)
+**Authors**: Siobhon L. Egan, Casey L. Taylor, Peter B. Banks, Amy S. Northover, Liisa A. Ahlstrom, Una M. Ryan, Peter J. Irwin, Charlotte L. Oskam. 
+
+This publication is also a chpater of my PhD Thesis 2021
 
 ## Data availbility
 

@@ -4,17 +4,26 @@ navbar:
   title: wildlife-bacteria
   left:
   - text: Home
-    href: index.html
-  - text: License
-    href: license.html
-  - text: Sites
-    href: site-map.html
-  - text: QIIME2
-    href: QIIME2.html
-  - text: Phyloseq
-    href: phyloseq.html
-  - text: Microbiome viz
-    href: microbiome-viz.html
+    icon: fa-home
+    menu:
+      - text: "About"
+        href: index.html
+      - text: License
+        href: license.html
+  - text: Bioinformatics
+    menu:
+      - text: QIIME2
+        href: QIIME2.html
+      - text: Phyloseq
+        href: phyloseq.html
+      - text: Microbiome viz
+        href: microbiome-viz.html
+  - text: "Misc. analysis"
+    menu:
+      - text: Sites
+        href: site-map.html
+      - text: "Phylogenetics"
+        href: phylogeny.html
   right:
   - icon: fa-github
     text: Source code
@@ -23,5 +32,5 @@ output:
   workflowr::wflow_html:
     toc: yes
     toc_float: yes
-    theme: cosmo
+    theme: readable
     highlight: textmate

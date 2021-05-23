@@ -2,7 +2,7 @@
 title: "Phyloseq"
 output:
   workflowr::wflow_html:
-    toc: false
+    toc: true
 editor_options:
   chunk_output_type: console
 ---
@@ -376,16 +376,16 @@ ps_dec_bact@otu_table [, 1:702][ps_dec_bact@otu_table [, 1:702] < 100] <- 0
 
 Save R data for phyloseq object - saving "raw data" (`ps_raw_bact`) and "decontaminated data"  (`ps_dec_bact`)
 ```{r}
-save(ps_raw_bact, file = "../RData/ps_raw_bact.RData")
-save(ps_dec_bact, file = "../RData/ps_dec_bact.RData")
+save(ps_raw_bact, file = "RData/ps_raw_bact.RData")
+save(ps_dec_bact, file = "RData/ps_dec_bact.RData")
 ```
 
 ## 3. Load data and subset
 
 To load raw and decon data quickly from `.RData` format.
 ```{r}
-load("../RData/ps_raw_bact.RData")
-load("../RData/ps_dec_bact.RData")
+load("RData/ps_raw_bact.RData")
+load("RData/ps_dec_bact.RData")
 ```
 
 ### 3.1. For phyloseq object
