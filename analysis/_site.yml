@@ -4,12 +4,9 @@ navbar:
   title: wildlife-bacteria
   left:
   - text: Home
-    icon: fa-home
-    menu:
-      - text: "About"
-        href: index.html
-      - text: License
-        href: license.html
+    href: index.html
+  - text: License
+    href: license.html
   - text: Bioinformatics
     menu:
       - text: QIIME2

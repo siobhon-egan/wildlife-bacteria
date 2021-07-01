@@ -65,46 +65,30 @@ lapply(pkgs, require, character.only = TRUE)
 
 ## 1. Import data
 
-Generate phyloseq object from spreadsheets.
+>Generate phyloseq object from spreadsheets.
 
 Import ASV/OTU count data
 ```{r}
-dada2_ASVs <- read_tsv("../data/dada2/phyloseq/feature-table.tsv", skip = 1)
+dada2_ASVs <- read_tsv("data/dada2/phyloseq/feature-table.tsv", skip = 1)
 dada2_ASVs_lab = column_to_rownames(dada2_ASVs, var = "#OTU ID")
-# Make matrix
-otumat <- as.matrix(dada2_ASVs_lab)
 ```
 
 Import taxonomy data
 ```{r}
-taxonomy <- read_csv("../data/dada2/phyloseq/taxonomy.csv")
+taxonomy <- read_csv("data/dada2/phyloseq/taxonomy.csv")
 taxonomy_lab = column_to_rownames(taxonomy, var = "#q2:types")
-taxmat <- as.matrix(taxonomy_lab)
 ```
 
-Check the class of the otumat and taxmat objects, they MUST be in matrix format. Then we can great a phyloseq object called physeq from the otu and taxonomy tables and check the sample names.
-```{r}
-class(otumat)
-class(taxmat)
-OTU = otu_table(otumat, taxa_are_rows = TRUE)
-TAX = tax_table(taxmat)
-physeq = phyloseq(OTU, TAX)
-physeq
-sample_names(physeq)
-```
-
-**Add metadata and sequence data**
-
-Add sequences to phyloseq object
+Add ASV sequences by reading in the `.fasta` file.
 ```{r}
 # read sequence file
-rep.seqs <- Biostrings::readDNAStringSet("../data/dada2/phyloseq/all_rep-seqs.fasta", format = "fasta")
+rep.seqs <- Biostrings::readDNAStringSet("data/dada2/phyloseq/all_rep-seqs.fasta", format = "fasta")
 ```
 
 Add metadata, importing gDNAID as factor to be able to merge later on
 ```{r}
 library(readr)
-metadata <- read_csv("../data/dada2/phyloseq/metadata.csv", 
+metadata <- read_csv("data/dada2/phyloseq/metadata.csv", 
     col_types = cols(gDNAID = col_factor(levels = c("categorical", 
         "Bl_1", "Bl_10", "Bl_102", "Bl_113", 
         "Bl_114", "Bl_115", "Bl_116", "Bl_117", 
@@ -278,14 +262,41 @@ metadata <- read_csv("../data/dada2/phyloseq/metadata.csv",
 
 # Remove second row which contains column data for QIIME2 format
 metadata <- metadata[-c(1), ]
-metadata_lab = column_to_rownames(metadata, var = "sample-id")
+metadata_lab = column_to_rownames(metadata, var = "new_sample-id")
 sampledata = sample_data(data.frame(metadata_lab))
 sampledata
 ```
 
-**Create final phyloseq object**
+**Renaming sample IDs**
 
-Now you can merge your data to create a final phyloseq object
+Renaming sample-ids for consistency and matching to ENA accession numbers.
+
+```{r}
+OldName <- colnames(dada2_ASVs_lab)
+NewName <- rownames(metadata_lab)
+dada2_ASVs_lab_renamed <- dada2_ASVs_lab %>% rename_at(vars(OldName), ~ NewName)
+
+# Make OTU matrix
+otumat <- as.matrix(dada2_ASVs_lab_renamed)
+# Make Tax matrix
+taxmat <- as.matrix(taxonomy_lab)
+```
+
+**Create phyloseq object**
+
+Check the class of the otumat and taxmat objects, they MUST be in matrix format. 
+Then we can great a phyloseq object called physeq from the otu and taxonomy tables and check the sample names.
+```{r}
+class(otumat)
+class(taxmat)
+OTU = otu_table(otumat, taxa_are_rows = TRUE)
+TAX = tax_table(taxmat)
+physeq = phyloseq(OTU, TAX)
+physeq
+sample_names(physeq)
+```
+
+Now you can merge your sequence and metadata to create a final phyloseq object
 ```{r eval=FALSE}
 ps_raw_bact = merge_phyloseq(physeq, sampledata, rep.seqs)
 ```
@@ -407,10 +418,10 @@ Subset for taxa of interest - family level
 # taxa of interest
 ps_toi_fam = subset_taxa(ps_bact_samp, Family=="Coxiellaceae" | Family=="Mycoplasmataceae" | Family=="Bartonellaceae" | Family=="Francisellaceae" | Family=="Borreliaceae" | Family=="Anaplasmataceae" | Family=="Midichloriaceae" | Family =="Mycobacteriaceae" | Family=="Rickettsiaceae")
 ps_toi_fam = prune_taxa(taxa_sums(ps_toi_fam) > 0, ps_toi_fam)
-writeXStringSet(ps_toi_fam@refseq, "../data/dada2_tois/ps_toi_fam.fasta")
+writeXStringSet(ps_toi_fam@refseq, "data/dada2_tois/ps_toi_fam.fasta")
 melt_toi_fam = psmelt(ps_toi_fam)
 melt_toi_fam = subset(melt_toi_fam, Abundance > 0)
-write.csv(melt_toi_fam, "../data/dada2_tois/melt_toi_fam.csv")
+write.csv(melt_toi_fam, "data/dada2_tois/melt_toi_fam.csv")
 ```
 
 
@@ -419,10 +430,10 @@ Subset for taxa of interest - genus
 # taxa of interest
 ps_toi_gen = subset_taxa(ps_bact_samp, Family=="Coxiellaceae" | Genus=="Mycoplasma" | Genus=="Bartonella" | Genus=="Francisella" | Genus=="Borrelia" | Genus=="Rickettsia" | Genus=="Neoehrlichia" | Genus=="Ehrlichia" | Genus=="Anaplasma" | Genus=="Candidatus Midichloria")
 ps_toi_gen = prune_taxa(taxa_sums(ps_toi_gen) > 0, ps_toi_gen)
-writeXStringSet(ps_toi_gen@refseq, "../data/dada2_tois/ps_toi_gen.fasta")
+writeXStringSet(ps_toi_gen@refseq, "data/dada2_tois/ps_toi_gen.fasta")
 melt_toi_gen = psmelt(ps_toi_gen)
 melt_toi_gen = subset(melt_toi_gen, Abundance > 0)
-write.csv(melt_toi_gen, "../data/dada2_tois/melt_toi_gen.csv")
+write.csv(melt_toi_gen, "data/dada2_tois/melt_toi_gen.csv")
 ```
 
 **Outside of RStudio**

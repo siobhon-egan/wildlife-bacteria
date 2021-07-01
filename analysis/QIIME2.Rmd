@@ -11,9 +11,6 @@ Analysis of 16S rRNA (hypervariable region v1-2) metabarcoding.
 
 Raw Illumina MiSeq `.fastq.gz` reads analysed using QIIME2-2020.11 pipeline using dada2 denoising to create ASVs.
 
-Author: Siobhon Egan <siobhonegan@hotmail.com><siobhon.egan@murdoch.edu.au>
-Last updated: Jan 20201
-
 **Background**
 
 This workflow is written for analysing amplicon data in QIIME2. Input data is Illumina MiSeq paired-end data prepared using Nextera XT indexes (i.e. no additional demultiplexing steps are needed in this case however should your data require demultiplexing it can easily be added in).
