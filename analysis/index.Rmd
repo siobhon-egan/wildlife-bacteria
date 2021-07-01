@@ -18,16 +18,11 @@ This publication is also a chpater of my PhD Thesis 2021
 
 ## Data availbility
 
-<<<<<<< HEAD
 Raw Illumina MiSeq data is available at European nucleotide archive the project accession number PRJEB46006 (ERP130188), which includes the following sample accession numbers:
 
 - 16S bacteria blood ERS6632201--ERS6632359
 - 16S bacteria tissue ERS6632360--ERS6632531
 - 16S bacteria tick ERS6633094--ERS6633353
-
-=======
-Raw Illumina MiSeq data is available at NCBI SRA project XXXXXX
->>>>>>> 939f8bd0220b7c36ec94acff0d2dac574ce1dd5b
 
 Nucleotide sequence data available on Genbank
 
