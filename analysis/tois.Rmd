@@ -1,0 +1,289 @@
+---
+title: "Taxa of interest"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+## 0. Load libraries
+
+**Install libraries if required**
+
+Only need to run this code once.
+
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+        install.packages("BiocManager")
+    # phyloseq
+    source('http://bioconductor.org/biocLite.R')
+    biocLite('phyloseq')
+    #tidyverse
+    install. packages("tidyverse")
+    #ampvis2
+    install.packages("remotes")
+    remotes::install_github("MadsAlbertsen/ampvis2")
+    #ampvis2extras
+    install.packages("BiocManager")
+    BiocManager::install("kasperskytte/ampvis2extras")
+    #ggpubr
+    install.packages("ggpubr")
+    #agricolae
+    install.packages("agricolae")
+    install.packages("remotes")
+    remotes::install_github("DanielSprockett/reltools")
+    devtools::install_github('jsilve24/philr')
+    #decontam
+    BiocManager::install("decontam")
+    library(decontam)
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+    BiocManager::install("Biostrings")
+    
+
+**Load libraries**
+
+```{r}
+pkgs <- c("qiime2R", "phyloseq", "tidyverse", "ampvis2", "ampvis2extras", 
+          "ggpubr", "agricolae", "plotly", "viridis", "cowplot", "MicrobeR", 
+          "microbiome", "reshape", "decontam", "data.table", "ape", "DESeq2", 
+          "vegan", "microbiomeutilities", "knitr", "tibble", "dplyr", 
+          "patchwork", "Biostrings")
+lapply(pkgs, require, character.only = TRUE)
+```
+
+## 1. Load data
+
+Quick load of  raw and decon data (`.RData` format) as per [phyloseq](phyloseq.html) workflow.
+
+```{r}
+load("RData/ps_raw_bact.RData")
+load("RData/ps_dec_bact.RData")
+```
+
+## 2. Subset
+
+### 2.1 Sample Categoryies 
+
+Subset phyloseq object based on sample types
+```{r}
+# Exclude controls
+ps_bact_samp = subset_samples(ps_dec_bact, !SampleType=="Control")
+# Blood samples only
+ps_bact_bl = subset_samples(ps_bact_samp, SampleCategory=="Blood")
+# Tissue samples only
+ps_bact_tis = subset_samples(ps_bact_samp, SampleCategory=="Tissue")
+# Tick samples only
+ps_bact_tick = subset_samples(ps_bact_samp, SampleCategory=="Tick")
+```
+
+### 2.2 Unassigned
+
+Filter ASVs for unassigned taxa and write fasta files and abundance tables
+```{r}
+## Unassigned Kingdom
+kingdom_na = subset_taxa(ps_bact_samp, is.na(Kingdom))
+kingdom_na <- prune_taxa(taxa_sums(kingdom_na) > 0, kingdom_na)
+writeXStringSet(kingdom_na@refseq, "data/dada2/unclassified_taxa/kingdom_na.fa")
+# melt dataframe into long df
+m_kingdom = psmelt(kingdom_na)
+#Remove all rows were abundance is zero
+m_kingdom2 = m_kingdom[m_kingdom$Abundance != 0, ]
+write.csv(m_kingdom2, "data/dada2/unclassified_taxa/kingdom_na.csv")
+
+## Unassigned Phylum
+phylum_na = subset_taxa(ps_bact_samp, is.na(Phylum))
+phylum_na <- prune_taxa(taxa_sums(phylum_na) > 0, phylum_na)
+writeXStringSet(phylum_na@refseq, "data/dada2/unclassified_taxa/phylum_na.fa")
+# melt dataframe into long df
+m_phylum = psmelt(phylum_na)
+#Remove all rows were abundance is zero
+m_phylum2 = m_phylum[m_phylum$Abundance != 0, ]
+write.csv(m_phylum2, "data/dada2/unclassified_taxa/phylum_na.csv")
+
+## Unassigned Class
+class_na = subset_taxa(ps_bact_samp, is.na(Class))
+class_na <- prune_taxa(taxa_sums(class_na) > 0, class_na)
+writeXStringSet(class_na@refseq, "data/dada2/unclassified_taxa/class_na.fa")
+# melt dataframe into long df
+m_class = psmelt(class_na)
+#Remove all rows were abundance is zero
+m_class2 = m_class[m_class$Abundance != 0, ]
+write.csv(m_class2, "data/dada2/unclassified_taxa/class_na.csv")
+
+## Unassigned Order
+order_na = subset_taxa(ps_bact_samp, is.na(Order))
+order_na <- prune_taxa(taxa_sums(order_na) > 0, order_na)
+writeXStringSet(order_na@refseq, "data/dada2/unclassified_taxa/order_na.fa")
+# melt dataframe into long df
+m_order = psmelt(order_na)
+#Remove all rows were abundance is zero
+m_order2 = m_order[m_order$Abundance != 0, ]
+write.csv(m_order2, "data/dada2/unclassified_taxa/order_na.csv")
+
+## Unassigned Family
+family_na = subset_taxa(ps_bact_samp, is.na(Family))
+family_na <- prune_taxa(taxa_sums(family_na) > 0, family_na)
+writeXStringSet(family_na@refseq, "data/dada2/unclassified_taxa/family_na.fa")
+# melt dataframe into long df
+m_family = psmelt(family_na)
+#Remove all rows were abundance is zero
+m_family2 = m_family[m_family$Abundance != 0, ]
+write.csv(m_family2, "data/dada2/unclassified_taxa/family_na.csv")
+```
+
+### 2.3 Taxa of interest
+
+Filter ASVs for taxa of interest and write as fasta file
+
+```{r}
+### Filter by taxa and then filter out ASVs with 0 sequences
+Anaplasmataceae <- subset_taxa(ps_dec_bact, Family == "Anaplasmataceae")
+Anaplasmataceae <- prune_taxa(taxa_sums(Anaplasmataceae) > 0, Anaplasmataceae)
+writeXStringSet(Anaplasmataceae@refseq, "data/dada2_tois/Anaplasmataceae.fa")
+Rickettsiaceae <- subset_taxa(ps_dec_bact, Family == "Rickettsiaceae")
+Rickettsiaceae <- prune_taxa(taxa_sums(Rickettsiaceae) > 0, Rickettsiaceae)
+writeXStringSet(Rickettsiaceae@refseq, "data/dada2_tois/Rickettsiaceae.fa")
+Midichloriaceae <- subset_taxa(ps_dec_bact, Family == "Midichloriaceae")
+Midichloriaceae <- prune_taxa(taxa_sums(Midichloriaceae) > 0, Midichloriaceae)
+writeXStringSet(Midichloriaceae@refseq, "data/dada2_tois/Midichloriaceae.fa")
+Coxiellaceae <- subset_taxa(ps_dec_bact, Family == "Coxiellaceae")
+Coxiellaceae <- prune_taxa(taxa_sums(Coxiellaceae) > 0, Coxiellaceae)
+writeXStringSet(Coxiellaceae@refseq, "data/dada2_tois/Coxiellaceae.fa")
+Mycoplasmataceae <- subset_taxa(ps_dec_bact, Family == "Mycoplasmataceae")
+Mycoplasmataceae <- prune_taxa(taxa_sums(Mycoplasmataceae) > 0, Mycoplasmataceae)
+writeXStringSet(Mycoplasmataceae@refseq, "data/dada2_tois/Mycoplasmataceae.fa")
+Francisellaceae <- subset_taxa(ps_dec_bact, Family == "Francisellaceae")
+Francisellaceae <- prune_taxa(taxa_sums(Francisellaceae) > 0, Francisellaceae)
+writeXStringSet(Francisellaceae@refseq, "data/dada2_tois/Francisellaceae.fa")
+Diplorickettsiaceae <- subset_taxa(ps_dec_bact, Family == "Diplorickettsiaceae")
+Diplorickettsiaceae <- prune_taxa(taxa_sums(Diplorickettsiaceae) > 0, Diplorickettsiaceae)
+writeXStringSet(Diplorickettsiaceae@refseq, "data/dada2_tois/Diplorickettsiaceae.fa")
+Rickettsiales <- subset_taxa(ps_dec_bact, Order == "Rickettsiales")
+Rickettsiales <- prune_taxa(taxa_sums(Rickettsiales) > 0, Rickettsiales)
+writeXStringSet(Rickettsiales@refseq, "data/dada2_tois/Rickettsiales.fa")
+Borrelia <- subset_taxa(ps_dec_bact, Genus == "Borrelia")
+Borrelia <- prune_taxa(taxa_sums(Borrelia) > 0, Borrelia)
+writeXStringSet(Borrelia@refseq, "data/dada2_tois/Borrelia")
+Bartonella <- subset_taxa(ps_dec_bact, Genus == "Bartonella")
+Bartonella <- prune_taxa(taxa_sums(Bartonella) > 0, Bartonella)
+writeXStringSet(Bartonella@refseq, "data/dada2_tois/Bartonella.fa")
+Eimeria <- subset_taxa(ps_dec_bact, Family == "Eimeria praecox")
+Eimeria <- prune_taxa(taxa_sums(Eimeria) > 0, Eimeria)
+writeXStringSet(Eimeria@refseq, "data/dada2_tois/Eimeria.fa")
+Mycobacteriaceae <- subset_taxa(ps_dec_bact, Family == "Mycobacteriaceae")
+Mycobacteriaceae <- prune_taxa(taxa_sums(Mycobacteriaceae) > 0, Mycobacteriaceae)
+writeXStringSet(Mycobacteriaceae@refseq, "data/dada2_tois/Mycobacteriaceae.fa")
+```
+
+
+Make melt dataframe of these subsetted phyloseq taxa objects
+
+```{r}
+## Borrelia
+Borrelia <- subset_taxa(ps_dec_bact, Genus == "Borrelia")
+Borrelia <- prune_taxa(taxa_sums(Borrelia) > 0, Borrelia)
+# melt dataframe into long df
+m_Borrelia = psmelt(Borrelia)
+#Remove all rows were aundance is zero
+m_Borrelia2 = m_Borrelia[m_Borrelia$Abundance != 0, ]
+# Summarise
+sum <- m_Borrelia2 %>%
+  group_by(animalID, SampleCategory, gDNAID) %>%
+  summarize(sum_Abund = sum(Abundance))
+
+
+## Anaplasmataceae
+# melt dataframe into long df
+m_Anaplasmataceae = psmelt(Anaplasmataceae)
+#Remove all rows were aundance is zero
+m_Anaplasmataceae2 = m_Anaplasmataceae[m_Anaplasmataceae$Abundance != 0, ]
+
+## Rickettsia
+Rickettsia <- subset_taxa(ps_dec_bact, Genus == "Rickettsia")
+Rickettsia <- prune_taxa(taxa_sums(Rickettsia) > 0, Rickettsia)
+# melt dataframe into long df
+m_Rickettsia = psmelt(Rickettsia)
+#Remove all rows were aundance is zero
+m_Rickettsia2 = m_Rickettsia[m_Rickettsia$Abundance != 0, ]
+# Summarise
+sum <- m_Rickettsia2 %>%
+  group_by(animalID, SampleCategory, gDNAID) %>%
+  summarize(sum_Abund = sum(Abundance))
+
+
+## Midichloriaceae
+Midichloriaceae <- subset_taxa(ps_dec_bact, Family == "Midichloriaceae")
+Midichloriaceae <- prune_taxa(taxa_sums(Midichloriaceae) > 0, Midichloriaceae)
+writeXStringSet(Midichloriaceae@refseq, "data/dada2_tois/Midichloriaceae.fa")
+write.csv(m_Midichloriaceae2, "data/dada2_tois/midichloriaceae_melt.csv")
+# melt dataframe into long df
+m_Midichloriaceae = psmelt(Midichloriaceae)
+#Remove all rows were aundance is zero
+m_Midichloriaceae2 = m_Midichloriaceae[m_Midichloriaceae$Abundance != 0, ]
+
+## Rickettsiaceae
+# melt dataframe into long df
+m_Rickettsiaceae = psmelt(Rickettsiaceae)
+#Remove all rows were aundance is zero
+m_Rickettsiaceae2 = m_Rickettsiaceae[m_Rickettsiaceae$Abundance != 0, ]
+
+## Coxiellaceae
+# melt dataframe into long df
+m_Coxiellaceae = psmelt(Coxiellaceae)
+#Remove all rows were aundance is zero
+m_Coxiellaceae2 = m_Coxiellaceae[m_Coxiellaceae$Abundance != 0, ]
+
+## Mycoplasmataceae
+# melt dataframe into long df
+m_Mycoplasmataceae = psmelt(Mycoplasmataceae)
+#Remove all rows were aundance is zero
+m_Mycoplasmataceae2 = m_Mycoplasmataceae[m_Mycoplasmataceae$Abundance != 0, ]
+
+## Francisellaceae
+# melt dataframe into long df
+m_Francisellaceae = psmelt(Francisellaceae)
+#Remove all rows were aundance is zero
+m_Francisellaceae2 = m_Francisellaceae[m_Francisellaceae$Abundance != 0, ]
+
+## Diplorickettsiaceae
+# melt dataframe into long df
+m_Diplorickettsiaceae = psmelt(Diplorickettsiaceae)
+#Remove all rows were aundance is zero
+m_Diplorickettsiaceae2 = m_Diplorickettsiaceae[m_Diplorickettsiaceae$Abundance != 0, ]
+
+
+## Bartonella
+# melt dataframe into long df
+m_Bartonella = psmelt(Bartonella)
+#Remove all rows were aundance is zero
+m_Bartonella2 = m_Bartonella[m_Bartonella$Abundance != 0, ]
+
+## Merge these datasets
+taxa_of_interest = bind_rows(m_Borreliella2, m_Anaplasmataceae2, m_Midichloriaceae2, m_Bartonella2, m_Rickettsiaceae2, m_Diplorickettsiaceae2, m_Francisellaceae2, m_Mycoplasmataceae2, m_Coxiellaceae2)
+write_csv(taxa_of_interest, "data/dada2_tois/taxa_of_interest.csv")
+
+#### EXTRAS
+
+## Rickettsiales
+# melt dataframe into long df
+m_Rickettsiales = psmelt(Rickettsiales)
+#Remove all rows were aundance is zero
+m_Rickettsiales2 = m_Rickettsiales[m_Rickettsiales$Abundance != 0, ]
+
+## Mycobacteriaceae
+# melt dataframe into long df
+m_Mycobacteriaceae = psmelt(Mycobacteriaceae)
+#Remove all rows were aundance is zero
+m_Mycobacteriaceae2 = m_Mycobacteriaceae[m_Mycobacteriaceae$Abundance != 0, ]
+
+## Eimeria
+# melt dataframe into long df
+m_Eimeria = psmelt(Eimeria)
+#Remove all rows were aundance is zero
+m_Eimeria2 = m_Eimeria[m_Eimeria$Abundance != 0, ]
+```
+
