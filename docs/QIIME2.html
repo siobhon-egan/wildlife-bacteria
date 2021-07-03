@@ -335,44 +335,23 @@ div.tocify {
 <li>
   <a href="license.html">License</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Bioinformatics
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="QIIME2.html">QIIME2</a>
-    </li>
-    <li>
-      <a href="phyloseq.html">Phyloseq</a>
-    </li>
-    <li>
-      <a href="microbiome-viz.html">Microbiome viz</a>
-    </li>
-  </ul>
+<li>
+  <a href="QIIME2.html">QIIME2</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Misc. analysis
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="site-map.html">Sites</a>
-    </li>
-    <li>
-      <a href="phylogeny.html">Phylogenetics</a>
-    </li>
-  </ul>
+<li>
+  <a href="phyloseq.html">Phyloseq</a>
+</li>
+<li>
+  <a href="microbiome-viz.html">Microbiome viz</a>
+</li>
+<li>
+  <a href="map.html">Sites</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/siobhon-egan/wildlife-bacteria">
-    <span class="fas fa-github"></span>
+    <span class="fab fa-github"></span>
      
     Source code
   </a>
@@ -393,7 +372,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -402,7 +381,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -411,10 +390,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-05-23
+<strong>Last updated:</strong> 2021-07-03
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>wildlife-bacteria/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -430,28 +409,28 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreeafc83755134fb270be62e0dba378d96232ee449etargetblankafc8375a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/afc83755134fb270be62e0dba378d96232ee449e" target="_blank">afc8375</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatree173447416c8f17c0760e057736c92c09d09252cetargetblank1734474a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/173447416c8f17c0760e057736c92c09d09252ce" target="_blank">1734474</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatreeafc83755134fb270be62e0dba378d96232ee449etargetblankafc8375a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsiobhoneganwildlifebacteriatree173447416c8f17c0760e057736c92c09d09252cetargetblank1734474a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/afc83755134fb270be62e0dba378d96232ee449e" target="_blank">afc8375</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/siobhon-egan/wildlife-bacteria/tree/173447416c8f17c0760e057736c92c09d09252ce" target="_blank">1734474</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -462,6 +441,7 @@ Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
+    Ignored:    analysis/_footer.html
     Ignored:    data/.DS_Store
     Ignored:    output/.DS_Store
     Ignored:    output/plots/.DS_Store
@@ -472,9 +452,9 @@ Ignored files:
     Ignored:    output/plots/tax_prev_abund/.DS_Store
 
 Untracked files:
+    Untracked:  ENA_docs/
     Untracked:  NCBI_data/
-    Untracked:  analysis/microbiome-viz-extra.Rmd
-    Untracked:  analysis/tois.Rmd
+    Untracked:  analysis/map.Rmd
     Untracked:  data/dada2/
     Untracked:  data/dada2_tois/
     Untracked:  data/taxa_trees/
@@ -484,7 +464,20 @@ Untracked files:
     Untracked:  tmp/
 
 Unstaged changes:
-    Modified:   analysis/QIIME2.Rmd
+    Modified:   RData/amp_dec_bact.RData
+    Modified:   RData/amp_raw_bact.RData
+    Modified:   RData/ps_dec_bact.RData
+    Modified:   RData/ps_raw_bact.RData
+    Modified:   README.md
+    Modified:   analysis/_site.yml
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/microbiome-viz.Rmd
+    Modified:   analysis/phyloseq.Rmd
+    Deleted:    analysis/site-map.Rmd
+    Deleted:    analysis/tois.Rmd
+
+Staged changes:
+    Deleted:    analysis/phylogeny.Rmd
 
 </code></pre>
 <p>
@@ -523,6 +516,74 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/siobhon-egan/wildlife-bacteria/blob/33466dd8482c4469aa15d588c9b25af207880e2c/analysis/QIIME2.Rmd" target="_blank">33466dd</a>
+</td>
+<td>
+siobhon-egan
+</td>
+<td>
+2021-07-01
+</td>
+<td>
+update inc accession no
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/siobhon-egan/wildlife-bacteria/33466dd8482c4469aa15d588c9b25af207880e2c/docs/QIIME2.html" target="_blank">33466dd</a>
+</td>
+<td>
+siobhon-egan
+</td>
+<td>
+2021-07-01
+</td>
+<td>
+update inc accession no
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/siobhon-egan/wildlife-bacteria/blob/939f8bd0220b7c36ec94acff0d2dac574ce1dd5b/analysis/QIIME2.Rmd" target="_blank">939f8bd</a>
+</td>
+<td>
+siobhon-egan
+</td>
+<td>
+2021-05-23
+</td>
+<td>
+update QIIME2 page
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/siobhon-egan/wildlife-bacteria/939f8bd0220b7c36ec94acff0d2dac574ce1dd5b/docs/QIIME2.html" target="_blank">939f8bd</a>
+</td>
+<td>
+siobhon-egan
+</td>
+<td>
+2021-05-23
+</td>
+<td>
+update QIIME2 page
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -840,6 +901,19 @@ qiime metadata tabulate \
 </ul>
 </div>
 
+<p>
+    <center>Project website by Siobhon L. Egan, 2021. This site was created in <a href="http://rmarkdown.rstudio.com">R Markdown</a> with <a href="https://github.com/jdblischak/workflowr">workflowr</a></center>
+</p>
+
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- Add font awesome icons -->
+<p style="text-align: center;">
+    <a href="https://github.com/siobhon-egan/wildlife-bacteria" class="fa fa-github"></a>
+    <a href="https://twitter.com/siobhon_egan" class="fa fa-twitter"></a>
+    <a href="https://www.siobhonlegan.com" class="fas fa-globe"></a>
+</p>
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
 TeX fonts only; see

@@ -1,16 +1,11 @@
 # Wildlife bacteria
 
-A [workflowr](https://github.com/jdblischak/workflowr) project for Siobhon Egan's PhD project on the characterisation of bacteria from wildlife ticks, tissue and blood.
+Project website available here http://siobhonlegan.com/wildlife-bacteria/
 
-Project website: http://siobhonlegan.com/wildlife-bacteria/
+A [workflowr](https://github.com/jdblischak/workflowr) project created for data analysis related to the following publication:
 
-In the spirit of reproducibility this project website is created that outlines analysis done for the following publication:
+Egan, S., Taylor, C., Banks, P., Northover, A., Ahlstrom, L., Ryan, U., Irwin, P., and Oskam C. (Under review). The bacterial biome of ticks and their wildlife hosts at the sylvatic urban interface.
 
-*The bacterial biome of ticks and their wildlife hosts at the sylvatic urban interface.* 
-
-**Authors**: Siobhon L. Egan, Casey L. Taylor, Peter B. Banks, Amy S. Northover, Liisa A. Ahlstrom, Una M. Ryan, Peter J. Irwin, Charlotte L. Oskam. 
-
-This publication is also a chpater of my PhD Thesis 2021
 
 ## Data availbility
 
@@ -20,33 +15,27 @@ Raw Illumina MiSeq data is available at European nucleotide archive the project 
 - 16S bacteria tissue ERS6632360--ERS6632531
 - 16S bacteria tick ERS6633094--ERS6633353
 
-Nucleotide sequence data available on Genbank
+In addition the following nucleotide sequence data has been deposited to GenBank
 
-Anaplasmataceae (long 16S rRNA) 
-`MW633160-MW633167`
-
-Borrelia 16S rRNA
-`MW633074`
-
-Bartonella ITS
-`MW633076-MW633082`
-
-ASVs for taxa of interest
-`XXXXXX-XXXXXX`
+- Anaplasmataceae 16S rRNA MW633160--MW633167
+- *Borrelia* 16S rRNA MW633074
+- *Bartonella* 16S rRNA/Internal Transcribed Spacer region MW633076-MW633082
 
 ## Supporting data
 
-Data used but not directly produced for this manuscript.
+Data produced after bioinformatic analysis of raw Illumina MiSeq data such as taxonomy table, ASV count data and metadata is available within the **Rdata/** directory in `.RData` format.
 
-Nucleotide data for identification of ticks
-MW665133-MW665150
+Illumina MiSeq data generated from the metabarcoding of ticks targeting the 12S rRNA locus has been deposited in the European nucleotide archive under the project accession number PRJEB46056 (ERP130244), which includes the following sample accession numbers: ERS6635126--ERS6635348 (BioSample # SAMEA8952359--SAMEA8952582)
+
+Nucleotide data for subset of zOTUs generated are available in for the molecular identification of ticks has been uploaded to GenBank under accession numbers MW665133--MW665150.
 
 ## Directory information
 
 
+<!-- Workflowr commands
 # Worlflowr commands 
 
-To build/view webiste locally
+To build/view website locally
 `wflow_build()` and `wflow_view()`
 
 Status of workflow
@@ -56,4 +45,4 @@ Publish website pages
 `wflow_publish(c("analysis/index.Rmd", "analysis/first-analysis.Rmd"), "Add my first analysis")`
 
 Push website to github
-`wflow_git_push()`
+`wflow_git_push()` -->
