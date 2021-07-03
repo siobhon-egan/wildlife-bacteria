@@ -7,22 +7,16 @@ navbar:
     href: index.html
   - text: License
     href: license.html
-  - text: Bioinformatics
-    menu:
-      - text: QIIME2
-        href: QIIME2.html
-      - text: Phyloseq
-        href: phyloseq.html
-      - text: Microbiome viz
-        href: microbiome-viz.html
-  - text: "Misc. analysis"
-    menu:
-      - text: Sites
-        href: site-map.html
-      - text: "Phylogenetics"
-        href: phylogeny.html
+  - text: QIIME2
+    href: QIIME2.html
+  - text: Phyloseq
+    href: phyloseq.html
+  - text: Microbiome viz
+    href: microbiome-viz.html
+  - text: Sites
+    href: map.html
   right:
-  - icon: fa-github
+  - icon: fab fa-github
     text: Source code
     href: https://github.com/siobhon-egan/wildlife-bacteria
 output:
@@ -31,3 +25,5 @@ output:
     toc_float: yes
     theme: readable
     highlight: textmate
+    include:
+      after_body: _footer.html

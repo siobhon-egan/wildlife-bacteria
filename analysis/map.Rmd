@@ -1,0 +1,100 @@
+---
+title: "Site map"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+## Map using`ozmaps`
+
+Create map of study sites using [`ozmaps` package](https://github.com/mdsumner/ozmaps) and associated [data package](https://github.com/mdsumner/ozmaps.data/) for subdivision of regions.
+
+Link to useful tutorial in the ggplot2 book
+[here](https://ggplot2-book.org/maps.html).
+
+**Load packages**
+
+```{r message=FALSE, warning=FALSE, results='hide'}
+#ozmaps data not on CRAN
+#devtools::install_github("mdsumner/ozmaps.data")
+
+pkgs <- c("ozmaps", "sf", "sp", "dplyr", "rgdal",
+          "raster", "ggplot2", "viridis", "readr",
+          "paletteer", "rmapshaper", "ggrepel",
+          "tidyverse", "ozmaps.data", "readxl")
+lapply(pkgs, require, character.only = TRUE)
+```
+
+
+**Import data**
+```{r}
+site_map <- read_excel("data/site_map.xlsx")
+site_map_lab = column_to_rownames(site_map, var = "Site name")
+```
+
+Create large base map for Australia with study sites
+
+```{r}
+oz_states <- ozmaps::ozmap_states
+ggplot(oz_states) + 
+  geom_sf() + 
+  coord_sf()
+
+oz_states <- ozmaps::ozmap_states %>% filter(NAME != "Other Territories")
+oz_votes <- rmapshaper::ms_simplify(ozmaps::abs_ced)
+ggplot() + 
+  geom_sf(data = oz_states, mapping = aes(fill = NAME), show.legend = FALSE) +
+  geom_sf(data = oz_votes, fill = NA) + 
+  coord_sf()
+
+# large map
+map1 = ggplot() + 
+  geom_sf(data = oz_votes) + 
+  geom_sf(data = oz_states, colour = "black", fill = "NA") + 
+  geom_point(data = site_map_lab, mapping = aes(x = lon, y = lat, color = Site, shape=Site, size= 3)) + 
+  coord_sf() + theme_classic() + theme(legend.position = "none", axis.title.x = element_blank(), axis.title.y = element_blank()) + xlim (114,155)
+
+map1
+```
+
+Create insert maps for Perth and Sydney regions
+```{r}
+# base map for inserts
+map2 = ggplot() + 
+  geom_sf(data = oz_votes)  +
+  geom_sf(data = oz_states, colour = "black", fill = "NA") + 
+  geom_point(data = site_map_lab, mapping = aes(x = lon, y = lat, color = Site, shape=Site, size= Size)) + 
+  coord_sf() + theme_classic() + theme(legend.position = "none", axis.title.x = element_blank(), axis.title.y = element_blank())
+
+# Sydney region
+map3 = map2 + coord_sf(xlim = c(150, 152), ylim = c(-35, -33.0)) + theme(legend.position = "none") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
+map3
+
+# Perth region
+map4 = map2 + coord_sf(xlim = c(115, 117), ylim = c(-32.5, -31)) + theme(legend.position = "none") + theme(axis.title.x = element_blank(), axis.title.y = element_blank())
+map4
+```
+
+Save maps
+```r
+ggsave("map_base.pdf", plot = map1, path = "output/plots", width = 30, height = 15, units = "cm")
+ggsave("map_NSW.pdf", plot = map3, path = "output/plots", width = 10, height = 10, units = "cm")
+ggsave("map_WA.pdf", plot = map4, path = "output/plots", width = 10, height = 10, units = "cm")
+```
+
+**Capital cities for reference**
+```r
+oz_capitals <- tibble::tribble( 
+  ~city,           ~lat,     ~lon,
+  "Sydney",    -33.8688, 151.2093,  
+  "Melbourne", -37.8136, 144.9631, 
+  "Brisbane",  -27.4698, 153.0251, 
+  "Adelaide",  -34.9285, 138.6007, 
+  "Perth",     -31.9505, 115.8605, 
+  "Hobart",    -42.8821, 147.3272, 
+  "Canberra",  -35.2809, 149.1300, 
+  "Darwin",    -12.4634, 130.8456, 
+)
+```

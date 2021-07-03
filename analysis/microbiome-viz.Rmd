@@ -7,11 +7,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-```
 
 Visualization and analysis of microbiome data.
+
+As this page contains extensive microbiome analysis and some parts are computationally heavy only a selection of figures have been included in the rendered webpage.
 
 > Note this was run using R version 4.0.3 and RStudo version 1.4. See [R info](#rinfo) for full details of R session.
 
@@ -55,7 +54,7 @@ remotes::install_github("YuLab-SMU/MicrobiotaProcess")
 
 **Load libraries**
 
-```{r}
+```{r message=FALSE, warning=FALSE, results='hide'}
 pkgs <- c("qiime2R", "phyloseq", "tidyverse", "ampvis2", "ampvis2extras", 
           "ggpubr", "agricolae", "plotly", "viridis", "cowplot", "MicrobeR", 
           "microbiome", "reshape", "decontam", "data.table", "ape", "DESeq2", 
@@ -66,7 +65,7 @@ lapply(pkgs, require, character.only = TRUE)
 
 
 Load data as imported and filtered as per [phyloseq](phyloseq.html)
-```{r}
+```r
 # phyloseq raw data
 load("Rdata/ps_raw_bact.RData")
 # phyloseq decontam data
@@ -78,20 +77,35 @@ load("Rdata/amp_raw_bact.RData")
 load("Rdata/amp_dec_bact.RData")
 ```
 
-Subset decontam objects to remove controls
+Subset decontam objects to remove controls and create obj for each sample category
 Subset ampvis2 object based on sample category
-```{r}
+```r
 # remove controls from phyloseq decontam data
 ps_bact_samp = subset_samples(ps_dec_bact, !SampleType=="Control")
+# sample category
+ps_bact_bl = subset_samples(ps_bact_samp, SampleCategory=="Blood")
+ps_bact_tis = subset_samples(ps_bact_samp, SampleCategory=="Tissue")
+ps_bact_tick = subset_samples(ps_bact_samp, SampleCategory=="Tick")
+
 # remove controls from ampvis2 decontam data
 amp_samp <- amp_subset_samples(amp_dec_bact, 
                                  !SampleType %in% c("Control"),
                                  RemoveAbsents = TRUE)
+# sample category
+amp_bl<- amp_subset_samples(amp_samp,
+                            SampleCategory %in% c("Blood"),
+                            RemoveAbsents = TRUE)
+amp_tis<- amp_subset_samples(amp_samp,
+                            SampleCategory %in% c("Tissue"),
+                            RemoveAbsents = TRUE)
+amp_tick<- amp_subset_samples(amp_samp,
+                            SampleCategory %in% c("Tick"),
+                            RemoveAbsents = TRUE)
 ```
 
 
 Set colours for Sample Category
-```{r}
+```r
 ColSampCat = c("#7a255d", "#9fd0cb", "#7566ff")
 ```
 
@@ -102,7 +116,7 @@ ColSampCat = c("#7a255d", "#9fd0cb", "#7566ff")
 Plotting of rarefaction curves using [ampvis2](https://madsalbertsen.github.io/ampvis2/reference/amp_rarecurve.html) - separating out by sample type.
 Use raw ASV count data for inspection of sequencing depth (using raw data here not decon data)
 
-```{r}
+```r
 # Subset blood samples from raw data 
 amp_raw_bl0 <- amp_subset_samples(amp_raw_bact, 
                               SampleCategory %in% c("Blood"),
@@ -139,7 +153,7 @@ ggsave("rarecurve.pdf", plot = rarecurve, path = "output/plots", width = 25, hei
 
 Make using alpha diversity plots with statistical values using  [microbiomeutilities](https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#plot-alpha-diversities)
 
-```{r}
+```r
 obs_alpha_plot <- plot_diversity_stats(ps_bact_samp, group = "SampleCategory", 
                             index = "observed",
                             group.colors = ColSampCat,
@@ -166,12 +180,13 @@ invsimp_alpha_plot <- plot_diversity_stats(ps_bact_samp, group = "SampleCategory
 invsimp_alpha_plot = invsimp_alpha_plot + ylab("Inverse Simpson Index") + xlab("") + labs(title = "Inverse Simpson")
 ```
 
-```{r}
+```r
 #Merge all four alpha div plots into one figure
 alphadiv_wp <- ggarrange(obs_alpha_plot, chao1_alpha_plot, shan_alpha_plot, invsimp_alpha_plot,
                     labels = c("A", "B", "C", "D"),
                     ncol = 2, nrow = 2)
-ggsave("alphadiv_withpvalues.pdf", plot = alphadiv_wp, path = "output/plots", width = 30, height = 30, units = "cm")
+#ggsave("alphadiv_withpvalues.pdf", plot = alphadiv_wp, path = "output/plots", width = 30, height = 30, units = "cm")
+alphadiv_wp
 ```
 
 
@@ -180,9 +195,7 @@ ggsave("alphadiv_withpvalues.pdf", plot = alphadiv_wp, path = "output/plots", wi
 Repeat but just on tick data for supplementary information
 Make using alpha diversity plots with statistical values using  [microbiomeutilities](https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#plot-alpha-diversities)
 
-```{r}
-# Tick samples only
-ps_bact_tick = subset_samples(ps_bact_samp, SampleCategory=="Tick")
+```r
 # subset tick species
 ps_bact_tick_sub = subset_samples(ps_bact_tick, !tick_sp_short=="Ixhol;Ixtri")
 tickspcols = c("#000004FF", "#781C6DFF", "#BB3754FF", "#ED6925FF", "#FCB519FF", "#c5cc00")
@@ -213,12 +226,13 @@ invsimp_alpha_plot_tk <- plot_diversity_stats(ps_bact_tick_sub, group = "tick_sp
 invsimp_alpha_plot_tk = invsimp_alpha_plot_tk + ylab("Inverse Simpson Index") + xlab("") + labs(title = "Inverse Simpson")
 ```
 
-```{r}
+```r
 #Merge all four alpha div plots into one figure
 alphadiv_wp_tk <- ggarrange(obs_alpha_plot_tk, chao1_alpha_plot_tk, shan_alpha_plot_tk, invsimp_alpha_plot_tk,
                     labels = c("A", "B", "C", "D"),
                     ncol = 2, nrow = 2)
-ggsave("alphadiv_withpvalues_tk.pdf", plot = alphadiv_wp_tk, path = "output/plots", width = 30, height = 30, units = "cm")
+#ggsave("alphadiv_withpvalues_tk.pdf", plot = alphadiv_wp_tk, path = "output/plots", width = 30, height = 30, units = "cm")
+alphadiv_wp_tk
 ```
 
 
@@ -231,7 +245,7 @@ Using `fast_melt()` command to get an idea of most prevalent taxa and distributi
 **Plot Phylum - all samples**
 
 Melt phyloseq object to be able to group by taxa levels and filter for abundance and sample info.
-```{r}
+```r
 # Using R code for taxa_summary.R function available here http://evomics.org/phyloseq/taxa_summary-r/
 source("code/taxa_summary.R", local = TRUE)
 ##### All sample data
@@ -268,7 +282,7 @@ tis_family = mdt_tis %>%
 ```
 
 Make phyla plot for all samples
-```{r}
+```r
 source("code/taxa_summary.R", local = TRUE)
 # Melt
 mdt = fast_melt(ps_bact_samp)
@@ -285,7 +299,7 @@ showPhyla = prevdt[, sum(TotalCounts), by = Phylum][order(-V1)][1:12]$Phylum
 setkey(prevdt, Phylum)
 ```
 Make plot for phyla
-```{r}
+```r
 top_phyla1 = ggplot(prevdt[showPhyla], 
        mapping = aes(Prevalence, TotalCounts, color = Phylum)) + 
   geom_point(size = 2.5, alpha = 0.75) + 
@@ -294,7 +308,7 @@ ggsave("top_phyla_all.pdf", plot = top_phyla1, path = "output/plots/tax_prev_abu
 ```
 
 **Plot Phylum - by sample type**
-```{r}
+```r
 source("code/taxa_summary.R", local = TRUE)
 ### Blood
 mdt_bl = fast_melt(ps_bact_bl)
@@ -361,7 +375,7 @@ ggsave("top_phyla_tissue.pdf", plot = top_phyla_tis, path = "output/plots/tax_pr
 ```
 
 Merge all four phyla plots
-```{r}
+```r
 top_phyla_merge <- ggarrange(top_phyla1, top_phyla_bl, top_phyla_tick, top_phyla_tis,
                     labels = c("A", "B", "C", "D"),
                     ncol = 2, nrow = 2)
@@ -369,7 +383,7 @@ ggsave("top_phyla_merge.pdf", plot = top_phyla_merge, path = "output/plots/tax_p
 ```
 
 **Plot Family - blood samples**
-```{r}
+```r
 source("code/taxa_summary.R", local = TRUE)
 
 mdt_bl = fast_melt(ps_bact_bl)
@@ -387,7 +401,7 @@ setkey(prevdt_bl, Family)
 ```
 
 Make plot for phyla
-```{r}
+```r
 top_Family_bl = ggplot(prevdt_bl[showFamily_bl], 
        mapping = aes(Prevalence, TotalCounts, color = Family)) + 
   geom_point(size = 2.5, alpha = 0.75) + 
@@ -411,7 +425,7 @@ Make frequency heat map using [ampvis2](https://madsalbertsen.github.io/ampvis2/
 
 
 Aggregate taxa, showing 40 most abundant by Family species, facet by sample type
-```{r}
+```r
 # Relative abundance
 heatmap_rel <- amp_heatmap(amp_samp,
             facet_by = "SampleCategory",
@@ -425,7 +439,7 @@ heatmap_rel <- amp_heatmap(amp_samp,
   theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1),
         axis.text.y = element_text(size=10),
         legend.position="right")
-
+heatmap_rel
 # Count of sequences
 heatmap_count <- amp_heatmap(amp_samp,
             facet_by = "SampleCategory",
@@ -438,7 +452,7 @@ heatmap_count <- amp_heatmap(amp_samp,
             round = 0, color_vector = c("white", "#e5ba52", "#ab7ca3", "#9d02d7", "#0030bf"), plot_colorscale = "log10") + theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1), axis.text.y = element_text(size=10), legend.position="right")
 ```
 Save PDF of plots
-```{r}
+```r
 ggsave("heatmap_rel.pdf", plot = heatmap_rel, path = "output/plots", width = 40, height = 25, units = "cm")
 ggsave("heatmap_count.pdf", plot = heatmap_count, path = "output/plots", width = 40, height = 25, units = "cm")
 ```
@@ -446,9 +460,11 @@ ggsave("heatmap_count.pdf", plot = heatmap_count, path = "output/plots", width =
 
 Heat map with more detail for tick samples only.
 Aggregate taxa, showing 40 most abundant by Family species, facet by sample type
-```{r}
+```r
+amp_tick <- amp_subset_samples(amp_samp, SampleCategory %in% c("Tick"))
 amp_tick_sub <- amp_subset_samples(amp_tick,
-                                    tick_sp_short %in% c("Ixhol", "Ixtri", "Ixtas", "Ixant", "Ixaus", "Amtri"))
+                                    tick_sp_short %in% 
+                                     c("Ixhol", "Ixtri", "Ixtas", "Ixant", "Ixaus", "Amtri"))
 # Relative abundance
 hmap_rel_tick <- amp_heatmap(amp_tick_sub,
             facet_by = "tick_sp_short",
@@ -462,9 +478,10 @@ hmap_rel_tick <- amp_heatmap(amp_tick_sub,
   theme(axis.text.x = element_text(angle = 45, size=10, vjust = 1),
         axis.text.y = element_text(size=10),
         legend.position="right")
+hmap_rel_tick
 ```
 Save plot
-```{r}
+```r
 ggsave("heatmap_rel_tick.pdf", plot = hmap_rel_tick, path = "output/plots", width = 40, height = 25, units = "cm")
 ```
 
@@ -509,7 +526,7 @@ heatmap_2 <- plot_taxa_heatmap(ps_bact_blsubF,
 Plotting selected taxa of interest following [microbiomeutilities](https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#plotting-selected-taxa)
 
 Aggregate taxonomy to best family level and select taxa of interest
-```{r}
+```r
 ps_bact_sampF <- aggregate_taxa(ps_bact_samp, "Family")
 # Identify top 40 taxa
 top_taxa(ps_bact_sampF, 40)
@@ -526,7 +543,7 @@ select.taxa <- c("Anaplasmataceae",
 ```
 
 Now plot selected taxa with statistical analysis
-```{r}
+```r
 plot_select_taxa <- plot_listed_taxa(ps_bact_sampF, select.taxa, 
                       group= "SampleCategory",
                       group.colors = ColSampCat,
@@ -546,11 +563,12 @@ plot_select_taxa1 <- plot_select_taxa + stat_compare_means(
   size = 3) + xlab("Sample type") + ylab("Relative abundance (%)") + scale_y_continuous(labels = scales::percent)
 
 # Save plot as PDF
-ggsave("plot_select_taxa.pdf", plot = plot_select_taxa1, path = "output/plots", width = 30, height = 30, units = "cm")
+#ggsave("plot_select_taxa.pdf", plot = plot_select_taxa1, path = "output/plots", width = 30, height = 30, units = "cm")
+plot_select_taxa1
 ```
 
 Repeat process - this time among host species 
-```{r}
+```r
 # identify number of species
 n_distinct(ps_bact_samp@sam_data$species)
 # set colours
@@ -588,7 +606,7 @@ ggsave("plot_select_taxa_sp2.pdf", plot = plot_select_taxa_sp4, path = "output/p
 **Now rotate through this to separate sample types and species**
 
 **1. Blood**
-```{r}
+```r
 ps_bact_blF <- aggregate_taxa(ps_bact_bl, "Family")
 # Identify top 40 taxa
 select.taxabl <- c("Anaplasmataceae",
@@ -634,7 +652,7 @@ ggsave("plot_select_taxa_bl2.pdf", plot = plot_select_taxa_bl4, path = "output/p
 ```
 
 **2. Ticks**
-```{r}
+```r
 ps_bact_tickF <- aggregate_taxa(ps_bact_tick, "Family")
 # Identify top 40 taxa
 select.taxa.tick <- c("Anaplasmataceae", 
@@ -683,7 +701,7 @@ ggsave("plot_select_taxa_tick2.pdf", plot = plot_select_taxa_tick4, path = "outp
 ```
 
 **3. Tissue**
-```{r}
+```r
 ps_bact_tisF <- aggregate_taxa(ps_bact_tis, "Family")
 # Identify top 40 taxa
 select.taxa.tis <- c("Anaplasmataceae", 
@@ -731,7 +749,7 @@ ggsave("plot_select_taxa_tis2.pdf", plot = plot_select_taxa_tis4, path = "output
 ```
 
 More detailed info on Anaplasmataceae family and tick species
-```{r}
+```r
 # Subset Ixodes holocyclus
 Ixhol = subset_samples(ps_bact_tick, tick_sp_short == "Ixhol")
 IxholF <- aggregate_taxa(Ixhol, "Family")
@@ -784,7 +802,7 @@ Plot top taxa using [microbiomeutilities](https://microsud.github.io/microbiomeu
 **All samples**
 
 Plot for all samples and separate by sample type, include top 9 taxa (family level)
-```{r}
+```r
 ColSampCat = c("#7a255d", "#9fd0cb", "#7566ff")
 top_taxa_all <- plot_taxa_boxplot(ps_bact_samp,
                         taxonomic.level = "Family",
@@ -796,7 +814,7 @@ top_taxa_all <- plot_taxa_boxplot(ps_bact_samp,
                         group.order = c("Blood","Tick","Tissue"),
                         group.colors = ColSampCat,
                         dot.size = 1)
-print(pn + theme_biome_utils())
+#print(pn + theme_biome_utils())
 
 # Statistical analysis (non-parametric)
 comps <- make_pairs(sample_data(ps_bact_samp)$SampleCategory)
@@ -809,13 +827,14 @@ top_taxa_all1 <- top_taxa_all + stat_compare_means(
 top_taxa_all2 = top_taxa_all1 + scale_y_continuous(labels = scales::percent) + theme_biome_utils() + theme(legend.position="none")
 
 #Save plot
-ggsave("top_taxa_all2.pdf", plot = top_taxa_all2, path = "output/plots", width = 30, height = 30, units = "cm")
+#ggsave("top_taxa_all2.pdf", plot = top_taxa_all2, path = "output/plots", width = 30, height = 30, units = "cm")
+top_taxa_all2
 ```
 
 *Now plot separate sample categories and separate by species*
 
 **1. Blood**
-```{r}
+```r
 # set colours
 speciesblcol = viridis(7, option = "D")
 top_taxa_bl <- plot_taxa_boxplot(ps_bact_bl,
@@ -853,7 +872,7 @@ ggsave("top_taxa_bl2.pdf", plot = top_taxa_bl4, path = "output/plots", width = 3
 ```
 
 **2. Tick**
-```{r}
+```r
 #set colours
 speciestickcol = viridis(8, option = "D")
 top_taxa_tick <- plot_taxa_boxplot(ps_bact_tick,
@@ -891,7 +910,7 @@ ggsave("top_taxa_tick2.pdf", plot = top_taxa_tick4, path = "output/plots", width
 ```
 
 **3. Tissue**
-```{r}
+```r
 speciestiscol = viridis(9, option = "D")
 top_taxa_tis <- plot_taxa_boxplot(ps_bact_tis,
                         taxonomic.level = "Family",
@@ -931,8 +950,11 @@ ggsave("top_taxa_tis2.pdf", plot = top_taxa_tis4, path = "output/plots", width =
 
 ## 3. Abundance-Prevalence relationship
 
+Compare abundance vs prevalence for top taxa from Long-nosed bandicoot blood samples
 [microbiomeutelities](https://microsud.github.io/microbiomeutilities/articles/microbiomeutilities.html#abundance-prevalence-relationship)
-```{r}
+```r
+ps_bact_bl = subset_samples(ps_bact_samp, SampleCategory == "Blood")
+
 asv_ps <- microbiome::transform(ps_bact_bl, "compositional")
 # Select healthy samples
 asv_ps <- subset_samples(asv_ps, species=="Long-nosed bandicoot")
@@ -956,7 +978,8 @@ p_v <- plot_abund_prev(asv_ps,
 prev_abund <- p_v + 
   geom_vline(xintercept = 0.25, lty="dashed", alpha=0.7) + 
   geom_hline(yintercept = 0.005,lty="dashed", alpha=0.7) +
-  scale_color_viridis(discrete=TRUE) 
+  scale_color_viridis(discrete=TRUE)
+prev_abund
 ```
 
 ## 4. Venn diagram
@@ -966,7 +989,7 @@ prev_abund <- p_v +
 ### 4.1. Compare `SampleCategory`
 
 Make venn diagram to show overlap between blood, tick and tissue samples
-```{r}
+```r
 # how many samples in each category
 table(meta(ps_bact_samp)$SampleCategory, useNA = "always")
 # transform data
@@ -983,7 +1006,7 @@ Format to best hit and then Re-Write a for loop to go through each of the diseas
 Loop through for three different abundance/prevalence situations
 
 **option a**
-```{r}
+```r
 list_core <- c() # an empty object to store information
 
 for (n in sample_cat){ # for each variable n in SampleCategory
@@ -1003,7 +1026,7 @@ vennpl1 = plot(venn(list_core),
      fills = ColSampCat)
 ```
 **option b**
-```{r}
+```r
 list_core <- c() # an empty object to store information
 
 for (n in sample_cat){ # for each variable n in SampleCategory
@@ -1023,7 +1046,7 @@ vennpl2 = plot(venn(list_core),
      fills = ColSampCat)
 ```
 **option c**
-```{r}
+```r
 #formt to best hit
 list_core <- c() # an empty object to store information
 
@@ -1045,17 +1068,18 @@ vennpl3 = plot(venn(list_core),
 ```
 
 Merge into one figure
-```{r}
+```r
 vennplot <- ggarrange(vennpl1, vennpl2, vennpl3,
                     labels = c("A", "B", "C"),
                     ncol = 3, nrow = 1)
-ggsave("vennplot.pdf", plot = vennplot, path = "output/plots", width = 25, height = 10, units = "cm")
+#ggsave("vennplot.pdf", plot = vennplot, path = "output/plots", width = 25, height = 10, units = "cm")
+vennplot
 ```
 
 ### 4.2. Compare `species` by `SampleCategory`
 
 Set colours so they are the same for each species
-```{r}
+```r
 # Use viridis package to retrieve 4 colours for species
 viridis(4, option = "D")
 # Then lighten colours using https://projects.susielu.com/viz-palette
@@ -1065,7 +1089,7 @@ spcols <- c("Black rat"="#723281", "Brush tail possum"="#6396BE", "Chuditch"="#6
 **BLOOD**
 
 Make venn diagram to show overlap top species for blood samples.
-```{r}
+```r
 # how many samples in each category
 table(meta(ps_bact_bl)$species, useNA = "always")
 # subset species
@@ -1082,7 +1106,7 @@ print(species_cat)
 
 Format to best best and then Re-Write a for loop to go through each of the disease_states one by one and combine identified core taxa into a list.
 Loop through for three different abundance/prevalence situations - using  **option a** patameters 
-```{r}
+```r
 list_core <- c() # an empty object to store information
 
 for (n in species_cat){ # for each variable n in SampleCategory
@@ -1106,7 +1130,7 @@ vennpl_bl = plot(venn(list_core),
 **Tissue**
 
 Make venn diagram to show overlap top species for tissue samples.
-```{r}
+```r
 # how many samples in each category
 table(meta(ps_bact_tis)$species, useNA = "always")
 # subset species
@@ -1123,7 +1147,7 @@ print(species_cat)
 
 Format to best best and then Re-Write a for loop to go through each of the disease_states one by one and combine identified core taxa into a list.
 Loop through for three different abundance/prevalence situations - using  **option a** patameters 
-```{r}
+```r
 list_core <- c() # an empty object to store information
 
 for (n in species_cat){ # for each variable n in SampleCategory
@@ -1145,7 +1169,7 @@ vennpl_tis = plot(venn(list_core),
 ```
 
 Merge into one figure
-```{r}
+```r
 vennplot_bltis <- ggarrange(vennpl_bl, vennpl_tis,
                     labels = c("Blood", "Tissue"),
                     ncol = 2, nrow = 1)
@@ -1156,7 +1180,7 @@ ggsave("vennplot_bltis.pdf", plot = vennplot_bltis, path = "output/plots", width
 ### 4.3. Compare `tick_species`
 
 Make venn diagram to show overlap top species for blood samples.
-```{r}
+```r
 # how many samples in each category
 table(meta(ps_bact_tick)$tick_species, useNA = "always")
 # subset species
@@ -1173,7 +1197,7 @@ print(species_cat)
 
 Format to best best and then Re-Write a for loop to go through each of the disease_states one by one and combine identified core taxa into a list.
 Loop through for three different abundance/prevalence situations - using  **option a** patameters 
-```{r}
+```r
 list_core <- c() # an empty object to store information
 
 for (n in species_cat){ # for each variable n in SampleCategory
@@ -1196,7 +1220,7 @@ vennpl_tick = plot(venn(list_core),
 ```
 
 Save figure
-```{r}
+```r
 ggsave("vennpl_tick.pdf", plot = vennpl_tick, path = "output/plots", width = 15, height = 10, units = "cm")
 ```
 
@@ -1214,7 +1238,7 @@ Note when performing NMDS do not transform data - i.e. `transform = "none"`. For
 Using transform = "Hellinger" and distmeasure = "bray" and "jaccard" for PCOA and MMDS 
 
 **All samples, and sort by sample type.**
-```{r}
+```r
 #Filter out samples with <1000 reads after QC
 amp_samp1000 <- amp_subset_samples(amp_samp,
                                  minreads = 1000,
@@ -1316,7 +1340,7 @@ ord_MMDS_bray <- amp_ordinate(amp_samp1000,
 ```
 
 Customise and save plots
-```{r}
+```r
 ord_CCA_plot = ord_CCA$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c("#7a255d", "#9fd0cb", "#7566ff"))
 ggsave("ord_CCA.pdf", plot = ord_CCA_plot, path = "output/plots", width = 15, height = 15, units = "cm")
 ord_CA_plot <- ord_CA$plot + scale_shape_manual(values=seq(0,10)) + scale_colour_manual(values = c("#7a255d", "#9fd0cb", "#7566ff"))
@@ -1343,7 +1367,7 @@ ggsave("ordination_CCA_RDA.pdf", plot = ordination_CCA_RDA, path = "output/plots
 ```
 
 **Repeat the constrained analysis on subsetted host data**
-```{r}
+```r
 #Subset black rat samples and filter out samples with <1000 reads after QC
 amp_BR1000 <- amp_subset_samples(amp_samp,
                                  species %in% c("Black rat"),
@@ -1370,7 +1394,7 @@ BRord_RDA <- amp_ordinate(amp_BR1000,
 ``` 
 
 **Constrained ordination of tick species**
-```{r}
+```r
 # Use tick dataset and filter out samples with <1000 reads after QC
 amp_tick1000 <- amp_subset_samples(amp_tick,
                                  minreads = 1000,
@@ -1396,7 +1420,7 @@ tickord_RDA <- amp_ordinate(amp_tick1000,
 
 ```
 Customise plots and combine to one figure
-```{r}
+```r
 # Use viridis to get colours
 # tickspcols = viridis(7, option = "B")
 
@@ -1413,7 +1437,7 @@ ggsave("tick_ord.pdf", plot = tick_ord, path = "output/plots", width = 25, heigh
 
 **Zoom in on tick species for CCA ordination**
 
-```{r}
+```r
 # Use tick dataset and filter out samples with <1000 reads after QC
 amp_ticksub1000 <- amp_subset_samples(amp_tick,
                                    tick_sp_short %in% c("Ixtas", "Ixhol", "Ixtri", "Ixhol;Ixtri"),
@@ -1438,7 +1462,7 @@ tickordsub_RDA <- amp_ordinate(amp_ticksub1000,
                         detailed_output = TRUE)
 ```
 Customise plots and combine to one figure
-```{r}
+```r
 # Use viridis to get colours
 # tickspcols = viridis(7, option = "B")
 
@@ -1457,7 +1481,7 @@ ggsave("ticksub_ord.pdf", plot = ticksub_ord, path = "output/plots", width = 25,
 ### 5.2. Phyloseq 
 
 Ordination using the phyloseq package
-```{r}
+```r
 #prune samples with low reads
 ps_BR1 = prune_samples(sample_sums(ps_BR)>=1000, ps_BR)
 bray_dist = phyloseq::distance(ps_BR1, method="bray", weighted=F)
@@ -1466,7 +1490,7 @@ BR_bray_PCoA <- plot_ordination(ps_BR1, BR_bray_PCoAordination, color="SampleCat
 adonis(bray_dist ~ sample_data(ps_BR1)$SampleCategory)
 ```
 
-```{r}
+```r
 #prune samples with low reads
 ps_BR1 = prune_samples(sample_sums(ps_BR)>=1000, ps_BR)
 eu_dist = phyloseq::distance(ps_BR1, method="euclidean", weighted=F)
@@ -1477,7 +1501,7 @@ adonis(eu_dist ~ sample_data(ps_BR1)$SampleCategory)
 ```
 
 phyloseq ordination - tick samples
-```{r}
+```r
 #prune samples with low reads
 ps_tick = prune_samples(sample_sums(ps_bact_tick)>=1000, ps_bact_tick)
 bray_dist = phyloseq::distance(ps_tick, method="bray", weighted=F)
@@ -1487,7 +1511,7 @@ adonis(bray_dist ~ sample_data(ps_tick)$species)
 ```
 
 phyloseq ordination - *Ix. holocyclus* samples
-```{r}
+```r
 ixhol = subset_samples(ps_bact_tick, tick_sp_short=="Ixhol")
 #prune samples with low reads
 ps_tick = prune_samples(sample_sums(ixhol)>=1000, ixhol)
@@ -1498,7 +1522,7 @@ adonis(bray_dist ~ sample_data(ps_tick)$species)
 ```
 
 phyloseq ordination - *Ix. holocyclus*, *Ix. tasmani* and  *Ix. trichosuri*  samples
-```{r}
+```r
 ps_bact_tick_sub = subset_samples(ps_bact_tick, tick_sp_short=="Ixhol" | tick_sp_short=="Ixtri" | tick_sp_short=="Ixtas" | tick_sp_short=="Ixhol;Ixtri")
 # prune samples with less than 1000 reads
 ps_bact_tick_sub_pr = prune_samples(sample_sums(ps_bact_tick_sub)>=1000, ps_bact_tick_sub)
@@ -1517,7 +1541,7 @@ See tutorial [here](https://mibwurrepo.github.io/Microbial-bioinformatics-introd
 **Overall statistical analysis**
 Differences by sample type - using both ANOVA and MANOVA methods
 
-```{r}
+```r
 # prune samples with less than 1000 reads
 ps_bact_pr = prune_samples(sample_sums(ps_bact_samp)>=1000, ps_bact_samp)
 # Transform data to hellinger
@@ -1545,7 +1569,7 @@ permutest(betadisper(dist, meta$SampleCategory), pairwise = TRUE)
 Differences by sample type - using both ANOVA and MANOVA methods
 
 1. Blood samples - all
-```{r}
+```r
 # prune samples with less than 1000 reads
 ps_bact_bl_pr = prune_samples(sample_sums(ps_bact_bl)>=1000, ps_bact_bl)
 # Transform data to hellinger
@@ -1570,7 +1594,7 @@ permutest(betadisper(dist, meta$species), pairwise = TRUE)
 ```
 
 2. Tick samples - all
-```{r}
+```r
 # prune samples with less than 1000 reads
 ps_bact_tick_pr = prune_samples(sample_sums(ps_bact_tick)>=1000, ps_bact_tick)
 # Transform data to hellinger
@@ -1596,7 +1620,7 @@ permutest(betadisper(dist, meta$species), pairwise = TRUE)
 
 
 3. Tissue samples - all
-```{r}
+```r
 # prune samples with less than 1000 reads
 ps_bact_tis_pr = prune_samples(sample_sums(ps_bact_tis)>=1000, ps_bact_tis)
 # Transform data to hellinger
@@ -1625,7 +1649,7 @@ Differences by sample type - using both ANOVA and MANOVA methods
 
 
 1. Tick samples - all
-```{r}
+```r
 # prune samples with less than 1000 reads
 ps_bact_tick_pr = prune_samples(sample_sums(ps_bact_tick)>=1000, ps_bact_tick)
 # Transform data to hellinger
@@ -1650,7 +1674,7 @@ permutest(betadisper(dist, meta$tick_sp_short), pairwise = TRUE)
 ```
 
 2. Tick samples - subset of just sympatric Northern Beaches samples
-```{r}
+```r
 # subset select tick species
 ps_bact_tick_sub = subset_samples(ps_bact_tick, tick_sp_short=="Ixhol" | tick_sp_short=="Ixtri" | tick_sp_short=="Ixtas" | tick_sp_short=="Ixhol;Ixtri")
 # prune samples with less than 1000 reads
@@ -1682,7 +1706,7 @@ Documentation [here](https://kasperskytte.github.io/ampvis2extras/reference/amp_
 
 Create matrix of beta diversity between samples.
 
-```{r}
+```r
 betadiv <- amp_betadiv(amp_subset,
   distmeasure = "bray",
   label_by = "Instar",
@@ -1699,7 +1723,7 @@ Function from [MicrobiotaProcess](https://bioconductor.org/packages/devel/bioc/v
 Beta diversity metrics can assess the differences between microbial communities. It can be visualized with PCA or PCoA, this can also be visualized with hierarchical clustering. MicrobiotaProcess also implements the analysis based on [ggtree](https://yulab-smu.top/treedata-book/).
 
 
-```{r}
+```r
 ## All samples - detailed, include species and SampleCategory
 clust_all <- get_clust(obj=ps_bact_samp, distmethod="euclidean",
                       method="hellinger", hclustmethod="average")
@@ -1768,14 +1792,14 @@ ggsave("clust_tis_plot.pdf", plot = clust_tis_plot , path = "output/plots", widt
 ## Tree for taxa of interest
 
 Load additional libraries
-```{r}
+```r
 library(ggridges)
 library(scales)
 library(ggtree)
 ```
 
 Simple tree from tutorial [here](https://web.stanford.edu/class/bios221/labs/phyloseq/lab_phyloseq.html)
-```{r}
+```r
 # group by genus
 taxa_of_interest_g = tax_glom(taxa_of_interest, "Genus")
 # plot tree
@@ -1783,7 +1807,7 @@ tree1 = plot_tree(taxa_of_interest_g, color="species", shape ="SampleCategory", 
 ```
 
 From tutorial [here](https://yulab-smu.top/treedata-book/chapter9.html)
-```{r}
+```r
 tree2 = ggtree(taxa_of_interest, layout='circular') + geom_text2(aes(subset=!isTip, label=label), hjust=-.2, size=4) +
   geom_tiplab(aes(label=Genus), hjust=-.3) +
   geom_point(aes(x=x+hjust, color=species, shape=Family),na.rm=TRUE) +
@@ -1791,7 +1815,7 @@ tree2 = ggtree(taxa_of_interest, layout='circular') + geom_text2(aes(subset=!isT
   theme(legend.position="right") + scale_shape_manual(values=c(17, 15, 16, 0, 1, 2, 10))
 ```
 
-```{r}
+```r
 library(ggtreeExtra)
 library(ggtree)
 library(phyloseq)
